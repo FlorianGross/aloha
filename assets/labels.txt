@@ -1,0 +1,4 @@
+Bierflasche
+Bierglas
+Weinflasche
+Weinglas
