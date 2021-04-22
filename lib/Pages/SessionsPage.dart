@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 import '../Drinks.dart';
-import 'SettingsPage.dart';
 
 class SessionPage extends StatefulWidget {
   @override
@@ -156,7 +155,6 @@ class _SessionPageState extends State<SessionPage> {
   }
 
   void openSettings() {
-    Navigator.push(
-        this.context, MaterialPageRoute(builder: (context) => Settings()));
+    Navigator.of(context).pushNamed('settings');
   }
 }

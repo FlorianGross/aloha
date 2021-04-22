@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 
 import '../Drinks.dart';
-import 'CameraPage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -54,8 +53,7 @@ class _HomePageState extends State<HomePage> {
               height: 244,
             ),
             onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Camera()));
+              Navigator.of(context).pushNamed('/camera');
             },
           ),
           Center(

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fmgross.aloha">
+    package="com.fmgross.dieBruecke">
    <application
-        android:label="aloha"
+        android:label="dieBruecke"
         android:icon="@drawable/alcoly_logo">
         <activity
             android:name=".MainActivity"

@@ -1,4 +1,6 @@
 import 'dart:ui';
+import 'package:dieBruecke/Pages/CameraPage.dart';
+import 'package:dieBruecke/Pages/SettingsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
@@ -25,8 +27,8 @@ void main() async {
     box.put("firstStart", true);
     box.put("notifications", true);
     box.put("firstStartDate", DateTime.now());
-    print("Standard settings loaded: "+ box.toMap().toString());
-  }else{
+    print("Standard settings loaded: " + box.toMap().toString());
+  } else {
     print("Box inhalt: " + box.toMap().toString());
   }
 
@@ -40,14 +42,20 @@ void main() async {
   }
   var home;
   if (box.get("firstStart")) {
-   home = FirstStartPage();
-  }else{
+    home = FirstStartPage();
+  } else {
     home = MyApp();
   }
   runApp(
     MaterialApp(
       home: home,
       theme: theme,
+      routes: <String, WidgetBuilder>{
+        '/homePage': (BuildContext context) => new HomePage(),
+        '/camera': (BuildContext context) => new Camera(),
+        '/settings': (BuildContext context) => new Settings(),
+        '/firstStart': (BuildContext context) => new FirstStartPage(),
+      },
     ),
   );
 }

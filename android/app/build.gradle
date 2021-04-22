@@ -44,7 +44,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.fmgross.aloha"
+        applicationId "com.fmgross.dieBruecke"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()

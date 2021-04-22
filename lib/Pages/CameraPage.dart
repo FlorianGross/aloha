@@ -1,6 +1,6 @@
-import 'package:aloha/Classification/Classifier.dart';
-import 'package:aloha/Classification/ClassifierQuant.dart';
-import 'package:aloha/Classification/Utility.dart';
+import 'package:dieBruecke/Classification/Classifier.dart';
+import 'package:dieBruecke/Classification/ClassifierQuant.dart';
+import 'package:dieBruecke/Classification/Utility.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,7 +9,6 @@ import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 import 'dart:io' as Io;
 import '../BrueckeIcons.dart';
 import '../Drinks.dart';
-import '../main.dart';
 
 class Camera extends StatefulWidget {
   @override
@@ -330,7 +329,7 @@ class _CameraState extends State<Camera> {
                             });
                           },
                           child: SizedBox(
-                            width: 68,
+                            width: 50,
                             height: 135,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -361,7 +360,7 @@ class _CameraState extends State<Camera> {
                             });
                           },
                           child: SizedBox(
-                            width: 68,
+                            width: 50,
                             height: 135,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -392,7 +391,7 @@ class _CameraState extends State<Camera> {
                             });
                           },
                           child: SizedBox(
-                            width: 68,
+                            width: 50,
                             height: 135,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -423,7 +422,7 @@ class _CameraState extends State<Camera> {
                             });
                           },
                           child: SizedBox(
-                            width: 68,
+                            width: 50,
                             height: 135,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -511,7 +510,7 @@ class _CameraState extends State<Camera> {
     });
   }
 
-  void save(BuildContext context) {
+  Future<void> save(BuildContext context) async {
     DateTime date = DateTime.now();
     session = 0;
     week = getWeek();
@@ -527,8 +526,8 @@ class _CameraState extends State<Camera> {
     );
     box.add(getraenk);
     print("Image saved: " + getraenk.toString());
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => MyApp()));
+
+    Navigator.pop(context);
   }
 
   void checkPred(Category pred) {
@@ -637,16 +636,16 @@ class _CameraState extends State<Camera> {
   }
 
   int getWeek() {
-    if (box.isNotEmpty) {
+    if(box.isNotEmpty && box.getAt(0) != null){
       Drinks first = box.getAt(0);
       DateTime now = DateTime.now();
-      DateTime firstDate = DateTime.fromMillisecondsSinceEpoch(first.date!);
-      Duration difference = now.difference(firstDate);
-      int weekDay = difference.inDays;
-      int weeksSinceStart = (weekDay / 7) as int;
-      print("WeeksSinceStart: $weeksSinceStart");
-      return weeksSinceStart;
-    } else {
+      DateTime firstTime = DateTime.fromMillisecondsSinceEpoch(first.date!);
+      Duration duration = now.difference(firstTime);
+      double resultDouble = duration.inDays / 7;
+      int result = resultDouble.toInt();
+      print("$result Woche");
+     return result;
+    }else {
       return 0;
     }
   }
