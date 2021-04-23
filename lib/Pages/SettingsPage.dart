@@ -8,8 +8,8 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  var box = Hive.box("settings");
-  var ownBox = Hive.box("own");
+  final box = Hive.box("settings");
+  final ownBox = Hive.box("own");
   bool? darkmode = true;
   bool? audio = true;
   bool? notifications = true;

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
-
 import '../Drinks.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,13 +13,17 @@ class _HomePageState extends State<HomePage> {
   int? plannedDay = 0, usedDay = 0;
   final box = Hive.box('drinks');
   final settingsBox = Hive.box("settings");
+  final ownBox = Hive.box("own");
+  bool fastAdd = true;
 
   @override
   void initState() {
     try {
       usedThisWeek = calculateSE(getCurrentSession());
+      usedDay = calculateUsedDay(getCurrentWeek()!);
     } catch (e) {
       usedThisWeek = 0;
+      usedDay = 0;
     }
     plannedDay = settingsBox.get("consumptionDays");
     plannedForWeek = settingsBox.get("seFirstWeek");
@@ -38,7 +41,14 @@ class _HomePageState extends State<HomePage> {
         children: [
           Center(
             child: Text(
-              "$usedDay / $plannedDay Tage \n $usedThisWeek / $plannedForWeek SE",
+              usedDay!.toStringAsPrecision(2) +
+                  " / " +
+                  plannedDay!.toStringAsPrecision(2) +
+                  " Tage \n " +
+                  usedThisWeek!.toStringAsPrecision(2) +
+                  " / " +
+                  plannedForWeek!.toStringAsPrecision(2) +
+                  " SE",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
@@ -53,9 +63,35 @@ class _HomePageState extends State<HomePage> {
               height: 244,
             ),
             onTap: () {
-              Navigator.of(context).pushNamed('/camera');
+              if (!fastAdd) {
+                Navigator.of(context).pushNamed('/camera');
+              } else {
+                try {
+                  Drinks current = Drinks(
+                    week: getWeek(),
+                    session: getCurrentSession(),
+                    name: getName(),
+                    date: DateTime
+                        .now()
+                        .millisecondsSinceEpoch,
+                    volume: checkVolume(),
+                    volumepart: checkVolumePart(),
+                    uri: null,
+                  );
+                  box.add(current);
+                }catch(e){
+                  print("Error saving preset");
+                }
+              }
             },
           ),
+          Switch(
+              value: fastAdd,
+              onChanged: (value) {
+                setState(() {
+                  fastAdd = value;
+                });
+              }),
           Center(
             child: Container(
               child: Text(
@@ -92,5 +128,43 @@ class _HomePageState extends State<HomePage> {
       }
     }
     return session;
+  }
+
+  int? calculateUsedDay(int currentWeek) {
+    return 0;
+  }
+
+  int? getCurrentWeek() {
+    return 0;
+  }
+
+  double? checkVolume() {
+    double volume = ownBox.get("volumen");
+    return volume;
+  }
+
+  double? checkVolumePart() {
+    double volumePart = ownBox.get("volumenpart");
+    return volumePart;
+  }
+
+  String? getName() {
+    String name = ownBox.get("name");
+    return name;
+  }
+
+  int getWeek() {
+    if (box.isNotEmpty && box.getAt(0) != null) {
+      Drinks first = box.getAt(0);
+      DateTime now = DateTime.now();
+      DateTime firstTime = DateTime.fromMillisecondsSinceEpoch(first.date!);
+      Duration duration = now.difference(firstTime);
+      double resultDouble = duration.inDays / 7;
+      int result = resultDouble.toInt();
+      print("$result Woche");
+      return result;
+    } else {
+      return 0;
+    }
   }
 }

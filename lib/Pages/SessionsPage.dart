@@ -1,3 +1,4 @@
+import 'package:dieBruecke/Pages/SettingsPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -155,6 +156,7 @@ class _SessionPageState extends State<SessionPage> {
   }
 
   void openSettings() {
-    Navigator.of(context).pushNamed('settings');
+    Navigator.of(context).pushReplacement(
+        new MaterialPageRoute(builder: (context) => Settings()));
   }
 }

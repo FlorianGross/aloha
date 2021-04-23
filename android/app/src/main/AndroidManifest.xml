@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.fmgross.dieBruecke">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="dieBruecke"
         android:icon="@drawable/alcoly_logo">

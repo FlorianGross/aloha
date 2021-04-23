@@ -18,7 +18,7 @@ class _DetailsTabState extends State<DetailsTab> {
   final int id;
   final box = Hive.box("drinks");
   Drinks? current;
-  Image? _image;
+  SizedBox? _image;
   DateTime? date;
   String buttonText = "Ändern";
   bool edit = false;

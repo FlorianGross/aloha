@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 
 class Utility {
   static Image imageFromBase64String(
-      String base64String, double height, double width) {
+      String base64String) {
     return Image.memory(
       base64Decode(base64String),
       fit: BoxFit.scaleDown,
-      height: height,
-      width: width,
     );
   }
 

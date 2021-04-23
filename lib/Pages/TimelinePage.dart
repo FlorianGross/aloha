@@ -1,3 +1,4 @@
+import 'package:dieBruecke/BrueckeIcons.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../Drinks.dart';
@@ -154,7 +155,7 @@ class GetraenkeListItem extends StatefulWidget {
 class _GetraenkeListItemState extends State<GetraenkeListItem> {
   final int id;
   final box = Hive.box("drinks");
-  Image? _image;
+  SizedBox? _image;
   Drinks? currentDrink;
 
   _GetraenkeListItemState(this.id);
@@ -162,6 +163,7 @@ class _GetraenkeListItemState extends State<GetraenkeListItem> {
   @override
   void initState() {
     currentDrink = box.getAt(id);
+    print("Current drink: " + currentDrink.toString());
     _image = currentDrink!.getImage(60.0, 90.0);
     super.initState();
   }
@@ -171,31 +173,35 @@ class _GetraenkeListItemState extends State<GetraenkeListItem> {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       color: Colors.black38,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      child: ListView(
+        primary: false,
+        shrinkWrap: true,
         children: [
-          _image == null
-              ? Icon(
-                  Icons.autorenew_sharp,
-                  size: 60,
-                )
-              : _image!,
-          Card(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SizedBox(
-                  width: 130,
-                  child: Text(
-                    currentDrink!.name.toString(),
-                    textAlign: TextAlign.center,
-                  ),
+          _image!,
+          Padding(
+            padding: const EdgeInsets.only(bottom: 2.0),
+            child: Card(
+              color: Colors.black26,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              child: Padding(
+                padding: EdgeInsets.all(3),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      width: 130,
+                      child: Text(
+                        currentDrink!.name.toString(),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Text(currentDrink!.volume.toString() + " ml"),
+                    Text(currentDrink!.volumepart!.toStringAsPrecision(2) +
+                        " vol%"),
+                  ],
                 ),
-                Text(currentDrink!.volume.toString() + " ml"),
-                Text(currentDrink!.volumepart!.round().toString() + " vol%")
-              ],
+              ),
             ),
           ),
         ],

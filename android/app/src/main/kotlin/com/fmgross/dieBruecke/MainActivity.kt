@@ -1,4 +1,4 @@
-package com.fmgross.aloha
+package com.fmgross.dieBruecke
 
 import io.flutter.embedding.android.FlutterActivity
 

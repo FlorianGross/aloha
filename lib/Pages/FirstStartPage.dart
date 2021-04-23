@@ -11,6 +11,7 @@ class FirstStartPage extends StatefulWidget {
 
 class _FirstStartPageState extends State<FirstStartPage> {
   final settingsBox = Hive.box("settings");
+  final ownBox = Hive.box("own");
   TextEditingController seFirstWeek = TextEditingController(text: "0"), amount = TextEditingController(text: "0"), consumptionDays = TextEditingController(text: "0");
   bool autoDecr = false;
   bool notificationsOn = false;
@@ -322,5 +323,9 @@ class _FirstStartPageState extends State<FirstStartPage> {
     settingsBox.put("autoDecrAmount", int.parse(amount.text));
     settingsBox.put("notifications", notificationsOn);
     settingsBox.put("consumptionDays", int.parse(consumptionDays.text));
+    ownBox.put("name", "Name");
+    ownBox.put("volumen", 500);
+    ownBox.put("volumenpart", 5);
+
   }
 }

@@ -30,19 +30,33 @@ class Drinks extends HiveObject {
       this.session,
       this.week});
 
-  Image getImage(double height, double width) {
-    return Utility.imageFromBase64String(uri!, height, width);
+  SizedBox getImage(double height, double width) {
+    if (uri != null) {
+      print("Image: Notnull");
+      return SizedBox(
+        child: Utility.imageFromBase64String(uri!),
+        height: height,
+        width: width,
+      );
+    } else {
+      print("Image: Null");
+      return SizedBox(
+        child: Icon(Icons.camera),
+        height: height,
+        width: width,
+      );
+    }
   }
 
   double getSE() {
-    double se = (volume! * (volumepart! / 1000) * 0.8)/ 2;
+    double se = (volume! * (volumepart! / 1000) * 0.8) / 2;
     return se;
   }
 
   String toString() {
     return "Getränke{" +
         "Name = " +
-        name! +
+        name.toString() +
         " , Bitmap = " +
         "Bitmap" +
         " , date = " +
