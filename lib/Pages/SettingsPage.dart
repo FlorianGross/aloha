@@ -117,6 +117,14 @@ class _SettingsState extends State<Settings> {
                       ),
                     ],
                   ),
+                  Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Starttag zurücksetzen: "),
+                      ElevatedButton(onPressed: () {}, child: Text(""))
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -142,13 +150,17 @@ class _SettingsState extends State<Settings> {
                         child: TextField(
                           decoration: InputDecoration(
                             disabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Theme.of(context).primaryColor)),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
                             enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Theme.of(context).primaryColor)),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
                             focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Theme.of(context).primaryColor)),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
                             border: OutlineInputBorder(
-                                borderSide: BorderSide(color: Theme.of(context).primaryColor)),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
                           ),
                           controller: nameController,
                         ),
@@ -171,13 +183,17 @@ class _SettingsState extends State<Settings> {
                           ],
                           decoration: InputDecoration(
                             disabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Theme.of(context).primaryColor)),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
                             enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Theme.of(context).primaryColor)),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
                             focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Theme.of(context).primaryColor)),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
                             border: OutlineInputBorder(
-                                borderSide: BorderSide(color: Theme.of(context).primaryColor)),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
                           ),
                           controller: volumeController,
                           onSubmitted: (value) {
@@ -207,13 +223,17 @@ class _SettingsState extends State<Settings> {
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             disabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Theme.of(context).primaryColor)),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
                             enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Theme.of(context).primaryColor)),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
                             focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Theme.of(context).primaryColor)),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
                             border: OutlineInputBorder(
-                                borderSide: BorderSide(color: Theme.of(context).primaryColor)),
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor)),
                           ),
                           controller: volumePartController,
                           onSubmitted: (value) {

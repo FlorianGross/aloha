@@ -59,8 +59,8 @@ class _CameraState extends State<Camera> {
     largeButtonStyle = buttonUnselected;
     xlargeButtonStyle = buttonUnselected;
     ownName = ownBox.get("name");
-    ownVolume = ownBox.get("volumen");
-    ownVolumePart = ownBox.get("volumenpart");
+    ownVolume = ownBox.get("volumen") + 0.0;
+    ownVolumePart = ownBox.get("volumenpart") + 0.0;
     super.initState();
     print("Camera initialized");
     getImage();
@@ -486,7 +486,7 @@ class _CameraState extends State<Camera> {
     );
   }
 
-  Future getImage() async {
+  Future<void> getImage() async {
     print("Started importing Image");
     final image = await ImagePicker().getImage(source: ImageSource.camera);
 
@@ -500,7 +500,7 @@ class _CameraState extends State<Camera> {
     _predict();
   }
 
-  void _predict() async {
+  Future<void> _predict() async {
     print("Started predicting Image");
     img.Image imageInput = img.decodeImage(_image!.readAsBytesSync())!;
     var prediction = _classifier.predict(imageInput);
@@ -513,16 +513,15 @@ class _CameraState extends State<Camera> {
   Future<void> save(BuildContext context) async {
     DateTime date = DateTime.now();
     session = 0;
-    week = getWeek();
     String imgString = Utility.base64String(_image!.readAsBytesSync());
     Drinks getraenk = new Drinks(
       uri: imgString,
-      volumepart: checkVolumePart(dropdownValue),
-      volume: checkVolume(dropdownValue)! * 1000,
+      volumepart: await checkVolumePart(dropdownValue),
+      volume: await checkVolume(dropdownValue),
       date: date.millisecondsSinceEpoch,
-      name: getName(dropdownValue),
+      name: await getName(dropdownValue),
       session: session,
-      week: week,
+      week: await getWeek(),
     );
     box.add(getraenk);
     print("Image saved: " + getraenk.toString());
@@ -530,7 +529,7 @@ class _CameraState extends State<Camera> {
     Navigator.pop(context);
   }
 
-  void checkPred(Category pred) {
+  Future<void> checkPred(Category pred) async {
     switch (pred.label) {
       case "Bierflasche":
         setState(() {
@@ -590,17 +589,17 @@ class _CameraState extends State<Camera> {
     }
   }
 
-  double? checkVolume(String? name) {
+  Future<double?> checkVolume(String? name) async {
     if (name == "Bier" || name == "Wein") {
       switch (selectedButton) {
         case 0:
-          return lowValue;
+          return lowValue * 1000;
         case 1:
-          return mediumValue;
+          return mediumValue * 1000;
         case 2:
-          return largeValue;
+          return largeValue * 1000;
         case 3:
-          return xLargeValue;
+          return xLargeValue * 1000;
         default:
           return -1;
       }
@@ -612,7 +611,7 @@ class _CameraState extends State<Camera> {
       return 0;
   }
 
-  double? checkVolumePart(String? name) {
+  Future<double?> checkVolumePart(String? name) async {
     if (name == "Bier" || name == "Wein" || name == "Andere") {
       return _currentSliderValue;
     } else if (name == "Eigenes") {
@@ -621,7 +620,7 @@ class _CameraState extends State<Camera> {
       return 0;
   }
 
-  String? getName(String? name) {
+  Future<String?> getName(String? name) async {
     if (name == "Bier" || name == "Wein") {
       return name;
     } else if (name == "Eigenes") {
@@ -635,8 +634,8 @@ class _CameraState extends State<Camera> {
     }
   }
 
-  int getWeek() {
-    if(box.isNotEmpty && box.getAt(0) != null){
+  Future<int> getWeek() async {
+    if (box.isNotEmpty && box.getAt(0) != null) {
       Drinks first = box.getAt(0);
       DateTime now = DateTime.now();
       DateTime firstTime = DateTime.fromMillisecondsSinceEpoch(first.date!);
@@ -644,8 +643,8 @@ class _CameraState extends State<Camera> {
       double resultDouble = duration.inDays / 7;
       int result = resultDouble.toInt();
       print("$result Woche");
-     return result;
-    }else {
+      return result;
+    } else {
       return 0;
     }
   }
