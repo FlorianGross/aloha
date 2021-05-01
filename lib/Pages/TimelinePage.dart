@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:dieBruecke/BrueckeIcons.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import '../Drinks.dart';
@@ -81,7 +79,7 @@ class _TimeLineWeekState extends State<TimeLineWeek> {
             ),
             textAlign: TextAlign.left,
           ),
-          DelayedList(
+          TimeLineGrid(
             box: listFromWeek,
           ),
         ],
@@ -119,7 +117,7 @@ class _DelayedListState extends State<DelayedList> {
 
   @override
   Widget build(BuildContext context) {
-    Timer timer = Timer(Duration(seconds: 2), () {
+    Timer timer = Timer(Duration(seconds: 1), () {
       setState(() {
         isLoading = false;
       });

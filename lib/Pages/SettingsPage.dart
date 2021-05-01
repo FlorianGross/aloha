@@ -122,7 +122,7 @@ class _SettingsState extends State<Settings> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Starttag zurücksetzen: "),
-                      ElevatedButton(onPressed: () {}, child: Text(""))
+                      ElevatedButton(onPressed: () {}, child: Text("Jetz", style: TextStyle(color: Colors.black),), style: ElevatedButton.styleFrom(primary: Colors.yellow),)
                     ],
                   ),
                 ],

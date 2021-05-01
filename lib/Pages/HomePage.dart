@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage> {
   final box = Hive.box('drinks');
   final settingsBox = Hive.box("settings");
   final ownBox = Hive.box("own");
-  bool fastAdd = true;
+  bool fastAdd = false;
 
   @override
   void initState() {
@@ -37,7 +37,6 @@ class _HomePageState extends State<HomePage> {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Center(
             child: Text(
@@ -71,27 +70,37 @@ class _HomePageState extends State<HomePage> {
                     week: getWeek(),
                     session: getCurrentSession(),
                     name: getName(),
-                    date: DateTime
-                        .now()
-                        .millisecondsSinceEpoch,
+                    date: DateTime.now().millisecondsSinceEpoch,
                     volume: checkVolume(),
                     volumepart: checkVolumePart(),
                     uri: null,
                   );
                   box.add(current);
-                }catch(e){
+                } catch (e) {
                   print("Error saving preset");
                 }
               }
             },
           ),
-          Switch(
-              value: fastAdd,
-              onChanged: (value) {
-                setState(() {
-                  fastAdd = value;
-                });
-              }),
+          Column(
+            children: [
+              Text(
+                "Schnell:",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              SizedBox(
+                width: 80,
+                child: Switch(
+                    activeColor: Colors.yellow,
+                    value: fastAdd,
+                    onChanged: (value) {
+                      setState(() {
+                        fastAdd = value;
+                      });
+                    }),
+              ),
+            ],
+          ),
           Center(
             child: Container(
               child: Text(

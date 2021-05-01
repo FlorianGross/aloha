@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:dieBruecke/Pages/CameraPage.dart';
 import 'package:dieBruecke/Pages/SettingsPage.dart';
+import 'package:dieBruecke/Week.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
@@ -15,8 +16,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(DrinksAdapter());
+  Hive.registerAdapter(WeekAdapter());
   await Hive.openBox("drinks");
   await Hive.openBox("settings");
+  await Hive.openBox("Week");
   await Hive.openBox("own");
   print("Hive initialized");
   var box = Hive.box("settings");

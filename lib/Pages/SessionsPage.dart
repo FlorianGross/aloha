@@ -21,7 +21,7 @@ class _SessionPageState extends State<SessionPage> {
   @override
   void initState() {
     weeks = generateWeeks();
-    maxWeek = weeks.length;
+    maxWeek = weeks.length - 1;
     planSlider = settingsBox.get("seFirstWeek");
     daySlider = 0.0 + settingsBox.get("consumptionDays");
     super.initState();
@@ -36,12 +36,16 @@ class _SessionPageState extends State<SessionPage> {
           Card(
             child: Column(
               children: [
-                Text("Week: $week"),
+                Text(
+                  "Week: $week",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.yellow),
                       child: Icon(
                         Icons.arrow_left,
                       ),
@@ -54,9 +58,16 @@ class _SessionPageState extends State<SessionPage> {
                       },
                     ),
                     Column(
-                      children: [Text("Informations")],
+                      children: [
+                        Text(
+                          "Informations",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15),
+                        )
+                      ],
                     ),
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.yellow),
                       child: Icon(
                         Icons.arrow_right,
                       ),
@@ -81,8 +92,10 @@ class _SessionPageState extends State<SessionPage> {
                   Text(
                     "Planung: \n" + planSlider!.toStringAsPrecision(2),
                     textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                   Slider(
+                    activeColor: Colors.yellow,
                     value: planSlider!,
                     min: 0,
                     max: 70,
@@ -97,8 +110,10 @@ class _SessionPageState extends State<SessionPage> {
                   Text(
                     "Konsumtage: \n" + daySlider!.toStringAsPrecision(1),
                     textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                   Slider(
+                    activeColor: Colors.yellow,
                     value: daySlider!,
                     min: 0,
                     max: 7,
