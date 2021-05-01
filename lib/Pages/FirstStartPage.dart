@@ -1,4 +1,6 @@
+import 'package:dieBruecke/Week.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 
@@ -12,7 +14,10 @@ class FirstStartPage extends StatefulWidget {
 class _FirstStartPageState extends State<FirstStartPage> {
   final settingsBox = Hive.box("settings");
   final ownBox = Hive.box("own");
-  TextEditingController seFirstWeek = TextEditingController(text: "0"), amount = TextEditingController(text: "0"), consumptionDays = TextEditingController(text: "0");
+  final weekBox = Hive.box("Week");
+  TextEditingController seFirstWeek = TextEditingController(text: "0"),
+      amount = TextEditingController(text: "0"),
+      consumptionDays = TextEditingController(text: "0");
   bool autoDecr = false;
   bool notificationsOn = false;
   Color selected = Colors.yellow, unselected = Colors.black38;
@@ -284,19 +289,27 @@ class _FirstStartPageState extends State<FirstStartPage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: OutlinedButton(
-                          onPressed: () {
-                            try {
-                              saveSettings();
-                              settingsBox.put("firstStart", false);
-                              print("Save standard Settings: " + settingsBox.toMap().toString());
-                              Navigator.pushReplacement(context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MyApp()));
-                            }catch(e){
-                              print("Error: " + e.toString());
-                            }
-                          },
-                          child: Text("Speichern", style: TextStyle(color: Theme.of(context).primaryColor,),),),
+                        onPressed: () {
+                          try {
+                            saveSettings();
+                            settingsBox.put("firstStart", false);
+                            print("Save standard Settings: " +
+                                settingsBox.toMap().toString());
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MyApp()));
+                          } catch (e) {
+                            print("Error: " + e.toString());
+                          }
+                        },
+                        child: Text(
+                          "Speichern",
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      ),
                     )
                   ],
                 ),
@@ -310,7 +323,8 @@ class _FirstStartPageState extends State<FirstStartPage> {
       ),
     );
   }
-  Future<void> saveSettings()async {
+
+  Future<void> saveSettings() async {
     settingsBox.put("isMo", isMoBut);
     settingsBox.put("isDi", isDiBut);
     settingsBox.put("isMi", isMiBut);
@@ -326,6 +340,15 @@ class _FirstStartPageState extends State<FirstStartPage> {
     ownBox.put("name", "Name");
     ownBox.put("volumen", 500);
     ownBox.put("volumenpart", 5);
-
+    weekBox.add(Week(
+      week: 0,
+      startdate: DateTime.now().millisecondsSinceEpoch,
+      endDate: DateTime.now().add(Duration(days: 7)).millisecondsSinceEpoch,
+      plannedDay: double.parse(consumptionDays.text),
+      usedDays: 0,
+      SEthisWeek: 0,
+      plannedSE: double.parse(seFirstWeek.text),
+    ));
+    print(weekBox.getAt(0).toString());
   }
 }
