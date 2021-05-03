@@ -83,7 +83,7 @@ class _TimeLineWeekState extends State<TimeLineWeek> {
         generated.add(i);
       }
     }
-    print("GeneratedList " + week.toString() +  " in TimeLineWeek: " + generated.toString() + " Boxinhalt: " + box.toMap().toString());
+    print("GeneratedList for " + generated.toString() +  " in TimeLineWeek: " + week.toString());
     return generated;
   }
 }
@@ -226,7 +226,6 @@ class _GetraenkeListItemState extends State<GetraenkeListItem> {
   @override
   void initState() {
     currentDrink = box.getAt(id);
-    print("Current drink: " + currentDrink.toString());
     _image = currentDrink!.getImage(60.0, 90.0);
     super.initState();
   }

@@ -32,14 +32,12 @@ class Drinks extends HiveObject {
 
   SizedBox getImage(double height, double width) {
     if (uri != null) {
-      print("Image: Notnull");
       return SizedBox(
         child: Utility.imageFromBase64String(uri!),
         height: height,
         width: width,
       );
     } else {
-      print("Image: Null");
       return SizedBox(
         child: Icon(Icons.camera),
         height: height,

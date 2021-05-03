@@ -62,7 +62,6 @@ class Week extends HiveObject {
       dates.add(drinks[i].getDate().weekday);
 
     }
-    print("Dates: " + dates.toString());
     days = Set.from(dates).toList().length.toDouble();
     print("Used Days: $days");
     return days;

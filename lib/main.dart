@@ -31,8 +31,6 @@ void main() async {
     box.put("notifications", true);
     box.put("firstStartDate", DateTime.now());
     print("Standard settings loaded: " + box.toMap().toString());
-  } else {
-    print("Box inhalt: " + box.toMap().toString());
   }
 
   ThemeData theme;
