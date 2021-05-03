@@ -35,8 +35,8 @@ class _SettingsState extends State<Settings> {
         ownBox.get("volumen") != null &&
         ownBox.get("volumenpart") != null) {
       name = ownBox.get("name");
-      volumen = ownBox.get("volumen");
-      volumePart = ownBox.get("volumenpart");
+      volumen = ownBox.get("volumen") + 0.0;
+      volumePart = ownBox.get("volumenpart") + 0.0;
       nameController = TextEditingController(text: name);
       volumeController = TextEditingController(text: volumen.toString());
       volumePartController = TextEditingController(text: volumePart.toString());
@@ -122,7 +122,14 @@ class _SettingsState extends State<Settings> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Starttag zurücksetzen: "),
-                      ElevatedButton(onPressed: () {}, child: Text("Jetz", style: TextStyle(color: Colors.black),), style: ElevatedButton.styleFrom(primary: Colors.yellow),)
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Jetzt",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        style: ElevatedButton.styleFrom(primary: Colors.yellow),
+                      )
                     ],
                   ),
                 ],

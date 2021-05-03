@@ -12,6 +12,7 @@ class TimelinePage extends StatefulWidget {
 
 class _TimelinePageState extends State<TimelinePage> {
   final box = Hive.box("drinks");
+  final week = Hive.box("Week");
   late List<int?> weeks;
 
   @override

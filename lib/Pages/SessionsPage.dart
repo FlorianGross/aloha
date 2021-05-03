@@ -2,8 +2,7 @@ import 'package:dieBruecke/Pages/SettingsPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-
-import '../Drinks.dart';
+import '../Week.dart';
 
 class SessionPage extends StatefulWidget {
   @override
@@ -11,19 +10,19 @@ class SessionPage extends StatefulWidget {
 }
 
 class _SessionPageState extends State<SessionPage> {
-  final box = Hive.box('drinks');
-  final settingsBox = Hive.box("settings");
+  final box = Hive.box("Week");
   double? planSlider = 0, daySlider = 0;
   int week = 0;
-  late int maxWeek;
-  late List<int?> weeks;
+  int maxWeek = 0;
+  late Week currentWeek;
 
   @override
   void initState() {
-    weeks = generateWeeks();
-    maxWeek = weeks.length - 1;
-    planSlider = settingsBox.get("seFirstWeek");
-    daySlider = 0.0 + settingsBox.get("consumptionDays");
+    maxWeek = box.length - 1;
+    week = box.getAt(box.length - 1).week;
+    currentWeek = box.getAt(week);
+    planSlider = currentWeek.plannedSE;
+    daySlider = currentWeek.plannedDay;
     super.initState();
     print("Sessions initialized");
   }
@@ -137,41 +136,18 @@ class _SessionPageState extends State<SessionPage> {
     );
   }
 
-  double calculateSE(int session) {
-    double se = 0;
-    for (int i = 0; i < box.length; i++) {
-      Drinks index = box.getAt(i);
-      if (index.session == session) {
-        se += index.getSE();
-      }
-    }
-    return se;
+  Future<void> openSettings() async {
+    Navigator.push(
+      context,
+      new MaterialPageRoute(builder: (context) => Settings()),
+    );
   }
 
-  int? getCurrentSession() {
-    int? session = 0;
+  generateWeeks() {
+    List<int?> weeks = [];
     for (int i = 0; i < box.length; i++) {
-      Drinks current = box.getAt(i);
-      if (current.session! > session!) {
-        session = current.session;
-      }
+      weeks.add(box.getAt(i).week);
     }
-    return session;
-  }
-
-  List<int?> generateWeeks() {
-    List<int?> generate = [];
-    for (int i = 0; i < box.length; i++) {
-      Drinks current = box.getAt(i);
-      generate.add(current.week);
-    }
-    generate = generate.toSet().toList();
-    print("Generated Weeks: " + generate.toString());
-    return generate;
-  }
-
-  void openSettings() {
-    Navigator.of(context).pushReplacement(
-        new MaterialPageRoute(builder: (context) => Settings()));
+    return weeks;
   }
 }

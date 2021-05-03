@@ -345,8 +345,6 @@ class _FirstStartPageState extends State<FirstStartPage> {
       startdate: DateTime.now().millisecondsSinceEpoch,
       endDate: DateTime.now().add(Duration(days: 7)).millisecondsSinceEpoch,
       plannedDay: double.parse(consumptionDays.text),
-      usedDays: 0,
-      SEthisWeek: 0,
       plannedSE: double.parse(seFirstWeek.text),
     ));
     print(weekBox.getAt(0).toString());

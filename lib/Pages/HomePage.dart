@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import '../Drinks.dart';
+import '../Week.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,24 +11,27 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   double? plannedForWeek = 12.0, usedThisWeek = 0.0;
-  int? plannedDay = 0, usedDay = 0;
-  final box = Hive.box('drinks');
+  double? plannedDay = 0, usedDay = 0;
+  final box = Hive.box('Week');
   final settingsBox = Hive.box("settings");
   final ownBox = Hive.box("own");
   bool fastAdd = false;
+  late Week currentWeek;
 
   @override
   void initState() {
     try {
-      usedThisWeek = calculateSE(getCurrentSession());
-      usedDay = calculateUsedDay(getCurrentWeek()!);
+      print(box.getAt(box.length - 1).toString());
+      currentWeek = box.getAt(box.length - 1);
+      plannedDay = currentWeek.plannedDay;
+      plannedForWeek = currentWeek.plannedSE;
+      usedThisWeek = currentWeek.getSethisWeek();
     } catch (e) {
       usedThisWeek = 0;
       usedDay = 0;
+      plannedDay = 0;
+      plannedForWeek = 0;
     }
-    plannedDay = settingsBox.get("consumptionDays");
-    plannedForWeek = settingsBox.get("seFirstWeek");
-
     super.initState();
     print("HomePage initialized");
   }
@@ -67,7 +71,7 @@ class _HomePageState extends State<HomePage> {
               } else {
                 try {
                   Drinks current = Drinks(
-                    week: getWeek(),
+                    week: currentWeek.week,
                     session: getCurrentSession(),
                     name: getName(),
                     date: DateTime.now().millisecondsSinceEpoch,
@@ -117,17 +121,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  double calculateSE(int? session) {
-    double se = 0;
-    for (int i = 0; i < box.length; i++) {
-      Drinks index = box.getAt(i);
-      if (index.session == session) {
-        se += index.getSE();
-      }
-    }
-    return se;
-  }
-
   int? getCurrentSession() {
     int? session = 0;
     for (int i = 0; i < box.length; i++) {
@@ -137,14 +130,6 @@ class _HomePageState extends State<HomePage> {
       }
     }
     return session;
-  }
-
-  int? calculateUsedDay(int currentWeek) {
-    return 0;
-  }
-
-  int? getCurrentWeek() {
-    return 0;
   }
 
   double? checkVolume() {
@@ -160,20 +145,5 @@ class _HomePageState extends State<HomePage> {
   String? getName() {
     String name = ownBox.get("name");
     return name;
-  }
-
-  int getWeek() {
-    if (box.isNotEmpty && box.getAt(0) != null) {
-      Drinks first = box.getAt(0);
-      DateTime now = DateTime.now();
-      DateTime firstTime = DateTime.fromMillisecondsSinceEpoch(first.date!);
-      Duration duration = now.difference(firstTime);
-      double resultDouble = duration.inDays / 7;
-      int result = resultDouble.toInt();
-      print("$result Woche");
-      return result;
-    } else {
-      return 0;
-    }
   }
 }

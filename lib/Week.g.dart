@@ -20,17 +20,15 @@ class WeekAdapter extends TypeAdapter<Week> {
       week: fields[0] as int?,
       plannedSE: fields[1] as double?,
       plannedDay: fields[2] as double?,
-      SEthisWeek: fields[3] as double?,
-      usedDays: fields[4] as double?,
-      startdate: fields[5] as int?,
-      endDate: fields[6] as int?,
+      startdate: fields[3] as int?,
+      endDate: fields[4] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Week obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.week)
       ..writeByte(1)
@@ -38,12 +36,8 @@ class WeekAdapter extends TypeAdapter<Week> {
       ..writeByte(2)
       ..write(obj.plannedDay)
       ..writeByte(3)
-      ..write(obj.SEthisWeek)
-      ..writeByte(4)
-      ..write(obj.usedDays)
-      ..writeByte(5)
       ..write(obj.startdate)
-      ..writeByte(6)
+      ..writeByte(4)
       ..write(obj.endDate);
   }
 
