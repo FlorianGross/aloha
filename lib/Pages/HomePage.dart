@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
       plannedDay = currentWeek.plannedDay;
       plannedForWeek = currentWeek.plannedSE;
       usedThisWeek = currentWeek.getSethisWeek();
+      usedDay = currentWeek.getUsedDays();
     } catch (e) {
       usedThisWeek = 0;
       usedDay = 0;

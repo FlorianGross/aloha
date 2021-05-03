@@ -53,6 +53,10 @@ class Drinks extends HiveObject {
     return se;
   }
 
+  DateTime getDate(){
+    return DateTime.fromMillisecondsSinceEpoch(date!);
+  }
+
   String toString() {
     return "Getränke{" +
         "Name = " +
