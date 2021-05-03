@@ -12,42 +12,29 @@ class TimelinePage extends StatefulWidget {
 
 class _TimelinePageState extends State<TimelinePage> {
   final box = Hive.box("drinks");
-  final week = Hive.box("Week");
-  late List<int?> weeks;
+  final weekBox = Hive.box("Week");
 
   @override
   void initState() {
-    weeks = generateWeeks();
     super.initState();
+    print("Weeks: " + weekBox.length.toString());
     print("TimeLinePage initialized");
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: weeks.length,
+      itemCount: weekBox.length,
       itemBuilder: (context, index) {
-        return TimeLineWeek(week: index);
+        return TimeLineWeek(index);
       },
     );
-  }
-
-  List<int?> generateWeeks() {
-    List<int?> generate = [];
-    for (int i = 0; i < box.length; i++) {
-      Drinks current = box.getAt(i);
-      generate.add(current.week);
-    }
-    generate = generate.toSet().toList();
-    print("Generated Weeks: " + generate.toString());
-    return generate;
   }
 }
 
 class TimeLineWeek extends StatefulWidget {
   final int? week;
-
-  const TimeLineWeek({Key? key, this.week}) : super(key: key);
+  TimeLineWeek(this.week);
 
   @override
   _TimeLineWeekState createState() => _TimeLineWeekState(week);
@@ -62,8 +49,8 @@ class _TimeLineWeekState extends State<TimeLineWeek> {
 
   @override
   void initState() {
-    print("TimeLineWeek initialized");
     listFromWeek = generateList();
+    print("TimeLineWeek initialized");
     super.initState();
   }
 
@@ -76,7 +63,7 @@ class _TimeLineWeekState extends State<TimeLineWeek> {
             "Woche: $week",
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 15,
+              fontSize: 20,
             ),
             textAlign: TextAlign.left,
           ),
@@ -96,7 +83,7 @@ class _TimeLineWeekState extends State<TimeLineWeek> {
         generated.add(i);
       }
     }
-    print("GeneratedList in TimeLineWeek: " + generated.toString());
+    print("GeneratedList " + week.toString() +  " in TimeLineWeek: " + generated.toString() + " Boxinhalt: " + box.toMap().toString());
     return generated;
   }
 }

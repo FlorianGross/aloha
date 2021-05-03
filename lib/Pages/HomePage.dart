@@ -12,6 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   double? plannedForWeek = 12.0, usedThisWeek = 0.0;
   double? plannedDay = 0, usedDay = 0;
+  final drinkBox = Hive.box("drinks");
   final box = Hive.box('Week');
   final settingsBox = Hive.box("settings");
   final ownBox = Hive.box("own");
@@ -79,9 +80,10 @@ class _HomePageState extends State<HomePage> {
                     volumepart: checkVolumePart(),
                     uri: null,
                   );
-                  box.add(current);
+                  drinkBox.add(current);
+                  print("Added drink: " + current.toString());
                 } catch (e) {
-                  print("Error saving preset");
+                  print("Error saving preset: " + e.toString());
                 }
               }
             },
@@ -123,8 +125,8 @@ class _HomePageState extends State<HomePage> {
 
   int? getCurrentSession() {
     int? session = 0;
-    for (int i = 0; i < box.length; i++) {
-      Drinks current = box.getAt(i);
+    for (int i = 0; i < drinkBox.length; i++) {
+      Drinks current = drinkBox.getAt(i);
       if (current.session! > session!) {
         session = current.session;
       }
@@ -133,12 +135,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   double? checkVolume() {
-    double volume = ownBox.get("volumen");
+    double volume = ownBox.get("volumen") + 0.0;
     return volume;
   }
 
   double? checkVolumePart() {
-    double volumePart = ownBox.get("volumenpart");
+    double volumePart = ownBox.get("volumenpart") + 0.0;
     return volumePart;
   }
 

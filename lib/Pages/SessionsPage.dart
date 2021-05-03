@@ -144,7 +144,7 @@ class _SessionPageState extends State<SessionPage> {
   }
 
   generateWeeks() {
-    List<int?> weeks = [];
+    List<int> weeks = [];
     for (int i = 0; i < box.length; i++) {
       weeks.add(box.getAt(i).week);
     }
