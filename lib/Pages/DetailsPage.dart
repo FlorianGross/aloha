@@ -36,7 +36,8 @@ class _DetailsTabState extends State<DetailsTab> {
     date = DateTime.fromMillisecondsSinceEpoch(current!.date!);
     nameController = TextEditingController(text: current!.name);
     volumeController = TextEditingController(text: current!.volume.toString());
-    volumePartController = TextEditingController(text: current!.volumepart.toString());
+    volumePartController =
+        TextEditingController(text: current!.volumepart.toString());
 
     super.initState();
     print("Details initialized");
@@ -85,17 +86,17 @@ class _DetailsTabState extends State<DetailsTab> {
                             child: TextField(
                               decoration: InputDecoration(
                                 disabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Theme.of(context).primaryColor)),
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor)),
                                 enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Theme.of(context).primaryColor)),
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor)),
                                 focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Theme.of(context).primaryColor)),
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor)),
                                 border: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Theme.of(context).primaryColor)),
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor)),
                               ),
                               controller: nameController,
                             ),
@@ -128,17 +129,21 @@ class _DetailsTabState extends State<DetailsTab> {
                                 ],
                                 decoration: InputDecoration(
                                   disabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Theme.of(context).primaryColor)),
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor)),
                                   enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Theme.of(context).primaryColor)),
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor)),
                                   focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Theme.of(context).primaryColor)),
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor)),
                                   border: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Theme.of(context).primaryColor)),
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor)),
                                 ),
                                 controller: volumeController,
                                 onSubmitted: (value) {},
@@ -168,17 +173,17 @@ class _DetailsTabState extends State<DetailsTab> {
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 disabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Theme.of(context).primaryColor)),
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor)),
                                 enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Theme.of(context).primaryColor)),
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor)),
                                 focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Theme.of(context).primaryColor)),
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor)),
                                 border: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Theme.of(context).primaryColor)),
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).primaryColor)),
                               ),
                               controller: volumePartController,
                               onSubmitted: (value) {},
@@ -204,8 +209,10 @@ class _DetailsTabState extends State<DetailsTab> {
                             buttonText = "Speichern";
                           } else {
                             buttonText = "Ändern";
-                            current!.volume = double.parse(volumeController.text);
-                            current!.volumepart = double.parse(volumePartController.text);
+                            current!.volume =
+                                double.parse(volumeController.text);
+                            current!.volumepart =
+                                double.parse(volumePartController.text);
                             current!.name = nameController.text;
                             current!.save();
                           }

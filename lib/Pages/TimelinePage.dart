@@ -34,6 +34,7 @@ class _TimelinePageState extends State<TimelinePage> {
 
 class TimeLineWeek extends StatefulWidget {
   final int? week;
+
   TimeLineWeek(this.week);
 
   @override
@@ -83,7 +84,10 @@ class _TimeLineWeekState extends State<TimeLineWeek> {
         generated.add(i);
       }
     }
-    print("GeneratedList for " + generated.toString() +  " in TimeLineWeek: " + week.toString());
+    print("GeneratedList for " +
+        generated.toString() +
+        " in TimeLineWeek: " +
+        week.toString());
     return generated;
   }
 }

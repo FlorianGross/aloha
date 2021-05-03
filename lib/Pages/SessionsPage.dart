@@ -12,6 +12,7 @@ class SessionPage extends StatefulWidget {
 class _SessionPageState extends State<SessionPage> {
   final box = Hive.box("Week");
   double? planSlider = 0, daySlider = 0;
+  double seValue = 0, dayValue = 0;
   int week = 0;
   int maxWeek = 0;
   late Week currentWeek;
@@ -20,9 +21,12 @@ class _SessionPageState extends State<SessionPage> {
   void initState() {
     maxWeek = box.length - 1;
     week = box.getAt(box.length - 1).week;
-    currentWeek = box.getAt(week);
+    currentWeek = box.getAt(box.length - 1);
     planSlider = currentWeek.plannedSE;
     daySlider = currentWeek.plannedDay;
+    seValue = currentWeek.getSethisWeek();
+    dayValue = currentWeek.getUsedDays();
+
     super.initState();
     print("Sessions initialized");
   }
@@ -47,6 +51,7 @@ class _SessionPageState extends State<SessionPage> {
                       style: ElevatedButton.styleFrom(primary: Colors.yellow),
                       child: Icon(
                         Icons.arrow_left,
+                        color: Colors.black,
                       ),
                       onPressed: () {
                         setState(() {
@@ -56,19 +61,34 @@ class _SessionPageState extends State<SessionPage> {
                         });
                       },
                     ),
-                    Column(
-                      children: [
-                        Text(
-                          "Informations",
+                    Card(
+                      color: Colors.black12,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Informations \n" +
+                              seValue.toString() +
+                              " / " +
+                              currentWeek.plannedSE.toString() +
+                              " SE \n" +
+                              dayValue.toString() +
+                              " / " +
+                              currentWeek.plannedDay.toString() +
+                              " Days\n " +
+                              currentWeek.getStartDate().toString() +
+                              " \n - \n " +
+                              currentWeek.getEndTime().toString(),
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 15),
-                        )
-                      ],
+                        ),
+                      ),
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(primary: Colors.yellow),
                       child: Icon(
                         Icons.arrow_right,
+                        color: Colors.black,
                       ),
                       onPressed: () {
                         setState(() {
@@ -89,7 +109,7 @@ class _SessionPageState extends State<SessionPage> {
               child: Column(
                 children: [
                   Text(
-                    "Planung: \n" + planSlider!.toStringAsPrecision(2),
+                    "Planung: \n" + planSlider!.toStringAsPrecision(2) + " SE",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
@@ -97,11 +117,18 @@ class _SessionPageState extends State<SessionPage> {
                     activeColor: Colors.yellow,
                     value: planSlider!,
                     min: 0,
-                    max: 70,
+                    max: 80,
                     divisions: 70,
                     onChanged: (value) {
                       setState(() {
                         planSlider = value;
+                      });
+                    },
+                    onChangeEnd: (value) {
+                      setState(() {
+                        print("save");
+                        currentWeek.plannedSE = value.roundToDouble();
+                        currentWeek.save();
                       });
                     },
                   ),
@@ -120,6 +147,13 @@ class _SessionPageState extends State<SessionPage> {
                     onChanged: (value) {
                       setState(() {
                         daySlider = value;
+                      });
+                    },
+                    onChangeEnd: (value) {
+                      setState(() {
+                        print("save");
+                        currentWeek.plannedDay = value.roundToDouble();
+                        currentWeek.save();
                       });
                     },
                   ),
@@ -141,13 +175,5 @@ class _SessionPageState extends State<SessionPage> {
       context,
       new MaterialPageRoute(builder: (context) => Settings()),
     );
-  }
-
-  generateWeeks() {
-    List<int> weeks = [];
-    for (int i = 0; i < box.length; i++) {
-      weeks.add(box.getAt(i).week);
-    }
-    return weeks;
   }
 }

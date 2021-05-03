@@ -173,7 +173,7 @@ class _HomePageState extends State<HomePage> {
       box.add(newWeek);
       currentWeek = box.getAt(box.length - 1);
       print("New Week: " + newWeek.toString());
-    }else{
+    } else {
       print("Week is okay");
     }
   }
