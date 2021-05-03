@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
     try {
       print(box.getAt(box.length - 1).toString());
       currentWeek = box.getAt(box.length - 1);
+      weekTest();
       plannedDay = currentWeek.plannedDay;
       plannedForWeek = currentWeek.plannedSE;
       usedThisWeek = currentWeek.getSethisWeek();
@@ -148,5 +149,32 @@ class _HomePageState extends State<HomePage> {
   String? getName() {
     String name = ownBox.get("name");
     return name;
+  }
+
+  Future<void> weekTest() async {
+    DateTime startDate = settingsBox.get("firstStartDate");
+
+    /*
+    Difference between now and the general startdate && difference between now and the endtime of the last week
+    -> no overlap between weeks and no unnecessary weeks created
+    */
+    if (DateTime.now().difference(startDate).inDays / 7 >= 1 &&
+        DateTime.now().difference(currentWeek.getEndTime()).inMicroseconds >
+            0) {
+      int tempWeek = DateTime.now().difference(startDate).inDays ~/ 7;
+      Week newWeek = new Week(
+          week: tempWeek + 1,
+          startdate: startDate
+              .add(Duration(days: 7 * tempWeek))
+              .millisecondsSinceEpoch,
+          endDate: startDate
+              .add(Duration(days: 7 * (tempWeek + 1)))
+              .millisecondsSinceEpoch);
+      box.add(newWeek);
+      currentWeek = box.getAt(box.length - 1);
+      print("New Week: " + newWeek.toString());
+    }else{
+      print("Week is okay");
+    }
   }
 }
