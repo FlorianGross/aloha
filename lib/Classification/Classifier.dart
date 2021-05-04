@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:image/image.dart';
 import 'package:collection/collection.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';

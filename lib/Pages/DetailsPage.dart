@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
-
 import '../Drinks.dart';
 import '../main.dart';
 
@@ -241,5 +240,12 @@ class _DetailsTabState extends State<DetailsTab> {
         },
       ),
     );
+  }
+  @override
+  void dispose() {
+    nameController.dispose();
+    volumeController.dispose();
+    volumePartController.dispose();
+    super.dispose();
   }
 }

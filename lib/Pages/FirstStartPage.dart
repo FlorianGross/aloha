@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
-
 import '../main.dart';
 
 class FirstStartPage extends StatefulWidget {
@@ -332,11 +331,9 @@ class _FirstStartPageState extends State<FirstStartPage> {
     settingsBox.put("isFr", isFrBut);
     settingsBox.put("isSa", isSaBut);
     settingsBox.put("isSo", isSoBut);
-    settingsBox.put("seFirstWeek", double.parse(seFirstWeek.text));
     settingsBox.put("autoDecr", autoDecr);
     settingsBox.put("autoDecrAmount", int.parse(amount.text));
     settingsBox.put("notifications", notificationsOn);
-    settingsBox.put("consumptionDays", int.parse(consumptionDays.text));
     ownBox.put("name", "Name");
     ownBox.put("volumen", 500);
     ownBox.put("volumenpart", 5);
@@ -348,5 +345,10 @@ class _FirstStartPageState extends State<FirstStartPage> {
       plannedSE: double.parse(seFirstWeek.text),
     ));
     print(weekBox.getAt(0).toString());
+  }
+  @override
+  void dispose() {
+    seFirstWeek.dispose();
+    super.dispose();
   }
 }

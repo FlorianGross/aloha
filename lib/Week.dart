@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-
 import 'Drinks.dart';
 
 part 'Week.g.dart';
