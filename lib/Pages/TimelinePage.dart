@@ -76,6 +76,9 @@ class _TimeLineWeekState extends State<TimeLineWeek> {
     );
   }
 
+  /**
+   * Generates a list with all weeks from the drinks
+   */
   List<int> generateList() {
     List<int> generated = [];
     for (int i = 0; i < box.length; i++) {

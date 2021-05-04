@@ -474,6 +474,9 @@ class _SettingsState extends State<Settings> {
     );
   }
 
+  /**
+   * Saves the values from the controllers to the Hivedb
+   */
   Future<void> confirmOwnDrink() async {
     try {
       String name = nameController.text;

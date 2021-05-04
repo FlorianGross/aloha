@@ -170,6 +170,9 @@ class _SessionPageState extends State<SessionPage> {
     );
   }
 
+  /**
+   * Opens the Settings Tab
+   */
   Future<void> openSettings() async {
     Navigator.push(
       context,
