@@ -30,9 +30,7 @@ class Drinks extends HiveObject {
       this.session,
       this.week});
 
-  /**
-   * Returns an Image in a sizedBox. If the Image == null -> Icons.camera is returned
-   */
+  /// Returns an Image in a sizedBox. If the Image == null -> Icons.camera is returned
   SizedBox getImage(double height, double width) {
     if (uri != null) {
       return SizedBox(
@@ -49,17 +47,13 @@ class Drinks extends HiveObject {
     }
   }
 
-  /**
-   * Calculates the SE for the drink
-   */
+  /// Calculates the SE for the drink
   double getSE() {
     double se = (volume! * (volumepart! / 1000) * 0.8) / 2;
     return se;
   }
 
-  /**
-   * Generates the DateTime from the milliseconds
-   */
+  /// Generates the DateTime from the milliseconds
   DateTime getDate() {
     return DateTime.fromMillisecondsSinceEpoch(date!);
   }

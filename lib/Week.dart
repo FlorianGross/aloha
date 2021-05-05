@@ -24,23 +24,17 @@ class Week extends HiveObject {
     this.endDate,
   });
 
-  /**
-   * Generates the DateTime from the milliseconds
-   */
+  /// Generates the DateTime from the milliseconds
   DateTime getStartDate() {
     return DateTime.fromMillisecondsSinceEpoch(startdate!);
   }
 
-  /**
-   * Generates the DateTime from the milliseconds
-   */
+  /// Generates the DateTime from the milliseconds
   DateTime getEndTime() {
     return DateTime.fromMillisecondsSinceEpoch(endDate!);
   }
 
-  /**
-   * Generates a List of Drinks for the current week
-   */
+  /// Generates a List of Drinks for the current week
   List<Drinks> weekDrinks() {
     final box = Hive.box('drinks');
     List<Drinks> drinks = [];
@@ -52,9 +46,7 @@ class Week extends HiveObject {
     return drinks;
   }
 
-  /**
-   * Calculates the SE for the current week
-   */
+  /// Calculates the SE for the current week
   double getSethisWeek() {
     List<Drinks> drinks = weekDrinks();
     double result = 0;
@@ -65,9 +57,7 @@ class Week extends HiveObject {
     return result;
   }
 
-  /**
-   * Calculates the amount of days, where the user drinks
-   */
+  /// Calculates the amount of days, where the user drinks
   double getUsedDays() {
     List<Drinks> drinks = weekDrinks();
     double days = 0;

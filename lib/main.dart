@@ -11,8 +11,25 @@ import 'Pages/FirstStartPage.dart';
 import 'Pages/HomePage.dart';
 import 'Pages/SessionsPage.dart';
 import 'Pages/TimelinePage.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
 void main() async {
+  AwesomeNotifications().initialize(null, [
+    NotificationChannel(
+        channelKey: 'basic_channel',
+        channelName: 'Daily Notification',
+        channelDescription: 'Tägliche Erinnerung',
+        defaultColor: Colors.yellow,
+        ledColor: Colors.white
+    ),
+  ]);
+  AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+    if (!isAllowed) {
+      // Insert here your friendly dialog box before call the request method
+      // This is very important to not harm the user experience
+      AwesomeNotifications().requestPermissionToSendNotifications();
+    }
+  });
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(DrinksAdapter());

@@ -11,6 +11,7 @@ class SessionPage extends StatefulWidget {
 
 class _SessionPageState extends State<SessionPage> {
   final box = Hive.box("Week");
+  final settingsBox = Hive.box("settings");
   double? planSlider = 0, daySlider = 0;
   double seValue = 0, dayValue = 0;
   int week = 0;
@@ -22,8 +23,8 @@ class _SessionPageState extends State<SessionPage> {
     maxWeek = box.length - 1;
     week = box.getAt(box.length - 1).week;
     currentWeek = box.getAt(box.length - 1);
-    planSlider = currentWeek.plannedSE;
-    daySlider = currentWeek.plannedDay;
+    planSlider = 15;
+    daySlider = 5;
     seValue = currentWeek.getSethisWeek();
     dayValue = currentWeek.getUsedDays();
 
@@ -170,9 +171,7 @@ class _SessionPageState extends State<SessionPage> {
     );
   }
 
-  /**
-   * Opens the Settings Tab
-   */
+  /// Opens the Settings Tab
   Future<void> openSettings() async {
     Navigator.push(
       context,

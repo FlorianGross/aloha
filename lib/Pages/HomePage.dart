@@ -136,33 +136,25 @@ class _HomePageState extends State<HomePage> {
     return session;
   }
 
-  /**
-   * Returns the value of the ownDrink volumen
-   */
+  /// Returns the value of the ownDrink volumen
   double? checkVolume() {
     double volume = ownBox.get("volumen") + 0.0;
     return volume;
   }
 
-  /**
-   * Returns the value of the ownDrink volumenpart
-   */
+  /// Returns the value of the ownDrink volumenpart
   double? checkVolumePart() {
     double volumePart = ownBox.get("volumenpart") + 0.0;
     return volumePart;
   }
 
-  /**
-   * Returns the value of the ownDrink name
-   */
+  /// Returns the value of the ownDrink name
   String? getName() {
     String name = ownBox.get("name");
     return name;
   }
 
-  /**
-   * Checks if the week planned surpassed and creates a new one
-   */
+  /// Checks if the week planned surpassed and creates a new one
   Future<void> weekTest() async {
     DateTime startDate = settingsBox.get("firstStartDate");
 

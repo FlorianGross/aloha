@@ -331,6 +331,8 @@ class _FirstStartPageState extends State<FirstStartPage> {
     settingsBox.put("isFr", isFrBut);
     settingsBox.put("isSa", isSaBut);
     settingsBox.put("isSo", isSoBut);
+    settingsBox.put("SEforNextWeek", double.parse(seFirstWeek.text));
+    settingsBox.put("DaysForNextWeek", double.parse(consumptionDays.text));
     settingsBox.put("autoDecr", autoDecr);
     settingsBox.put("autoDecrAmount", int.parse(amount.text));
     settingsBox.put("notifications", notificationsOn);
@@ -341,8 +343,8 @@ class _FirstStartPageState extends State<FirstStartPage> {
       week: 0,
       startdate: DateTime.now().millisecondsSinceEpoch,
       endDate: DateTime.now().add(Duration(days: 7)).millisecondsSinceEpoch,
-      plannedDay: double.parse(consumptionDays.text),
-      plannedSE: double.parse(seFirstWeek.text),
+      plannedDay: settingsBox.get("DaysForNextWeek"),
+      plannedSE: settingsBox.get("SEforNextWeek"),
     ));
     print(weekBox.getAt(0).toString());
   }
