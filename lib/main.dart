@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'Drinks.dart';
+import 'LocalNotifyManager.dart';
 import 'Pages/FirstStartPage.dart';
 import 'Pages/HomePage.dart';
 import 'Pages/SessionsPage.dart';
@@ -14,6 +15,7 @@ import 'Pages/TimelinePage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  LocalNotifyManager.init();
   await Hive.initFlutter();
   Hive.registerAdapter(DrinksAdapter());
   Hive.registerAdapter(WeekAdapter());
