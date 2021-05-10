@@ -71,12 +71,11 @@ class LocalNotifyManager {
 
   Future<void> scheduleNotificationNew(int day, int hour, int minute) async {
     DateTime plannedDay = DateTime.now();
-    while (DateTime.now().weekday < day) {
-      plannedDay.add(Duration(days: 1));
-    }
+    int now = plannedDay.weekday;
+    int difference = getDifference(now, day);
+    print("Difference: $difference");
     tz.initializeTimeZones();
-    tz.TZDateTime dateTime = tz.TZDateTime(tz.local, plannedDay.year,
-        plannedDay.month, plannedDay.day, hour, minute);
+    tz.TZDateTime dateTime = tz.TZDateTime(tz.local, plannedDay.year, plannedDay.month, plannedDay.day, hour, minute,).add(Duration(days: difference,));
     var androidChannel = AndroidNotificationDetails(
       "CHANNEL_ID",
       "CHANNEL_NAME",
@@ -100,6 +99,36 @@ class LocalNotifyManager {
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
     );
+    print("Notification setup: $day $hour:$minute : " + dateTime.toString());
+  }
+
+  Future<void> scheduleNotificationOnce(int day, int hour, int minute) async {
+    DateTime plannedDay = DateTime.now();
+    tz.initializeTimeZones();
+    tz.TZDateTime dateTime = tz.TZDateTime(tz.local, plannedDay.year, plannedDay.month, plannedDay.day, hour, minute,);
+    var androidChannel = AndroidNotificationDetails(
+      "CHANNEL_ID",
+      "CHANNEL_NAME",
+      "CHANNEL_DESCRIPTION",
+      importance: Importance.max,
+      priority: Priority.high,
+      icon: 'alcoly_logo',
+    );
+    var iosChannel = IOSNotificationDetails();
+    var platformChannel =
+    NotificationDetails(android: androidChannel, iOS: iosChannel);
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      day,
+      "Getränke Scannen",
+      "Hast du heute vor etwas zu trinken? - Scannen nicht vergessen!",
+      dateTime,
+      platformChannel,
+      androidAllowWhileIdle: true,
+      payload: "New Payload",
+      uiLocalNotificationDateInterpretation:
+      UILocalNotificationDateInterpretation.absoluteTime,
+    );
+    print("Notification setup: $day $hour:$minute : " + dateTime.toString());
   }
 
   Future<void> cancelNotification(int id) async {
@@ -108,6 +137,14 @@ class LocalNotifyManager {
 
   Future<void> cancelAllNotification() async {
     await flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+  int getDifference(int now, int day) {
+    int result = (day - now) % 7;
+    if (result == 0) {
+      return 7;
+    }
+    return result;
   }
 }
 

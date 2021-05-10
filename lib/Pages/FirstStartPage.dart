@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import '../main.dart';
+import '../LocalNotifyManager.dart';
 
 class FirstStartPage extends StatefulWidget {
   @override
@@ -19,6 +20,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
       consumptionDays = TextEditingController(text: "0");
   bool autoDecr = false;
   bool notificationsOn = false;
+  int hour = 12, minute = 00;
   Color selected = Colors.yellow, unselected = Colors.black38;
   Color? moBut, diBut, miBut, doBut, frBut, saBut, soBut;
   bool isMoBut = false,
@@ -136,151 +138,163 @@ class _FirstStartPageState extends State<FirstStartPage> {
                       ],
                     ),
                     Visibility(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      child: Column(
                         children: [
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                if (isMoBut) {
-                                  isMoBut = false;
-                                  moBut = unselected;
-                                } else {
-                                  isMoBut = true;
-                                  moBut = selected;
-                                }
-                              });
-                            },
-                            child: Container(
-                              child: Center(
-                                child: Text("Mo"),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    if (isMoBut) {
+                                      isMoBut = false;
+                                      moBut = unselected;
+                                    } else {
+                                      isMoBut = true;
+                                      moBut = selected;
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  child: Center(
+                                    child: Text("Mo"),
+                                  ),
+                                  height: 50,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle, color: moBut),
+                                ),
                               ),
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle, color: moBut),
-                            ),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    if (isDiBut) {
+                                      isDiBut = false;
+                                      diBut = unselected;
+                                    } else {
+                                      isDiBut = true;
+                                      diBut = selected;
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  child: Center(child: Text("Di")),
+                                  height: 50,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle, color: diBut),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    if (isMiBut) {
+                                      isMiBut = false;
+                                      miBut = unselected;
+                                    } else {
+                                      isMiBut = true;
+                                      miBut = selected;
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  child: Center(child: Text("Mi")),
+                                  height: 50,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle, color: miBut),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    if (isDoBut) {
+                                      isDoBut = false;
+                                      doBut = unselected;
+                                    } else {
+                                      isDoBut = true;
+                                      doBut = selected;
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  child: Center(child: Text("Do")),
+                                  height: 50,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle, color: doBut),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    if (isFrBut) {
+                                      isFrBut = false;
+                                      frBut = unselected;
+                                    } else {
+                                      isFrBut = true;
+                                      frBut = selected;
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  child: Center(child: Text("Fr")),
+                                  height: 50,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle, color: frBut),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    if (isSaBut) {
+                                      isSaBut = false;
+                                      saBut = unselected;
+                                    } else {
+                                      isSaBut = true;
+                                      saBut = selected;
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  child: Center(child: Text("Sa")),
+                                  height: 50,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle, color: saBut),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    if (isSoBut) {
+                                      isSoBut = false;
+                                      soBut = unselected;
+                                    } else {
+                                      isSoBut = true;
+                                      soBut = selected;
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  child: Center(child: Text("So")),
+                                  height: 50,
+                                  width: 50,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle, color: soBut),
+                                ),
+                              ),
+                            ],
                           ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                if (isDiBut) {
-                                  isDiBut = false;
-                                  diBut = unselected;
-                                } else {
-                                  isDiBut = true;
-                                  diBut = selected;
-                                }
-                              });
-                            },
-                            child: Container(
-                              child: Center(child: Text("Di")),
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle, color: diBut),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                if (isMiBut) {
-                                  isMiBut = false;
-                                  miBut = unselected;
-                                } else {
-                                  isMiBut = true;
-                                  miBut = selected;
-                                }
-                              });
-                            },
-                            child: Container(
-                              child: Center(child: Text("Mi")),
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle, color: miBut),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                if (isDoBut) {
-                                  isDoBut = false;
-                                  doBut = unselected;
-                                } else {
-                                  isDoBut = true;
-                                  doBut = selected;
-                                }
-                              });
-                            },
-                            child: Container(
-                              child: Center(child: Text("Do")),
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle, color: doBut),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                if (isFrBut) {
-                                  isFrBut = false;
-                                  frBut = unselected;
-                                } else {
-                                  isFrBut = true;
-                                  frBut = selected;
-                                }
-                              });
-                            },
-                            child: Container(
-                              child: Center(child: Text("Fr")),
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle, color: frBut),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                if (isSaBut) {
-                                  isSaBut = false;
-                                  saBut = unselected;
-                                } else {
-                                  isSaBut = true;
-                                  saBut = selected;
-                                }
-                              });
-                            },
-                            child: Container(
-                              child: Center(child: Text("Sa")),
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle, color: saBut),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                if (isSoBut) {
-                                  isSoBut = false;
-                                  soBut = unselected;
-                                } else {
-                                  isSoBut = true;
-                                  soBut = selected;
-                                }
-                              });
-                            },
-                            child: Container(
-                              child: Center(child: Text("So")),
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle, color: soBut),
-                            ),
-                          ),
+                          ElevatedButton(
+                              child: Text(
+                                "Uhrzeit wählen: $hour:$minute",
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.yellow),
+                              onPressed: () => pickTime(context)),
                         ],
                       ),
                       visible: notificationsOn,
@@ -309,7 +323,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -347,10 +361,49 @@ class _FirstStartPageState extends State<FirstStartPage> {
       plannedSE: settingsBox.get("SEforNextWeek"),
     ));
     print(weekBox.getAt(0).toString());
+    await setupNotifications();
   }
+
+  Future<void> setupNotifications() async {
+    LocalNotifyManager manager = LocalNotifyManager.init();
+    if (isMoBut) {
+      await manager.scheduleNotificationNew(1, hour, minute);
+    }
+    if (isDiBut) {
+      await manager.scheduleNotificationNew(2, hour, minute);
+    }
+    if (isMiBut) {
+      await manager.scheduleNotificationNew(3, hour, minute);
+    }
+    if (isDoBut) {
+      await manager.scheduleNotificationNew(4, hour, minute);
+    }
+    if (isFrBut) {
+      await manager.scheduleNotificationNew(5, hour, minute);
+    }
+    if (isSaBut) {
+      await manager.scheduleNotificationNew(6, hour, minute);
+    }
+    if (isSoBut) {
+      await manager.scheduleNotificationNew(7, hour, minute);
+    }
+    await manager.scheduleNotificationOnce(DateTime.now().weekday, hour, minute);
+  }
+
   @override
   void dispose() {
     seFirstWeek.dispose();
     super.dispose();
+  }
+
+  pickTime(BuildContext context) async {
+    final initialTime = TimeOfDay(hour: hour, minute: minute);
+    final newTime =
+        await showTimePicker(context: context, initialTime: initialTime);
+    if (newTime == null) return;
+    setState(() {
+      hour = newTime.hour;
+      minute = newTime.minute;
+    });
   }
 }
