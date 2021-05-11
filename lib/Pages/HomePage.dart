@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive/hive.dart';
 import '../Drinks.dart';
 import '../Week.dart';
@@ -11,21 +10,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  double? plannedForWeek = 12.0, usedThisWeek = 0.0;
-  double? plannedDay = 0, usedDay = 0;
-  final drinkBox = Hive.box("drinks");
   final box = Hive.box('Week');
   final settingsBox = Hive.box("settings");
   final ownBox = Hive.box("own");
+  final drinkBox = Hive.box("drinks");
+  double? plannedForWeek = 0.0, usedThisWeek = 0.0, plannedDay = 0, usedDay = 0;
   bool fastAdd = false;
   late Week currentWeek;
 
   @override
   void initState() {
     try {
+      weekTest();
       print(box.getAt(box.length - 1).toString());
       currentWeek = box.getAt(box.length - 1);
-      weekTest();
       plannedDay = currentWeek.plannedDay;
       plannedForWeek = currentWeek.plannedSE;
       usedThisWeek = currentWeek.getSethisWeek();
@@ -113,7 +111,7 @@ class _HomePageState extends State<HomePage> {
           Center(
             child: Container(
               child: Text(
-                "Drücken sie den Button um zu starten!",
+                "Drücken Sie den Button um zu starten!",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
@@ -158,7 +156,6 @@ class _HomePageState extends State<HomePage> {
   /// Checks if the week planned surpassed and creates a new one
   Future<void> weekTest() async {
     DateTime startDate = settingsBox.get("firstStartDate");
-
     /*
     Difference between now and the general startdate && difference between now and the endtime of the last week
     -> no overlap between weeks and no unnecessary weeks created
@@ -168,6 +165,8 @@ class _HomePageState extends State<HomePage> {
             0) {
       int tempWeek = DateTime.now().difference(startDate).inDays ~/ 7;
       Week newWeek = new Week(
+          plannedDay: currentWeek.plannedDay,
+          plannedSE: currentWeek.plannedSE! - settingsBox.get("autoDecrAmount"),
           week: tempWeek + 1,
           startdate: startDate
               .add(Duration(days: 7 * tempWeek))

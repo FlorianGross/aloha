@@ -1,9 +1,10 @@
 import 'dart:ui';
-import 'package:dieBruecke/Pages/CameraPage.dart';
-import 'package:dieBruecke/Pages/SettingsPage.dart';
-import 'package:dieBruecke/Week.dart';
+import 'package:aloha/Pages/CameraPage.dart';
+import 'package:aloha/Pages/SettingsPage.dart';
+import 'package:aloha/Week.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'Drinks.dart';
@@ -17,6 +18,7 @@ import 'package:timezone/timezone.dart' as tz;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   LocalNotifyManager.init();
   tz.initializeTimeZones();
   await setupTimeZone();

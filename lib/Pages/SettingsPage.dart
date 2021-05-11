@@ -1,4 +1,4 @@
-import 'package:dieBruecke/LocalNotifyManager.dart';
+import 'package:aloha/LocalNotifyManager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
@@ -349,7 +349,7 @@ class _SettingsState extends State<Settings> {
                     ),
                     style: ElevatedButton.styleFrom(primary: Colors.yellow),
                     onPressed: () => pickTime(context),
-                  ),
+                   ),
                 ],
               ),
             ),

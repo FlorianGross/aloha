@@ -1,4 +1,4 @@
-import 'package:dieBruecke/Pages/SettingsPage.dart';
+import 'package:aloha/Pages/SettingsPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -17,14 +17,18 @@ class _SessionPageState extends State<SessionPage> {
   int week = 0;
   int maxWeek = 0;
   late Week currentWeek;
+  bool autodecr = false;
+  int decrAmount = 0;
 
   @override
   void initState() {
     maxWeek = box.length - 1;
     week = box.getAt(box.length - 1).week;
     currentWeek = box.getAt(box.length - 1);
-    planSlider = 15;
-    daySlider = 5;
+    autodecr = settingsBox.get("autoDecr");
+    decrAmount = settingsBox.get("autoDecrAmount");
+    planSlider = calculateNextWeekSEPlan();
+    daySlider = currentWeek.plannedDay;
     seValue = currentWeek.getSethisWeek();
     dayValue = currentWeek.getUsedDays();
 
@@ -110,7 +114,7 @@ class _SessionPageState extends State<SessionPage> {
               child: Column(
                 children: [
                   Text(
-                    "Planung: \n" + planSlider!.toStringAsPrecision(2) + " SE",
+                    "Planung Woche ${week + 1}:  \n" + planSlider!.toStringAsPrecision(2) + " SE",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
@@ -128,8 +132,6 @@ class _SessionPageState extends State<SessionPage> {
                     onChangeEnd: (value) {
                       setState(() {
                         print("save");
-                        currentWeek.plannedSE = value.roundToDouble();
-                        currentWeek.save();
                       });
                     },
                   ),
@@ -153,8 +155,6 @@ class _SessionPageState extends State<SessionPage> {
                     onChangeEnd: (value) {
                       setState(() {
                         print("save");
-                        currentWeek.plannedDay = value.roundToDouble();
-                        currentWeek.save();
                       });
                     },
                   ),
@@ -177,5 +177,17 @@ class _SessionPageState extends State<SessionPage> {
       context,
       new MaterialPageRoute(builder: (context) => Settings()),
     );
+  }
+
+  double calculateNextWeekSEPlan() {
+    if(autodecr){
+      double result = currentWeek.plannedSE! - decrAmount;
+      if(result <= 0){
+        return 0;
+      }
+      return result;
+    }else{
+      return currentWeek.plannedSE!;
+    }
   }
 }

@@ -1,6 +1,6 @@
-import 'package:dieBruecke/Classification/Classifier.dart';
-import 'package:dieBruecke/Classification/ClassifierQuant.dart';
-import 'package:dieBruecke/Classification/Utility.dart';
+import 'package:aloha/Classification/Classifier.dart';
+import 'package:aloha/Classification/ClassifierQuant.dart';
+import 'package:aloha/Classification/Utility.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
@@ -155,12 +155,14 @@ class _CameraState extends State<Camera> {
                             setState(() {
                               isOwn = true;
                               isNone = false;
+                              isCustom = false;
                               buttonCentered = MainAxisAlignment.spaceAround;
                             });
                           } else if (value == "Andere") {
                             setState(() {
                               isCustom = true;
                               isNone = false;
+                              isOwn = false;
                               buttonCentered = MainAxisAlignment.spaceAround;
                             });
                           } else if (value == "Keins") {
