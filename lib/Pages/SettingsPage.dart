@@ -94,8 +94,14 @@ class _SettingsState extends State<Settings> {
     if (isSoBut) {
       soBut = selected;
     }
-    minute = box.get("minute");
-    hour = box.get("hour");
+    try {
+      minute = box.get("minute");
+      hour = box.get("hour");
+    }catch(e){
+      minute = 0;
+      hour = 18;
+      print(e);
+    }
     super.initState();
     print("Settings initialized");
   }

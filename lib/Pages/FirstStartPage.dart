@@ -350,6 +350,8 @@ class _FirstStartPageState extends State<FirstStartPage> {
     settingsBox.put("autoDecr", autoDecr);
     settingsBox.put("autoDecrAmount", int.parse(amount.text));
     settingsBox.put("notifications", notificationsOn);
+    settingsBox.put("hour", hour);
+    settingsBox.put("minute", minute);
     ownBox.put("name", "Name");
     ownBox.put("volumen", 500);
     ownBox.put("volumenpart", 5);
@@ -400,8 +402,6 @@ class _FirstStartPageState extends State<FirstStartPage> {
     setState(() {
       hour = newTime.hour;
       minute = newTime.minute;
-      settingsBox.put("hour", hour);
-      settingsBox.put("minute", minute);
     });
   }
 
