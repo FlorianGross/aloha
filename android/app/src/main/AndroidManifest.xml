@@ -7,7 +7,7 @@
 
     <application
         android:icon="@drawable/alcoly_logo"
-        android:label="dieBruecke">
+        android:label="Aloha">
         <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
