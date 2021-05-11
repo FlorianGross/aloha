@@ -1,3 +1,4 @@
+import 'package:dieBruecke/LocalNotifyManager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
@@ -17,6 +18,8 @@ class _SettingsState extends State<Settings> {
   String? name = "Name";
   double? volumen;
   double? volumePart;
+  int hour = 0;
+  int minute = 0;
   Color selected = Colors.yellow, unselected = Colors.black38;
   Color? moBut, diBut, miBut, doBut, frBut, saBut, soBut;
   bool isMoBut = false,
@@ -91,6 +94,8 @@ class _SettingsState extends State<Settings> {
     if (isSoBut) {
       soBut = selected;
     }
+    minute = box.get("minute");
+    hour = box.get("hour");
     super.initState();
     print("Settings initialized");
   }
@@ -174,9 +179,11 @@ class _SettingsState extends State<Settings> {
                               setState(() {
                                 if (isMoBut) {
                                   isMoBut = false;
+                                  removeNotification(1);
                                   moBut = unselected;
                                 } else {
                                   isMoBut = true;
+                                  addNotification(1);
                                   moBut = selected;
                                 }
                                 box.put("isMo", isMoBut);
@@ -197,9 +204,11 @@ class _SettingsState extends State<Settings> {
                               setState(() {
                                 if (isDiBut) {
                                   isDiBut = false;
+                                  removeNotification(2);
                                   diBut = unselected;
                                 } else {
                                   isDiBut = true;
+                                  addNotification(2);
                                   diBut = selected;
                                 }
                                 box.put("isDi", isDiBut);
@@ -218,9 +227,11 @@ class _SettingsState extends State<Settings> {
                               setState(() {
                                 if (isMiBut) {
                                   isMiBut = false;
+                                  removeNotification(3);
                                   miBut = unselected;
                                 } else {
                                   isMiBut = true;
+                                  addNotification(3);
                                   miBut = selected;
                                 }
                                 box.put("isMi", isMiBut);
@@ -239,9 +250,11 @@ class _SettingsState extends State<Settings> {
                               setState(() {
                                 if (isDoBut) {
                                   isDoBut = false;
+                                  removeNotification(4);
                                   doBut = unselected;
                                 } else {
                                   isDoBut = true;
+                                  addNotification(4);
                                   doBut = selected;
                                 }
                                 box.put("isDo", isDoBut);
@@ -260,9 +273,11 @@ class _SettingsState extends State<Settings> {
                               setState(() {
                                 if (isFrBut) {
                                   isFrBut = false;
+                                  removeNotification(5);
                                   frBut = unselected;
                                 } else {
                                   isFrBut = true;
+                                  addNotification(5);
                                   frBut = selected;
                                 }
                                 box.put("isFr", isFrBut);
@@ -281,9 +296,11 @@ class _SettingsState extends State<Settings> {
                               setState(() {
                                 if (isSaBut) {
                                   isSaBut = false;
+                                  removeNotification(6);
                                   saBut = unselected;
                                 } else {
                                   isSaBut = true;
+                                  addNotification(6);
                                   saBut = selected;
                                 }
                                 box.put("isSa", isSaBut);
@@ -302,9 +319,11 @@ class _SettingsState extends State<Settings> {
                               setState(() {
                                 if (isSoBut) {
                                   isSoBut = false;
+                                  removeNotification(7);
                                   soBut = unselected;
                                 } else {
                                   isSoBut = true;
+                                  addNotification(7);
                                   soBut = selected;
                                 }
                                 box.put("isSo", isSoBut);
@@ -322,6 +341,14 @@ class _SettingsState extends State<Settings> {
                       ),
                     ),
                     visible: notifications!,
+                  ),
+                  ElevatedButton(
+                    child: Text(
+                      "Uhrzeit wählen: $hour:$minute",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    style: ElevatedButton.styleFrom(primary: Colors.yellow),
+                    onPressed: () => pickTime(context),
                   ),
                 ],
               ),
@@ -487,6 +514,29 @@ class _SettingsState extends State<Settings> {
     } catch (e) {
       print("Error while saving Drink: " + e.toString());
     }
+  }
+
+  Future<void> removeNotification(int number) async {
+    LocalNotifyManager manager = LocalNotifyManager.init();
+    manager.cancelNotification(number);
+  }
+
+  Future<void> addNotification(int number) async {
+    LocalNotifyManager manager = LocalNotifyManager.init();
+    manager.scheduleNotificationNew(number, hour, minute);
+  }
+
+  Future<void> pickTime(BuildContext context) async {
+    final initialTime = TimeOfDay(hour: hour, minute: minute);
+    final newTime =
+        await showTimePicker(context: context, initialTime: initialTime);
+    if (newTime == null) return;
+    setState(() {
+      hour = newTime.hour;
+      minute = newTime.minute;
+      box.put("hour", hour);
+      box.put("minute", minute);
+    });
   }
 
   @override

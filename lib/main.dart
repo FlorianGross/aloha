@@ -12,10 +12,14 @@ import 'Pages/FirstStartPage.dart';
 import 'Pages/HomePage.dart';
 import 'Pages/SessionsPage.dart';
 import 'Pages/TimelinePage.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   LocalNotifyManager.init();
+  tz.initializeTimeZones();
+  await setupTimeZone();
   await Hive.initFlutter();
   Hive.registerAdapter(DrinksAdapter());
   Hive.registerAdapter(WeekAdapter());
@@ -62,6 +66,12 @@ void main() async {
     ),
   );
 }
+
+Future<void> setupTimeZone() async{
+  tz.initializeTimeZones();
+  tz.setLocalLocation(tz.getLocation('Europe/Berlin'));
+}
+
 
 ThemeData dayTheme() {
   return ThemeData(

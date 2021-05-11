@@ -74,8 +74,16 @@ class LocalNotifyManager {
     int now = plannedDay.weekday;
     int difference = getDifference(now, day);
     print("Difference: $difference");
-    tz.initializeTimeZones();
-    tz.TZDateTime dateTime = tz.TZDateTime(tz.local, plannedDay.year, plannedDay.month, plannedDay.day, hour, minute,).add(Duration(days: difference,));
+    tz.TZDateTime dateTime = tz.TZDateTime(
+      tz.local,
+      plannedDay.year,
+      plannedDay.month,
+      plannedDay.day,
+      hour,
+      minute,
+    ).add(Duration(
+      days: difference,
+    ));
     var androidChannel = AndroidNotificationDetails(
       "CHANNEL_ID",
       "CHANNEL_NAME",
@@ -104,8 +112,14 @@ class LocalNotifyManager {
 
   Future<void> scheduleNotificationOnce(int day, int hour, int minute) async {
     DateTime plannedDay = DateTime.now();
-    tz.initializeTimeZones();
-    tz.TZDateTime dateTime = tz.TZDateTime(tz.local, plannedDay.year, plannedDay.month, plannedDay.day, hour, minute,);
+    tz.TZDateTime dateTime = tz.TZDateTime(
+      tz.local,
+      plannedDay.year,
+      plannedDay.month,
+      plannedDay.day,
+      hour,
+      minute,
+    );
     var androidChannel = AndroidNotificationDetails(
       "CHANNEL_ID",
       "CHANNEL_NAME",
@@ -116,7 +130,7 @@ class LocalNotifyManager {
     );
     var iosChannel = IOSNotificationDetails();
     var platformChannel =
-    NotificationDetails(android: androidChannel, iOS: iosChannel);
+        NotificationDetails(android: androidChannel, iOS: iosChannel);
     await flutterLocalNotificationsPlugin.zonedSchedule(
       day,
       "Getränke Scannen",
@@ -126,7 +140,7 @@ class LocalNotifyManager {
       androidAllowWhileIdle: true,
       payload: "New Payload",
       uiLocalNotificationDateInterpretation:
-      UILocalNotificationDateInterpretation.absoluteTime,
+          UILocalNotificationDateInterpretation.absoluteTime,
     );
     print("Notification setup: $day $hour:$minute : " + dateTime.toString());
   }

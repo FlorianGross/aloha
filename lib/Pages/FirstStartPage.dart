@@ -387,16 +387,12 @@ class _FirstStartPageState extends State<FirstStartPage> {
     if (isSoBut) {
       await manager.scheduleNotificationNew(7, hour, minute);
     }
-    await manager.scheduleNotificationOnce(DateTime.now().weekday, hour, minute);
+    // await manager.scheduleNotificationOnce(DateTime.now().weekday, hour, minute);
+    settingsBox.put(hour, hour);
+    settingsBox.put(minute, minute);
   }
 
-  @override
-  void dispose() {
-    seFirstWeek.dispose();
-    super.dispose();
-  }
-
-  pickTime(BuildContext context) async {
+  Future<void> pickTime(BuildContext context) async {
     final initialTime = TimeOfDay(hour: hour, minute: minute);
     final newTime =
         await showTimePicker(context: context, initialTime: initialTime);
@@ -404,6 +400,14 @@ class _FirstStartPageState extends State<FirstStartPage> {
     setState(() {
       hour = newTime.hour;
       minute = newTime.minute;
+      settingsBox.put("hour", hour);
+      settingsBox.put("minute", minute);
     });
+  }
+
+  @override
+  void dispose() {
+    seFirstWeek.dispose();
+    super.dispose();
   }
 }
