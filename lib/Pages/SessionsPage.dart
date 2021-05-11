@@ -12,12 +12,13 @@ class SessionPage extends StatefulWidget {
 class _SessionPageState extends State<SessionPage> {
   final box = Hive.box("Week");
   final settingsBox = Hive.box("settings");
+  late TextEditingController amount;
   double? planSlider = 0, daySlider = 0;
   double seValue = 0, dayValue = 0;
   int week = 0;
   int maxWeek = 0;
   late Week currentWeek;
-  bool autodecr = false;
+  bool autoDecr = true;
   int decrAmount = 0;
 
   @override
@@ -25,8 +26,9 @@ class _SessionPageState extends State<SessionPage> {
     maxWeek = box.length - 1;
     week = box.getAt(box.length - 1).week;
     currentWeek = box.getAt(box.length - 1);
-    autodecr = settingsBox.get("autoDecr");
+    autoDecr = settingsBox.get("autoDecr");
     decrAmount = settingsBox.get("autoDecrAmount");
+    amount = TextEditingController(text: decrAmount.toString());
     planSlider = calculateNextWeekSEPlan();
     daySlider = currentWeek.plannedDay;
     seValue = currentWeek.getSethisWeek();
@@ -135,6 +137,41 @@ class _SessionPageState extends State<SessionPage> {
                       });
                     },
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Wöchentlich automatisch verringern?"),
+                      Switch(
+                        value: autoDecr,
+                        activeColor: Theme.of(context).primaryColor,
+                        onChanged: (value) {
+                          setState(() {
+                            autoDecr = value;
+                            settingsBox.put("autoDecr", autoDecr);
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  Visibility(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text("Anzahl: "),
+                        SizedBox(
+                            height: 50,
+                            width: 150,
+                            child: TextField(
+                              controller: amount,
+                              keyboardType: TextInputType.number,
+                              onSubmitted: (value){
+                                settingsBox.put("autoDecrAmount", int.parse(value));
+                              },
+                            ))
+                      ],
+                    ),
+                    visible: autoDecr,
+                  ),
                   Divider(),
                   Text(
                     "Konsumtage: \n" + daySlider!.toStringAsPrecision(1),
@@ -180,7 +217,7 @@ class _SessionPageState extends State<SessionPage> {
   }
 
   double calculateNextWeekSEPlan() {
-    if(autodecr){
+    if(autoDecr){
       double result = currentWeek.plannedSE! - decrAmount;
       if(result <= 0){
         return 0;

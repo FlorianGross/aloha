@@ -289,7 +289,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
                           ),
                           ElevatedButton(
                               child: Text(
-                                "Uhrzeit wählen: $hour:$minute",
+                                "Uhrzeit wählen: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}",
                                 style: TextStyle(color: Colors.black),
                               ),
                               style: ElevatedButton.styleFrom(
