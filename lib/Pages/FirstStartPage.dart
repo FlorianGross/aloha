@@ -71,12 +71,17 @@ class _FirstStartPageState extends State<FirstStartPage> {
                       children: [
                         Text("SE für die erste Woche:"),
                         SizedBox(
-                            height: 50,
-                            width: 150,
-                            child: TextField(
-                              controller: seFirstWeek,
-                              keyboardType: TextInputType.number,
-                            )),
+                          height: 50,
+                          width: 150,
+                          child: TextField(
+                            controller: seFirstWeek,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r"^\d*\.?\d*"))
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                     Row(
@@ -100,12 +105,17 @@ class _FirstStartPageState extends State<FirstStartPage> {
                         children: [
                           Text("Anzahl: "),
                           SizedBox(
-                              height: 50,
-                              width: 150,
-                              child: TextField(
-                                controller: amount,
-                                keyboardType: TextInputType.number,
-                              ))
+                            height: 50,
+                            width: 150,
+                            child: TextField(
+                              controller: amount,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r"^\d*\.?\d*"))
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                       visible: autoDecr,
@@ -115,12 +125,16 @@ class _FirstStartPageState extends State<FirstStartPage> {
                       children: [
                         Text("Konsumtage: "),
                         SizedBox(
-                            height: 50,
-                            width: 150,
-                            child: TextField(
-                              controller: consumptionDays,
-                              keyboardType: TextInputType.number,
-                            )),
+                          height: 50,
+                          width: 150,
+                          child: TextField(
+                            controller: consumptionDays,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(RegExp(r"^\d*"))
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                     Row(
@@ -143,148 +157,41 @@ class _FirstStartPageState extends State<FirstStartPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    if (isMoBut) {
-                                      isMoBut = false;
-                                      moBut = unselected;
-                                    } else {
-                                      isMoBut = true;
-                                      moBut = selected;
-                                    }
-                                  });
-                                },
-                                child: Container(
-                                  child: Center(
-                                    child: Text("Mo"),
-                                  ),
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, color: moBut),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    if (isDiBut) {
-                                      isDiBut = false;
-                                      diBut = unselected;
-                                    } else {
-                                      isDiBut = true;
-                                      diBut = selected;
-                                    }
-                                  });
-                                },
-                                child: Container(
-                                  child: Center(child: Text("Di")),
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, color: diBut),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    if (isMiBut) {
-                                      isMiBut = false;
-                                      miBut = unselected;
-                                    } else {
-                                      isMiBut = true;
-                                      miBut = selected;
-                                    }
-                                  });
-                                },
-                                child: Container(
-                                  child: Center(child: Text("Mi")),
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, color: miBut),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    if (isDoBut) {
-                                      isDoBut = false;
-                                      doBut = unselected;
-                                    } else {
-                                      isDoBut = true;
-                                      doBut = selected;
-                                    }
-                                  });
-                                },
-                                child: Container(
-                                  child: Center(child: Text("Do")),
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, color: doBut),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    if (isFrBut) {
-                                      isFrBut = false;
-                                      frBut = unselected;
-                                    } else {
-                                      isFrBut = true;
-                                      frBut = selected;
-                                    }
-                                  });
-                                },
-                                child: Container(
-                                  child: Center(child: Text("Fr")),
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, color: frBut),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    if (isSaBut) {
-                                      isSaBut = false;
-                                      saBut = unselected;
-                                    } else {
-                                      isSaBut = true;
-                                      saBut = selected;
-                                    }
-                                  });
-                                },
-                                child: Container(
-                                  child: Center(child: Text("Sa")),
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, color: saBut),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    if (isSoBut) {
-                                      isSoBut = false;
-                                      soBut = unselected;
-                                    } else {
-                                      isSoBut = true;
-                                      soBut = selected;
-                                    }
-                                  });
-                                },
-                                child: Container(
-                                  child: Center(child: Text("So")),
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, color: soBut),
-                                ),
-                              ),
+                              DayButton(
+                                  onTab: (val) {
+                                    isMoBut = val;
+                                  },
+                                  weekday: "Mo"),
+                              DayButton(
+                                  onTab: (value) {
+                                    isDiBut = value;
+                                  },
+                                  weekday: "Di"),
+                              DayButton(
+                                  onTab: (value) {
+                                    isMiBut = value;
+                                  },
+                                  weekday: "Mi"),
+                              DayButton(
+                                  onTab: (val) {
+                                    isDoBut = val;
+                                  },
+                                  weekday: "Do"),
+                              DayButton(
+                                  onTab: (val) {
+                                    isFrBut = val;
+                                  },
+                                  weekday: "Fr"),
+                              DayButton(
+                                  onTab: (val) {
+                                    isSaBut = val;
+                                  },
+                                  weekday: "Sa"),
+                              DayButton(
+                                  onTab: (val) {
+                                    isSoBut = val;
+                                  },
+                                  weekday: "So"),
                             ],
                           ),
                           ElevatedButton(
@@ -409,5 +316,46 @@ class _FirstStartPageState extends State<FirstStartPage> {
   void dispose() {
     seFirstWeek.dispose();
     super.dispose();
+  }
+}
+
+class DayButton extends StatefulWidget {
+  final ValueChanged<bool> onTab;
+  final String weekday;
+
+  const DayButton({Key? key, required this.onTab, required this.weekday})
+      : super(key: key);
+
+  @override
+  _DayButtonState createState() =>
+      _DayButtonState(onTab: onTab, weekday: weekday);
+}
+
+class _DayButtonState extends State<DayButton> {
+  final ValueChanged<bool> onTab;
+
+  _DayButtonState({required this.onTab, required this.weekday});
+
+  bool _isSelected = true;
+  final String weekday;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _isSelected = !_isSelected;
+        });
+        onTab.call(_isSelected);
+      },
+      child: Container(
+        child: Center(child: Text(weekday)),
+        height: 50,
+        width: 50,
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: _isSelected ? Colors.yellow : Colors.black26),
+      ),
+    );
   }
 }
