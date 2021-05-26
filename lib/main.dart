@@ -1,15 +1,14 @@
-import 'dart:ui';
 import 'package:aloha/Pages/CameraPage.dart';
 import 'package:aloha/Pages/SettingsPage.dart';
 import 'package:aloha/SetupSettings.dart';
-import 'package:aloha/Week.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'Drinks.dart';
+import 'Modelle/Drinks.dart';
 import 'LocalNotifyManager.dart';
+import 'Modelle/Week.dart';
 import 'MyApp.dart';
 import 'Pages/FirstStartPage.dart';
 import 'Pages/HomePage.dart';
@@ -20,7 +19,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   LocalNotifyManager.init();
-  SetupSettings.init();
+  //SetupSettings.init();
   tz.initializeTimeZones();
   await setupTimeZone();
   await Hive.initFlutter();
@@ -44,11 +43,11 @@ void main() async {
 
   ThemeData theme;
   if (box.get("darkmode")) {
-    theme = SetupSettings.init().getNightTheme();
+    theme = SetupSettings().getNightTheme();
 
     print("Theme - nightTheme");
   } else {
-    theme = SetupSettings.init().getDayTheme();
+    theme = SetupSettings().getDayTheme();
     print("Theme - dayTheme");
   }
   var home;

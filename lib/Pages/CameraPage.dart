@@ -1,6 +1,7 @@
 import 'package:aloha/Classification/Classifier.dart';
 import 'package:aloha/Classification/ClassifierQuant.dart';
 import 'package:aloha/Classification/Utility.dart';
+import 'package:aloha/Modelle/Drinks.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,7 +9,7 @@ import 'package:image/image.dart' as img;
 import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 import 'dart:io' as Io;
 import '../BrueckeIcons.dart';
-import '../Drinks.dart';
+import '../Modelle/Drinks.dart';
 
 class Camera extends StatefulWidget {
   @override
@@ -649,5 +650,4 @@ class _CameraState extends State<Camera> {
     } else {
       return 0;
     }
-  }
-}
+  }}

@@ -1,9 +1,9 @@
+import 'package:aloha/Modelle/Drinks.dart';
+import 'package:aloha/Modelle/Week.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
-import '../Drinks.dart';
-import '../Week.dart';
-
+import '../Modelle/Drinks.dart';
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -40,6 +40,20 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    try {
+      weekTest();
+      print(box.getAt(box.length - 1).toString());
+      currentWeek = box.getAt(box.length - 1);
+      plannedDay = currentWeek.plannedDay;
+      plannedForWeek = currentWeek.plannedSE;
+      usedThisWeek = currentWeek.getSethisWeek();
+      usedDay = currentWeek.getUsedDays();
+    } catch (e) {
+      usedThisWeek = 0;
+      usedDay = 0;
+      plannedDay = 0;
+      plannedForWeek = 0;
+    }
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

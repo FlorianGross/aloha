@@ -30,11 +30,6 @@ class SetupSettings {
         accentColor: Colors.yellowAccent);
   }
 
-  SetupSettings.init() {
-    this.context!;
-    setScreenSize(context!);
-  }
-
   Future<void> setScreenSize(BuildContext context) async {
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;

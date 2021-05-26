@@ -1,6 +1,7 @@
+import 'package:aloha/Modelle/Drinks.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import '../Drinks.dart';
+import '../Modelle/Drinks.dart';
 import 'DetailsPage.dart';
 
 class TimelinePage extends StatefulWidget {

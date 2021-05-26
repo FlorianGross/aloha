@@ -1,11 +1,11 @@
-import 'package:aloha/Week.dart';
+import 'package:aloha/Modelle/Week.dart';
+import 'package:aloha/Modelle/Week.dart';
 import 'package:aloha/Widgets/DayButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import '../MyApp.dart';
-import '../main.dart';
 import '../LocalNotifyManager.dart';
 
 class FirstStartPage extends StatefulWidget {
@@ -261,9 +261,9 @@ class _FirstStartPageState extends State<FirstStartPage> {
     settingsBox.put("isFr", isFrBut);
     settingsBox.put("isSa", isSaBut);
     settingsBox.put("isSo", isSoBut);
+    settingsBox.put("autoDecr", autoDecr);
     settingsBox.put("SEforNextWeek", double.parse(seFirstWeek.text));
     settingsBox.put("DaysForNextWeek", double.parse(consumptionDays.text));
-    settingsBox.put("autoDecr", autoDecr);
     settingsBox.put("autoDecrAmount", int.parse(amount.text));
     settingsBox.put("notifications", notificationsOn);
     settingsBox.put("hour", hour);

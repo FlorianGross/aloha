@@ -1,7 +1,6 @@
+import 'package:aloha/Classification/Utility.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'Classification/Utility.dart';
-
 part 'Drinks.g.dart';
 
 @HiveType(typeId: 0)

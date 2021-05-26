@@ -19,19 +19,25 @@ class _DayButtonState extends State<DayButton> {
   _DayButtonState({required this.onTab, required this.weekday, required this.size});
 
   bool _isSelected = true;
+  Color _textColor = Colors.black;
   final String weekday;
   final double size;
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         setState(() {
           _isSelected = !_isSelected;
-        });
+          if(_isSelected) {
+            _textColor = Colors.black;
+          }else{
+            _textColor = Colors.white;
+          }
+          });
         onTab.call(_isSelected);
       },
       child: Container(
-        child: Center(child: Text(weekday)),
+        child: Center(child: Text(weekday, style: TextStyle(color: _textColor),)),
         height: size,
         width: size,
         decoration: BoxDecoration(

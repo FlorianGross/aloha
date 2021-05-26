@@ -1,7 +1,8 @@
+import 'package:aloha/Modelle/Drinks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
-import '../Drinks.dart';
+import '../Modelle/Drinks.dart';
 import '../MyApp.dart';
 import '../main.dart';
 
@@ -248,5 +249,4 @@ class _DetailsTabState extends State<DetailsTab> {
     volumeController.dispose();
     volumePartController.dispose();
     super.dispose();
-  }
-}
+  }}
