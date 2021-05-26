@@ -1,8 +1,10 @@
 import 'package:aloha/Week.dart';
+import 'package:aloha/Widgets/DayButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
+import '../MyApp.dart';
 import '../main.dart';
 import '../LocalNotifyManager.dart';
 
@@ -161,36 +163,43 @@ class _FirstStartPageState extends State<FirstStartPage> {
                                   onTab: (val) {
                                     isMoBut = val;
                                   },
+                                  size: 50,
                                   weekday: "Mo"),
                               DayButton(
                                   onTab: (value) {
                                     isDiBut = value;
                                   },
+                                  size: 50,
                                   weekday: "Di"),
                               DayButton(
                                   onTab: (value) {
                                     isMiBut = value;
                                   },
+                                  size: 50,
                                   weekday: "Mi"),
                               DayButton(
                                   onTab: (val) {
                                     isDoBut = val;
                                   },
+                                  size: 50,
                                   weekday: "Do"),
                               DayButton(
                                   onTab: (val) {
                                     isFrBut = val;
                                   },
+                                  size: 50,
                                   weekday: "Fr"),
                               DayButton(
                                   onTab: (val) {
                                     isSaBut = val;
                                   },
+                                  size: 50,
                                   weekday: "Sa"),
                               DayButton(
                                   onTab: (val) {
                                     isSoBut = val;
                                   },
+                                  size: 50,
                                   weekday: "So"),
                             ],
                           ),
@@ -316,46 +325,5 @@ class _FirstStartPageState extends State<FirstStartPage> {
   void dispose() {
     seFirstWeek.dispose();
     super.dispose();
-  }
-}
-
-class DayButton extends StatefulWidget {
-  final ValueChanged<bool> onTab;
-  final String weekday;
-
-  const DayButton({Key? key, required this.onTab, required this.weekday})
-      : super(key: key);
-
-  @override
-  _DayButtonState createState() =>
-      _DayButtonState(onTab: onTab, weekday: weekday);
-}
-
-class _DayButtonState extends State<DayButton> {
-  final ValueChanged<bool> onTab;
-
-  _DayButtonState({required this.onTab, required this.weekday});
-
-  bool _isSelected = true;
-  final String weekday;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          _isSelected = !_isSelected;
-        });
-        onTab.call(_isSelected);
-      },
-      child: Container(
-        child: Center(child: Text(weekday)),
-        height: 50,
-        width: 50,
-        decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: _isSelected ? Colors.yellow : Colors.black26),
-      ),
-    );
   }
 }

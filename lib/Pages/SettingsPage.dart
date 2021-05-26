@@ -1,4 +1,5 @@
 import 'package:aloha/LocalNotifyManager.dart';
+import 'package:aloha/Widgets/DayButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
@@ -33,6 +34,20 @@ class _SettingsState extends State<Settings> {
   TextEditingController volumeController =
       TextEditingController(text: "1000.0");
   TextEditingController volumePartController = TextEditingController(text: "5");
+  InputDecoration deco = InputDecoration(
+    disabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+            color: Colors.yellow)),
+    enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+            color: Colors.yellow)),
+    focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+            color: Colors.yellow)),
+    border: OutlineInputBorder(
+        borderSide: BorderSide(
+            color: Colors.yellow)),
+  );
 
   @override
   void initState() {
@@ -97,7 +112,7 @@ class _SettingsState extends State<Settings> {
     try {
       minute = box.get("minute");
       hour = box.get("hour");
-    }catch(e){
+    } catch (e) {
       minute = 0;
       hour = 18;
       print(e);
@@ -183,169 +198,90 @@ class _SettingsState extends State<Settings> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
+                              DayButton(
+                                  weekday: "Mo",
+                                  size: 30,
+                                  onTab: (val) {
+                                    isMoBut = val;
                                     if (isMoBut) {
-                                      isMoBut = false;
-                                      removeNotification(1);
-                                      moBut = unselected;
-                                    } else {
-                                      isMoBut = true;
                                       addNotification(1);
-                                      moBut = selected;
-                                    }
-                                    box.put("isMo", isMoBut);
-                                  });
-                                },
-                                child: Container(
-                                  child: Center(
-                                    child: Text("Mo"),
-                                  ),
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, color: moBut),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    if (isDiBut) {
-                                      isDiBut = false;
-                                      removeNotification(2);
-                                      diBut = unselected;
                                     } else {
-                                      isDiBut = true;
-                                      addNotification(2);
-                                      diBut = selected;
+                                      removeNotification(1);
                                     }
-                                    box.put("isDi", isDiBut);
-                                  });
+                                  }),
+                              DayButton(
+                                weekday: "Di",
+                                size: 30,
+                                onTab: (val) {
+                                  isDiBut = val;
+                                  if (isDiBut) {
+                                    addNotification(2);
+                                  } else {
+                                    removeNotification(2);
+                                  }
                                 },
-                                child: Container(
-                                  child: Center(child: Text("Di")),
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, color: diBut),
-                                ),
                               ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
+                              DayButton(
+                                  onTab: (val) {
+                                    isMiBut = val;
+                                  },
+                                  size: 30,
+                                  weekday: "Mi"),
+                              DayButton(
+                                  onTab: (val) {
+                                    isMiBut = val;
                                     if (isMiBut) {
-                                      isMiBut = false;
-                                      removeNotification(3);
-                                      miBut = unselected;
-                                    } else {
-                                      isMiBut = true;
                                       addNotification(3);
-                                      miBut = selected;
+                                    } else {
+                                      removeNotification(3);
                                     }
-                                    box.put("isMi", isMiBut);
-                                  });
-                                },
-                                child: Container(
-                                  child: Center(child: Text("Mi")),
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, color: miBut),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
+                                  },
+                                  weekday: "Mi",
+                                  size: 30),
+                              DayButton(
+                                  onTab: (val) {
+                                    isDoBut = val;
                                     if (isDoBut) {
-                                      isDoBut = false;
-                                      removeNotification(4);
-                                      doBut = unselected;
-                                    } else {
-                                      isDoBut = true;
                                       addNotification(4);
-                                      doBut = selected;
+                                    } else {
+                                      removeNotification(4);
                                     }
-                                    box.put("isDo", isDoBut);
-                                  });
-                                },
-                                child: Container(
-                                  child: Center(child: Text("Do")),
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, color: doBut),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
+                                  },
+                                  weekday: "Do",
+                                  size: 30),
+                              DayButton(
+                                  onTab: (val) {
+                                    isFrBut = val;
                                     if (isFrBut) {
-                                      isFrBut = false;
-                                      removeNotification(5);
-                                      frBut = unselected;
-                                    } else {
-                                      isFrBut = true;
                                       addNotification(5);
-                                      frBut = selected;
+                                    } else {
+                                      removeNotification(5);
                                     }
-                                    box.put("isFr", isFrBut);
-                                  });
-                                },
-                                child: Container(
-                                  child: Center(child: Text("Fr")),
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, color: frBut),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
+                                  },
+                                  weekday: "Fr",
+                                  size: 30),
+                              DayButton(
+                                  onTab: (val) {
+                                    isSaBut = val;
                                     if (isSaBut) {
-                                      isSaBut = false;
-                                      removeNotification(6);
-                                      saBut = unselected;
-                                    } else {
-                                      isSaBut = true;
                                       addNotification(6);
-                                      saBut = selected;
-                                    }
-                                    box.put("isSa", isSaBut);
-                                  });
-                                },
-                                child: Container(
-                                  child: Center(child: Text("Sa")),
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, color: saBut),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    if (isSoBut) {
-                                      isSoBut = false;
-                                      removeNotification(7);
-                                      soBut = unselected;
                                     } else {
-                                      isSoBut = true;
-                                      addNotification(7);
-                                      soBut = selected;
+                                      removeNotification(6);
                                     }
-                                    box.put("isSo", isSoBut);
-                                  });
-                                },
-                                child: Container(
-                                  child: Center(child: Text("So")),
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, color: soBut),
-                                ),
-                              ),
+                                  },
+                                  weekday: "Sa",
+                                  size: 30),
+                              DayButton(
+                                  onTab: (val) {
+                                    isSoBut = val;
+                                    if (isSoBut) {
+                                      addNotification(7);
+                                    } else {
+                                      removeNotification(7);
+                                    }
+                                  },
+                                  weekday: "So",
+                                  size: 30),
                             ],
                           ),
                           Padding(
@@ -391,20 +327,7 @@ class _SettingsState extends State<Settings> {
                         width: 200,
                         height: 50,
                         child: TextField(
-                          decoration: InputDecoration(
-                            disabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor)),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor)),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor)),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor)),
-                          ),
+                          decoration: deco,
                           controller: nameController,
                         ),
                       ),
@@ -424,20 +347,7 @@ class _SettingsState extends State<Settings> {
                             FilteringTextInputFormatter.allow(
                                 RegExp(r"^\d*\.?\d*"))
                           ],
-                          decoration: InputDecoration(
-                            disabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor)),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor)),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor)),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor)),
-                          ),
+                          decoration: deco,
                           controller: volumeController,
                           onSubmitted: (value) {
                             setState(() {
@@ -464,20 +374,7 @@ class _SettingsState extends State<Settings> {
                                 RegExp(r"^\d*\.?\d*"))
                           ],
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            disabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor)),
-                            enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor)),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor)),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor)),
-                          ),
+                          decoration: deco,
                           controller: volumePartController,
                           onSubmitted: (value) {
                             setState(() {

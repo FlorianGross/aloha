@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import '../Drinks.dart';
+import '../MyApp.dart';
 import '../main.dart';
 
 class DetailsTab extends StatefulWidget {

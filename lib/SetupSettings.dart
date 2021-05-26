@@ -11,6 +11,25 @@ class SetupSettings {
   Color primary = Colors.yellow;
   Color primaryAccent = Colors.yellowAccent;
 
+
+  ThemeData getDayTheme() {
+    return ThemeData(
+        fontFamily: "Roboto",
+        brightness: Brightness.light,
+        primaryColor: Colors.yellow,
+        backgroundColor: Colors.yellowAccent,
+        accentColor: Colors.yellowAccent);
+  }
+
+  ThemeData getNightTheme() {
+    return ThemeData(
+        fontFamily: "Roboto",
+        brightness: Brightness.dark,
+        primaryColor: Colors.yellow,
+        backgroundColor: Colors.yellowAccent,
+        accentColor: Colors.yellowAccent);
+  }
+
   SetupSettings.init() {
     this.context!;
     setScreenSize(context!);
@@ -32,4 +51,6 @@ class SetupSettings {
     textSelected = Colors.white;
     textUnselected = Colors.black;
   }
+
+
 }
