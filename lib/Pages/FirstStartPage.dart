@@ -272,7 +272,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
     ownBox.put("volumenpart", 5);
     DateTime startDate = settingsBox.get("firstStartDate");
     Week firstWeek = Week(
-        plannedSE: 0,
+        plannedSE: double.parse(seFirstWeek.text),
         week: 0,
         endDate: startDate
             .add(Duration(
@@ -283,7 +283,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
             milliseconds: 99,
             seconds: 59))
             .millisecondsSinceEpoch,
-        plannedDay: 0,
+        plannedDay: double.parse(consumptionDays.text),
         startdate: startDate.millisecondsSinceEpoch);
     weekBox.add(firstWeek);
     print(weekBox.getAt(0).toString());

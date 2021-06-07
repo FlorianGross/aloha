@@ -172,9 +172,14 @@ class _HomePageState extends State<HomePage> {
   Future<void> weekTest() async {
     Week currentWeek = box.getAt(box.length - 1);
     int now = DateTime.now().millisecondsSinceEpoch;
-    print(DateTime.now().toString() + " - " + currentWeek.getEndTime().toString());
+    print(DateTime.now().toString() +
+        " - " +
+        currentWeek.getEndTime().toString());
     while (now > currentWeek.endDate!) {
-      print("WeekTest: " + DateTime.now().toString() + " - " + currentWeek.getEndTime().toString());
+      print("WeekTest: " +
+          DateTime.now().toString() +
+          " - " +
+          currentWeek.getEndTime().toString());
       DateTime newStartDate = currentWeek.getStartDate().add(Duration(days: 7));
       DateTime newEndDate = newStartDate.add(Duration(
           days: 6,
@@ -183,13 +188,21 @@ class _HomePageState extends State<HomePage> {
           microseconds: 999,
           milliseconds: 99,
           seconds: 59));
+      double days = settingsBox.get("DaysForNextWeek");
+      int decrAmount = settingsBox.get("autoDecrAmount");
+      double sePlanned = settingsBox.get("SEforNextWeek");
+      sePlanned -= decrAmount;
+      if (sePlanned < 0) {
+        sePlanned = 0;
+      }
       Week newWeek = Week(
-          plannedSE: 0,
+          plannedDay: days,
+          plannedSE: sePlanned,
           week: box.length,
-          plannedDay: 0,
           startdate: newStartDate.millisecondsSinceEpoch,
           endDate: newEndDate.millisecondsSinceEpoch);
       box.add(newWeek);
+      settingsBox.put("SEforNextWeek", sePlanned);
       currentWeek = box.getAt(box.length - 1);
       print("New Week Added: " + newWeek.toString());
     }

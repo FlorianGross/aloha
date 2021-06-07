@@ -64,6 +64,16 @@ class _SessionPageState extends State<SessionPage> {
                         setState(() {
                           if (week > 0) {
                             week--;
+                            print("Week: $week");
+                            currentWeek = box.getAt(week);
+                            autoDecr = settingsBox.get("autoDecr");
+                            decrAmount = settingsBox.get("autoDecrAmount");
+                            amount = TextEditingController(
+                                text: decrAmount.toString());
+                            planSlider = calculateNextWeekSEPlan();
+                            daySlider = currentWeek.plannedDay;
+                            seValue = currentWeek.getSethisWeek();
+                            dayValue = currentWeek.getUsedDays();
                           }
                         });
                       },
@@ -101,6 +111,16 @@ class _SessionPageState extends State<SessionPage> {
                         setState(() {
                           if (week < maxWeek) {
                             week++;
+                            print("Week: $week");
+                            currentWeek = box.getAt(week);
+                            autoDecr = settingsBox.get("autoDecr");
+                            decrAmount = settingsBox.get("autoDecrAmount");
+                            amount = TextEditingController(
+                                text: decrAmount.toString());
+                            planSlider = calculateNextWeekSEPlan();
+                            daySlider = currentWeek.plannedDay;
+                            seValue = currentWeek.getSethisWeek();
+                            dayValue = currentWeek.getUsedDays();
                           }
                         });
                       },
@@ -116,7 +136,9 @@ class _SessionPageState extends State<SessionPage> {
               child: Column(
                 children: [
                   Text(
-                    "Planung Woche ${week + 1}:  \n" + planSlider!.toStringAsPrecision(2) + " SE",
+                    "Planung Woche ${week + 1}:  \n" +
+                        planSlider!.toStringAsPrecision(2) +
+                        " SE",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
@@ -133,6 +155,7 @@ class _SessionPageState extends State<SessionPage> {
                     },
                     onChangeEnd: (value) {
                       setState(() {
+                        settingsBox.put("SEforNextWeek", value);
                         print("save");
                       });
                     },
@@ -164,8 +187,9 @@ class _SessionPageState extends State<SessionPage> {
                             child: TextField(
                               controller: amount,
                               keyboardType: TextInputType.number,
-                              onSubmitted: (value){
-                                settingsBox.put("autoDecrAmount", int.parse(value));
+                              onSubmitted: (value) {
+                                settingsBox.put(
+                                    "autoDecrAmount", int.parse(value));
                               },
                             ))
                       ],
@@ -187,6 +211,7 @@ class _SessionPageState extends State<SessionPage> {
                     onChanged: (value) {
                       setState(() {
                         daySlider = value;
+                        settingsBox.put("DaysForNextWeek", value);
                       });
                     },
                     onChangeEnd: (value) {
@@ -217,13 +242,13 @@ class _SessionPageState extends State<SessionPage> {
   }
 
   double calculateNextWeekSEPlan() {
-    if(autoDecr){
+    if (autoDecr) {
       double result = currentWeek.plannedSE! - decrAmount;
-      if(result <= 0){
+      if (result <= 0) {
         return 0;
       }
       return result;
-    }else{
+    } else {
       return currentWeek.plannedSE!;
     }
   }
