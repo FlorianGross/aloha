@@ -37,7 +37,8 @@ void main() async {
     box.put("audio", true);
     box.put("firstStart", true);
     box.put("notifications", true);
-    box.put("firstStartDate", DateTime.now());
+    DateTime now = DateTime.now().subtract(Duration(days: 30));
+    box.put("firstStartDate", DateTime(now.year, now.month, now.day, 0, 0, 0, 0, 0));
     print("Standard settings loaded: " + box.toMap().toString());
   }
 

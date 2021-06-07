@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import '../Modelle/Drinks.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -22,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     try {
       weekTest();
-      print(box.getAt(box.length - 1).toString());
+      print("Current Week: " + box.getAt(box.length - 1).toString());
       currentWeek = box.getAt(box.length - 1);
       plannedDay = currentWeek.plannedDay;
       plannedForWeek = currentWeek.plannedSE;
@@ -169,30 +170,28 @@ class _HomePageState extends State<HomePage> {
 
   /// Checks if the week planned surpassed and creates a new one
   Future<void> weekTest() async {
-    DateTime startDate = settingsBox.get("firstStartDate");
-    /*
-    Difference between now and the general startdate && difference between now and the endtime of the last week
-    -> no overlap between weeks and no unnecessary weeks created
-    */
-    if (DateTime.now().difference(startDate).inDays / 7 >= 1 &&
-        DateTime.now().difference(currentWeek.getEndTime()).inMicroseconds >
-            0) {
-      int tempWeek = DateTime.now().difference(startDate).inDays ~/ 7;
-      Week newWeek = new Week(
-          plannedDay: currentWeek.plannedDay,
-          plannedSE: currentWeek.plannedSE! - settingsBox.get("autoDecrAmount"),
-          week: tempWeek + 1,
-          startdate: startDate
-              .add(Duration(days: 7 * tempWeek))
-              .millisecondsSinceEpoch,
-          endDate: startDate
-              .add(Duration(days: 7 * (tempWeek + 1)))
-              .millisecondsSinceEpoch);
+    Week currentWeek = box.getAt(box.length - 1);
+    int now = DateTime.now().millisecondsSinceEpoch;
+    print(DateTime.now().toString() + " - " + currentWeek.getEndTime().toString());
+    while (now > currentWeek.endDate!) {
+      print("WeekTest: " + DateTime.now().toString() + " - " + currentWeek.getEndTime().toString());
+      DateTime newStartDate = currentWeek.getStartDate().add(Duration(days: 7));
+      DateTime newEndDate = newStartDate.add(Duration(
+          days: 6,
+          hours: 23,
+          minutes: 59,
+          microseconds: 999,
+          milliseconds: 99,
+          seconds: 59));
+      Week newWeek = Week(
+          plannedSE: 0,
+          week: box.length,
+          plannedDay: 0,
+          startdate: newStartDate.millisecondsSinceEpoch,
+          endDate: newEndDate.millisecondsSinceEpoch);
       box.add(newWeek);
       currentWeek = box.getAt(box.length - 1);
-      print("New Week: " + newWeek.toString());
-    } else {
-      print("Week is okay");
+      print("New Week Added: " + newWeek.toString());
     }
   }
 }

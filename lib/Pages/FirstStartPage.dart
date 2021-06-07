@@ -270,13 +270,22 @@ class _FirstStartPageState extends State<FirstStartPage> {
     ownBox.put("name", "Name");
     ownBox.put("volumen", 500);
     ownBox.put("volumenpart", 5);
-    weekBox.add(Week(
-      week: 0,
-      startdate: DateTime.now().millisecondsSinceEpoch,
-      endDate: DateTime.now().add(Duration(days: 7)).millisecondsSinceEpoch,
-      plannedDay: settingsBox.get("DaysForNextWeek"),
-      plannedSE: settingsBox.get("SEforNextWeek"),
-    ));
+    DateTime startDate = settingsBox.get("firstStartDate");
+    Week firstWeek = Week(
+        plannedSE: 0,
+        week: 0,
+        endDate: startDate
+            .add(Duration(
+            days: 6,
+            hours: 23,
+            minutes: 59,
+            microseconds: 999,
+            milliseconds: 99,
+            seconds: 59))
+            .millisecondsSinceEpoch,
+        plannedDay: 0,
+        startdate: startDate.millisecondsSinceEpoch);
+    weekBox.add(firstWeek);
     print(weekBox.getAt(0).toString());
     await setupNotifications();
   }
