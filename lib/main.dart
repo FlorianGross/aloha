@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'Modelle/Drinks.dart';
-import 'LocalNotifyManager.dart';
+import 'Notifications.dart';
 import 'Modelle/Week.dart';
 import 'MyApp.dart';
 import 'Pages/FirstStartPage.dart';

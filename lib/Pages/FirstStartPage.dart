@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import '../MyApp.dart';
-import '../LocalNotifyManager.dart';
+import '../Notifications.dart';
 
 class FirstStartPage extends StatefulWidget {
   @override

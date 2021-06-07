@@ -1,4 +1,4 @@
-import 'package:aloha/LocalNotifyManager.dart';
+import 'package:aloha/Notifications.dart';
 import 'package:aloha/Widgets/DayButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
