@@ -1,5 +1,4 @@
 import 'package:aloha/Modelle/Week.dart';
-import 'package:aloha/Modelle/Week.dart';
 import 'package:aloha/Pages/SettingsPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
