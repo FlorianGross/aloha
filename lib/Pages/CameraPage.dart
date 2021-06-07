@@ -650,4 +650,5 @@ class _CameraState extends State<Camera> {
     } else {
       return 0;
     }
-  }}
+  }
+}

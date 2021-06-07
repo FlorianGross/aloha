@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-
 import 'Pages/HomePage.dart';
 import 'Pages/SessionsPage.dart';
 import 'Pages/TimelinePage.dart';
