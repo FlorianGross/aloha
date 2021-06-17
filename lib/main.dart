@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 import 'Modelle/Drinks.dart';
 import 'Notifications.dart';
 import 'Modelle/Week.dart';
@@ -42,37 +43,42 @@ void main() async {
         DateTime(now.year, now.month, now.day, 0, 0, 0, 0, 0));
     print("Standard settings loaded: " + box.toMap().toString());
   }
-
-  ThemeData theme;
-  if (box.get("darkmode")) {
-    theme = SetupSettings().getNightTheme();
-
-    print("Theme - nightTheme");
-  } else {
-    theme = SetupSettings().getDayTheme();
-    print("Theme - dayTheme");
-  }
   var home;
   if (box.get("firstStart")) {
     home = FirstStartPage();
   } else {
     home = MyApp();
   }
-  runApp(
-    MaterialApp(
-      home: home,
-      theme: theme,
-      routes: <String, WidgetBuilder>{
-        '/homePage': (BuildContext context) => new HomePage(),
-        '/camera': (BuildContext context) => new Camera(),
-        '/settings': (BuildContext context) => new Settings(),
-        '/firstStart': (BuildContext context) => new FirstStartPage(),
-      },
-    ),
-  );
+  runApp(ExecApp(home));
 }
 
 Future<void> setupTimeZone() async {
   tz.initializeTimeZones();
   tz.setLocalLocation(tz.getLocation('Europe/Berlin'));
+}
+
+class ExecApp extends StatelessWidget {
+  ExecApp(this.home);
+
+  final home;
+
+  @override
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+        create: (context) => ThemeProvider(),
+        builder: (context, _) {
+          final themeProvider = Provider.of<ThemeProvider>(context);
+          return MaterialApp(
+            home: home,
+            themeMode: themeProvider.themeMode,
+            theme: SetupSettings().getDayTheme(),
+            darkTheme: SetupSettings().getNightTheme(),
+            routes: <String, WidgetBuilder>{
+              '/homePage': (BuildContext context) => new HomePage(),
+              '/camera': (BuildContext context) => new Camera(),
+              '/settings': (BuildContext context) => new Settings(),
+              '/firstStart': (BuildContext context) => new FirstStartPage(),
+            },
+          );
+        },
+      );
 }

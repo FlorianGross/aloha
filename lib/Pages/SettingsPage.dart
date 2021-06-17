@@ -1,4 +1,5 @@
 import 'package:aloha/Notifications.dart';
+import 'package:aloha/SetupSettings.dart';
 import 'package:aloha/Widgets/DayButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -150,22 +151,6 @@ class _SettingsState extends State<Settings> {
                           setState(() {
                             darkmode = value;
                             box.put("darkmode", value);
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Audio: "),
-                      Switch(
-                        activeColor: Theme.of(context).primaryColor,
-                        value: audio!,
-                        onChanged: (value) {
-                          setState(() {
-                            audio = value;
-                            box.put("audio", value);
                           });
                         },
                       ),
