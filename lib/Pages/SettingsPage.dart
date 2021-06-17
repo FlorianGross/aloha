@@ -1,5 +1,5 @@
 import 'package:aloha/Notifications.dart';
-import 'package:aloha/SetupSettings.dart';
+import 'package:aloha/Widgets/ChangeModeButton.dart';
 import 'package:aloha/Widgets/DayButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,8 +13,6 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   final box = Hive.box("settings");
   final ownBox = Hive.box("own");
-  bool? darkmode = true;
-  bool? audio = true;
   bool? notifications = true;
   late double ownSE;
   String? name = "Name";
@@ -52,11 +50,7 @@ class _SettingsState extends State<Settings> {
 
   @override
   void initState() {
-    if (box.get("darkmode") != null &&
-        box.get("audio") != null &&
-        box.get("notifications") != null) {
-      darkmode = box.get("darkmode");
-      audio = box.get("audio");
+    if ( box.get("notifications") != null) {
       notifications = box.get("notifications");
     }
     if (ownBox.get("name") != null &&
@@ -144,16 +138,7 @@ class _SettingsState extends State<Settings> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Darkmode: "),
-                      Switch(
-                        activeColor: Theme.of(context).primaryColor,
-                        value: darkmode!,
-                        onChanged: (value) {
-                          setState(() {
-                            darkmode = value;
-                            box.put("darkmode", value);
-                          });
-                        },
-                      ),
+                      ChangeModeButton(),
                     ],
                   ),
                   Row(
@@ -280,7 +265,7 @@ class _SettingsState extends State<Settings> {
                                 style: TextStyle(color: Colors.black),
                               ),
                               style: ElevatedButton.styleFrom(
-                                  primary: Colors.yellow),
+                                  primary: Theme.of(context).primaryColor),
                               onPressed: () => pickTime(context),
                             ),
                           ),

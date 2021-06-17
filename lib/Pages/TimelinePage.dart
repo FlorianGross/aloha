@@ -59,13 +59,16 @@ class _TimeLineWeekState extends State<TimeLineWeek> {
     return Card(
       child: Column(
         children: [
-          Text(
-            "Woche: $week",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "Woche $week",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+              textAlign: TextAlign.left,
             ),
-            textAlign: TextAlign.left,
           ),
           TimeLineGrid(
             box: listFromWeek,

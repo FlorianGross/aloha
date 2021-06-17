@@ -1,3 +1,5 @@
+import 'dart:core';
+import 'package:intl/intl.dart';
 import 'package:aloha/Modelle/Week.dart';
 import 'package:aloha/Pages/SettingsPage.dart';
 import 'package:flutter/cupertino.dart';
@@ -47,7 +49,7 @@ class _SessionPageState extends State<SessionPage> {
             child: Column(
               children: [
                 Text(
-                  "Week: $week",
+                  "Woche $week",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                 ),
                 Row(
@@ -83,7 +85,7 @@ class _SessionPageState extends State<SessionPage> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          "Informations \n" +
+                          "Zusammenfassung: \n\n" +
                               seValue.toString() +
                               " / " +
                               currentWeek.plannedSE.toString() +
@@ -91,10 +93,10 @@ class _SessionPageState extends State<SessionPage> {
                               dayValue.toString() +
                               " / " +
                               currentWeek.plannedDay.toString() +
-                              " Days\n " +
-                              currentWeek.getStartDate().toString() +
+                              " Days\n\n " +
+                              DateFormat.yMd().format(currentWeek.getStartDate()) +
                               " \n - \n " +
-                              currentWeek.getEndTime().toString(),
+                              DateFormat.yMd().format(currentWeek.getEndTime()),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 15),
