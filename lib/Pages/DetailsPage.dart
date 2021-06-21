@@ -50,6 +50,21 @@ class _DetailsTabState extends State<DetailsTab> {
     return Scaffold(
       body: ListView(
         children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Getränk: " + current!.name.toString(), style: TextStyle(fontSize: 30),),
+                ElevatedButton(
+                  child: Icon(Icons.arrow_back),
+                  onPressed: pop,
+                  style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor),
+                ),
+              ],
+            ),
+          ),
           Card(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -74,9 +89,9 @@ class _DetailsTabState extends State<DetailsTab> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Text("Name: "),
+                        SizedBox(width: 110,child: Text("Name: ")),
                         Visibility(
-                          child: Text(current!.name!),
+                          child: Text(current!.name!,),
                           visible: !edit,
                         ),
                         Visibility(
@@ -84,20 +99,6 @@ class _DetailsTabState extends State<DetailsTab> {
                             width: 200,
                             height: 50,
                             child: TextField(
-                              decoration: InputDecoration(
-                                disabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context).primaryColor)),
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context).primaryColor)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context).primaryColor)),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context).primaryColor)),
-                              ),
                               controller: nameController,
                             ),
                           ),
@@ -109,11 +110,14 @@ class _DetailsTabState extends State<DetailsTab> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Text(
-                          "Volumen: ",
+                        SizedBox(
+                          width: 110,
+                          child: Text(
+                            "Volumen: ",
+                          ),
                         ),
                         Visibility(
-                          child: Text(current!.volume.toString() + " ml"),
+                          child: Text(current!.volume.toString() + " ml", textAlign: TextAlign.center,),
                           visible: !edit,
                         ),
                         Visibility(
@@ -127,24 +131,6 @@ class _DetailsTabState extends State<DetailsTab> {
                                   FilteringTextInputFormatter.allow(
                                       RegExp(r"^\d*\.?\d*"))
                                 ],
-                                decoration: InputDecoration(
-                                  disabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color:
-                                              Theme.of(context).primaryColor)),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color:
-                                              Theme.of(context).primaryColor)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color:
-                                              Theme.of(context).primaryColor)),
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color:
-                                              Theme.of(context).primaryColor)),
-                                ),
                                 controller: volumeController,
                                 onSubmitted: (value) {},
                               ),
@@ -155,7 +141,7 @@ class _DetailsTabState extends State<DetailsTab> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Text("Volumenprozent: "),
+                        SizedBox(width:110,child: Text("Volumenprozent: ")),
                         Visibility(
                           child:
                               Text(current!.volumepart.toString() + " \u2030"),
@@ -171,20 +157,6 @@ class _DetailsTabState extends State<DetailsTab> {
                                     RegExp(r"^\d*\.?\d*"))
                               ],
                               keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                disabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context).primaryColor)),
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context).primaryColor)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context).primaryColor)),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context).primaryColor)),
-                              ),
                               controller: volumePartController,
                               onSubmitted: (value) {},
                             ),
@@ -242,10 +214,16 @@ class _DetailsTabState extends State<DetailsTab> {
       ),
     );
   }
+
   @override
   void dispose() {
     nameController.dispose();
     volumeController.dispose();
     volumePartController.dispose();
     super.dispose();
-  }}
+  }
+
+  Future<void> pop() async {
+    Navigator.pop(context);
+  }
+}

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SetupSettings {
   BuildContext? context;
@@ -14,13 +13,17 @@ class SetupSettings {
 
   ThemeData getDayTheme() {
     return ThemeData(
-        fontFamily: "Roboto",
-        scaffoldBackgroundColor: Colors.white,
-        brightness: Brightness.light,
-        primaryColor: Colors.yellow,
-        backgroundColor: Colors.yellowAccent,
-        colorScheme: ColorScheme.light(),
-        accentColor: Colors.yellowAccent);
+      fontFamily: "Roboto",
+      scaffoldBackgroundColor: Colors.white,
+      brightness: Brightness.light,
+      primaryColor: primary,
+      backgroundColor: Colors.yellowAccent,
+      colorScheme: ColorScheme.light(),
+      cardTheme: CardTheme(color: Colors.white60),
+      inputDecorationTheme: InputDecorationTheme(
+          disabledBorder:
+              OutlineInputBorder(borderSide: BorderSide(color: primary))),
+    );
   }
 
   ThemeData getNightTheme() {
@@ -30,24 +33,33 @@ class SetupSettings {
         colorScheme: ColorScheme.dark(),
         brightness: Brightness.dark,
         primaryColor: Colors.yellow,
+        inputDecorationTheme: InputDecorationTheme(
+          disabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: primary),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.yellow),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.yellow),
+          ),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.yellow),
+          ),
+        ),
+        cardTheme: CardTheme(color: Colors.black12),
         backgroundColor: Colors.yellowAccent,
         accentColor: Colors.yellowAccent);
   }
 
   Future<void> setScreenSize(BuildContext context) async {
-    screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    screenWidth = MediaQuery.of(context).size.width;
+    screenHeight = MediaQuery.of(context).size.height;
   }
 }
 
-class ThemeProvider extends ChangeNotifier{
-  ThemeMode themeMode = ThemeMode.dark;
+class ThemeProvider extends ChangeNotifier {
+  ThemeMode themeMode = ThemeMode.system;
 
   bool get isDarkMode => themeMode == ThemeMode.dark;
 

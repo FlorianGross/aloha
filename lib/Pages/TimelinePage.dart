@@ -109,8 +109,6 @@ class _TimeLineGridState extends State<TimeLineGrid> {
 
   _TimeLineGridState(this.box);
 
-  bool isLoading = true;
-
   @override
   void initState() {
     print("TimeLineGrid initialized");

@@ -33,24 +33,10 @@ class _SettingsState extends State<Settings> {
   TextEditingController volumeController =
       TextEditingController(text: "1000.0");
   TextEditingController volumePartController = TextEditingController(text: "5");
-  InputDecoration deco = InputDecoration(
-    disabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(
-            color: Colors.yellow)),
-    enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(
-            color: Colors.yellow)),
-    focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(
-            color: Colors.yellow)),
-    border: OutlineInputBorder(
-        borderSide: BorderSide(
-            color: Colors.yellow)),
-  );
 
   @override
   void initState() {
-    if ( box.get("notifications") != null) {
+    if (box.get("notifications") != null) {
       notifications = box.get("notifications");
     }
     if (ownBox.get("name") != null &&
@@ -123,9 +109,20 @@ class _SettingsState extends State<Settings> {
         padding: EdgeInsets.only(left: 16, top: 25, right: 16),
         child: ListView(
           children: [
-            Text(
-              "Einstellungen",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Einstellungen",
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+                ),
+                ElevatedButton(
+                  child: Icon(Icons.arrow_back),
+                  onPressed: pop,
+                  style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor),
+                ),
+              ],
             ),
             Divider(),
             Card(
@@ -297,7 +294,6 @@ class _SettingsState extends State<Settings> {
                         width: 200,
                         height: 50,
                         child: TextField(
-                          decoration: deco,
                           controller: nameController,
                         ),
                       ),
@@ -317,7 +313,6 @@ class _SettingsState extends State<Settings> {
                             FilteringTextInputFormatter.allow(
                                 RegExp(r"^\d*\.?\d*"))
                           ],
-                          decoration: deco,
                           controller: volumeController,
                           onSubmitted: (value) {
                             setState(() {
@@ -344,7 +339,6 @@ class _SettingsState extends State<Settings> {
                                 RegExp(r"^\d*\.?\d*"))
                           ],
                           keyboardType: TextInputType.number,
-                          decoration: deco,
                           controller: volumePartController,
                           onSubmitted: (value) {
                             setState(() {
@@ -430,5 +424,9 @@ class _SettingsState extends State<Settings> {
     volumePartController.dispose();
     volumeController.dispose();
     super.dispose();
+  }
+
+  Future<void> pop() async {
+    Navigator.pop(context);
   }
 }
