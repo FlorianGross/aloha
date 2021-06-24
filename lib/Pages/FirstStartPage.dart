@@ -217,6 +217,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(backgroundColor: Theme.of(context).primaryColor),
                         onPressed: () {
                           try {
                             saveSettings();
@@ -234,7 +235,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
                         child: Text(
                           "Speichern",
                           style: TextStyle(
-                            color: Theme.of(context).primaryColor,
+                            color: Colors.black,
                           ),
                         ),
                       ),

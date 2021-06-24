@@ -65,6 +65,7 @@ class ThemeProvider extends ChangeNotifier {
 
   void toggleTheme(bool isOn) {
     themeMode = isOn ? ThemeMode.dark : ThemeMode.light;
+    print("Theme toggled to: " + themeMode.toString());
     notifyListeners();
   }
 }

@@ -50,7 +50,7 @@ class _TimeLineWeekState extends State<TimeLineWeek> {
   @override
   void initState() {
     listFromWeek = generateList();
-    print("TimeLineWeek initialized");
+    print("TimeLineWeek initialized: " + week.toString());
     super.initState();
   }
 
@@ -111,7 +111,7 @@ class _TimeLineGridState extends State<TimeLineGrid> {
 
   @override
   void initState() {
-    print("TimeLineGrid initialized");
+    print("TimeLineGrid initialized: " + box.toString());
     super.initState();
   }
 
@@ -126,10 +126,10 @@ class _TimeLineGridState extends State<TimeLineGrid> {
         box!.length,
         (index) {
           return GestureDetector(
-            child: GetraenkeListItem(index),
+            child: GetraenkeListItem(box!.elementAt(index)),
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => DetailsTab(index),
+                builder: (context) => DetailsTab(box!.elementAt(index)),
               ),
             ),
           );
@@ -160,6 +160,7 @@ class _GetraenkeListItemState extends State<GetraenkeListItem> {
   void initState() {
     currentDrink = box.getAt(id);
     _image = currentDrink!.getImage(60.0, 90.0);
+    print("ListItem: " +id.toString() + " - " + currentDrink.toString());
     super.initState();
   }
 

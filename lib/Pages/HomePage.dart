@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage> {
       plannedDay = 0;
       plannedForWeek = 0;
     }
+
     super.initState();
     print("HomePage initialized");
   }
@@ -76,7 +77,7 @@ class _HomePageState extends State<HomePage> {
               textAlign: TextAlign.center,
             ),
           ),
-          InkWell(
+          GestureDetector(
             child: Image(
               image: AssetImage('assets/LaunchImage.png'),
               width: 244,
@@ -97,6 +98,7 @@ class _HomePageState extends State<HomePage> {
                     uri: null,
                   );
                   drinkBox.add(current);
+
                   print("Added drink: " + current.toString());
                 } catch (e) {
                   print("Error saving preset: " + e.toString());
@@ -110,17 +112,14 @@ class _HomePageState extends State<HomePage> {
                 "Schnell:",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
-              SizedBox(
-                width: 80,
-                child: Switch(
-                    activeColor: Colors.yellow,
-                    value: fastAdd,
-                    onChanged: (value) {
-                      setState(() {
-                        fastAdd = value;
-                      });
-                    }),
-              ),
+              Switch(
+                  activeColor: Colors.yellow,
+                  value: fastAdd,
+                  onChanged: (value) {
+                    setState(() {
+                      fastAdd = value;
+                    });
+                  }),
             ],
           ),
           Center(
