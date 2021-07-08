@@ -53,212 +53,216 @@ class _DetailsTabState extends State<DetailsTab> {
     return PlatformScaffold(
       material: (context, platform) => MaterialScaffoldData(),
       cupertino: (context, platform) => CupertinoPageScaffoldData(),
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: EdgeInsets.all(width * 0.04),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                PlatformText(
-                  "Getränk: " + current!.name.toString(),
-                  style: TextStyle(fontSize: width * 0.05),
-                ),
-                PlatformElevatedButton(
-                  child: Icon(
-                    Icons.arrow_back,
-                    size: width * 0.08,
+      body: Padding(
+        padding: EdgeInsets.only(top: height * 0.05),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: EdgeInsets.all(width * 0.04),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  PlatformText(
+                    "Getränk: " + current!.name.toString(),
+                    style: TextStyle(fontSize: width * 0.05),
                   ),
-                  onPressed: pop,
-                  cupertino: (context, platform) => CupertinoElevatedButtonData(),
-                  material: (context, platform) => MaterialElevatedButtonData(),
-                ),
-              ],
+                  PlatformElevatedButton(
+                    child: Icon(
+                      PlatformIcons(context).leftChevron,
+                      color: Colors.black,
+                      size: width * 0.05,
+                    ),
+                    onPressed: pop,
+                    cupertino: (context, platform) => CupertinoElevatedButtonData(),
+                    material: (context, platform) => MaterialElevatedButtonData(),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Card(
-            child: Padding(padding: const EdgeInsets.all(8.0), child: _image),
-          ),
-          Card(
-            child: Padding(
-              padding: EdgeInsets.all(width * 0.03),
-              child: SizedBox(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SizedBox(
-                      height: height * 0.08,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          PlatformText(
-                            "Name:           ",
-                            style: TextStyle(fontSize: width * 0.04),
-                          ),
-                          Visibility(
-                            child: SizedBox(
-                              width: width * 0.4,
-                              child: PlatformText(
-                                current!.name!,
-                                textAlign: TextAlign.right,
-                                style: TextStyle(fontSize: width * 0.04),
-                              ),
+            Card(
+              child: Padding(padding: const EdgeInsets.all(8.0), child: _image),
+            ),
+            Card(
+              child: Padding(
+                padding: EdgeInsets.all(width * 0.03),
+                child: SizedBox(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SizedBox(
+                        height: height * 0.08,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            PlatformText(
+                              "Name:           ",
+                              style: TextStyle(fontSize: width * 0.04),
                             ),
-                            visible: !edit,
-                          ),
-                          Visibility(
-                            child: SizedBox(
-                              width: width * 0.4,
-                              height: height * 0.08,
-                              child: PlatformTextField(
-                                maxLength: 10,
-                                style: TextStyle(fontSize: width * 0.03),
-                                controller: nameController,
+                            Visibility(
+                              child: SizedBox(
+                                width: width * 0.4,
+                                child: PlatformText(
+                                  current!.name!,
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(fontSize: width * 0.04),
+                                ),
                               ),
+                              visible: !edit,
                             ),
-                            visible: edit,
-                          ),
-                        ],
+                            Visibility(
+                              child: SizedBox(
+                                width: width * 0.4,
+                                height: height * 0.08,
+                                child: PlatformTextField(
+                                  maxLength: 10,
+                                  style: TextStyle(fontSize: width * 0.03),
+                                  controller: nameController,
+                                ),
+                              ),
+                              visible: edit,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: height*0.08,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          PlatformText(
-                            "Volumen:        ",
-                            style: TextStyle(fontSize: width * 0.04),
-                          ),
-                          Visibility(
-                            child: SizedBox(
-                              width: width * 0.4,
-                              child: PlatformText(
-                                current!.volume!.toInt().toString() + " ml",
-                                textAlign: TextAlign.right,
-                                style: TextStyle(fontSize: width * 0.04),
+                      SizedBox(
+                        height: height*0.08,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            PlatformText(
+                              "Volumen:        ",
+                              style: TextStyle(fontSize: width * 0.04),
+                            ),
+                            Visibility(
+                              child: SizedBox(
+                                width: width * 0.4,
+                                child: PlatformText(
+                                  current!.volume!.toInt().toString() + " ml",
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(fontSize: width * 0.04),
+                                ),
+                              ),
+                              visible: !edit,
+                            ),
+                            Visibility(
+                              visible: edit,
+                              child: SizedBox(
+                                width: width * 0.4,
+                                height: height * 0.08,
+                                child: PlatformTextField(
+                                  keyboardType: TextInputType.number,
+                                  maxLength: 5,
+                                  style: TextStyle(fontSize: width * 0.03),
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r"^\d*"))
+                                  ],
+                                  controller: volumeController,
+                                  onSubmitted: (value) {},
+                                ),
                               ),
                             ),
-                            visible: !edit,
-                          ),
-                          Visibility(
-                            visible: edit,
-                            child: SizedBox(
-                              width: width * 0.4,
-                              height: height * 0.08,
-                              child: PlatformTextField(
-                                keyboardType: TextInputType.number,
-                                maxLength: 5,
-                                style: TextStyle(fontSize: width * 0.03),
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r"^\d*"))
-                                ],
-                                controller: volumeController,
-                                onSubmitted: (value) {},
-                              ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: height * 0.08,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            PlatformText(
+                              "Volumenprozent: ",
+                              style: TextStyle(fontSize: width * 0.04),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: height * 0.08,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          PlatformText(
-                            "Volumenprozent: ",
-                            style: TextStyle(fontSize: width * 0.04),
-                          ),
-                          Visibility(
-                            child: SizedBox(
-                              width: width * 0.4,
-                              child: PlatformText(
-                                current!.volumepart.toString() + " \u2030",
-                                textAlign: TextAlign.right,
-                                style: TextStyle(fontSize: width * 0.04),
+                            Visibility(
+                              child: SizedBox(
+                                width: width * 0.4,
+                                child: PlatformText(
+                                  current!.volumepart.toString() + " \u2030",
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(fontSize: width * 0.04),
+                                ),
                               ),
+                              visible: !edit,
                             ),
-                            visible: !edit,
-                          ),
-                          Visibility(
-                            child: SizedBox(
-                              width: width * 0.4,
-                              height: height * 0.08,
-                              child: PlatformTextField(
-                                maxLength: 5,
-                                style: TextStyle(fontSize: width * 0.03),
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r"^\d*\.?\d*"))
-                                ],
-                                keyboardType: TextInputType.number,
-                                controller: volumePartController,
-                                onSubmitted: (value) {},
+                            Visibility(
+                              child: SizedBox(
+                                width: width * 0.4,
+                                height: height * 0.08,
+                                child: PlatformTextField(
+                                  maxLength: 5,
+                                  style: TextStyle(fontSize: width * 0.03),
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r"^\d*\.?\d*"))
+                                  ],
+                                  keyboardType: TextInputType.number,
+                                  controller: volumePartController,
+                                  onSubmitted: (value) {},
+                                ),
                               ),
+                              visible: edit,
                             ),
-                            visible: edit,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    PlatformElevatedButton(
-                      material: (context, platform) => MaterialElevatedButtonData(),
-                      cupertino: (context, platform) => CupertinoElevatedButtonData(),
-                      child: Text(
-                        buttonText,
-                        style: TextStyle(
-                            color: Colors.black, fontSize: width * 0.03),
+                      PlatformElevatedButton(
+                        material: (context, platform) => MaterialElevatedButtonData(),
+                        cupertino: (context, platform) => CupertinoElevatedButtonData(),
+                        child: Text(
+                          buttonText,
+                          style: TextStyle(
+                              color: Colors.black, fontSize: width * 0.03),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            edit = !edit;
+                            if (edit) {
+                              buttonText = "Speichern";
+                            } else {
+                              buttonText = "Ändern";
+                              current!.volume =
+                                  double.parse(volumeController.text);
+                              current!.volumepart =
+                                  double.parse(volumePartController.text);
+                              current!.name = nameController.text;
+                              current!.save();
+                            }
+                          });
+                        },
                       ),
-                      onPressed: () {
-                        setState(() {
-                          edit = !edit;
-                          if (edit) {
-                            buttonText = "Speichern";
-                          } else {
-                            buttonText = "Ändern";
-                            current!.volume =
-                                double.parse(volumeController.text);
-                            current!.volumepart =
-                                double.parse(volumePartController.text);
-                            current!.name = nameController.text;
-                            current!.save();
-                          }
-                        });
-                      },
-                    ),
-                    Divider(),
-                    PlatformElevatedButton(
-                      cupertino: (context, platform) => CupertinoElevatedButtonData(),
-                      material: (context, platform) => MaterialElevatedButtonData(),
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.black,
-                        size: width * 0.07,
+                      Divider(),
+                      PlatformElevatedButton(
+                        cupertino: (context, platform) => CupertinoElevatedButtonData(),
+                        material: (context, platform) => MaterialElevatedButtonData(),
+                        child: Icon(
+                          PlatformIcons(context).delete,
+                          color: Colors.black,
+                          size: width * 0.07,
+                        ),
+                        onPressed: () {
+                          box.deleteAt(id);
+                          print("Item deleted: " + current.toString());
+                          Navigator.pushReplacement(
+                              context, MaterialPageRoute(builder: (context) => MyApp()));
+                        },
                       ),
-                      onPressed: () {
-                        box.deleteAt(id);
-                        print("Item deleted: " + current.toString());
-                        Navigator.pushReplacement(
-                            context, MaterialPageRoute(builder: (context) => MyApp()));
-                      },
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Text(
-            date.toString(),
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: width * 0.03),
-          ),
-        ],
+            Text(
+              date.toString(),
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: width * 0.03),
+            ),
+          ],
+        ),
       ),
     );
   }
