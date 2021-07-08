@@ -4,6 +4,7 @@ import 'package:aloha/SetupSettings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
@@ -67,11 +68,20 @@ class ExecApp extends StatelessWidget {
         create: (context) => ThemeProvider(),
         builder: (context, _) {
           final themeProvider = Provider.of<ThemeProvider>(context);
-          return MaterialApp(
+          return PlatformApp(
             home: home,
-            themeMode: themeProvider.themeMode,
-            theme: SetupSettings().getDayTheme(),
-            darkTheme: SetupSettings().getNightTheme(),
+            material: (context, platform) {
+              return MaterialAppData(
+                themeMode: themeProvider.themeMode,
+                theme: SetupSettings().getMaterialDayTheme(),
+                darkTheme: SetupSettings().getMaterialNightTheme(),
+              );
+            },
+            cupertino: (context, platform) {
+              return CupertinoAppData(theme: SetupSettings().getCupertinoDayTheme());
+            },
+            
+
             routes: <String, WidgetBuilder>{
               '/homePage': (BuildContext context) => new HomePage(),
               '/camera': (BuildContext context) => new Camera(),

@@ -10,7 +10,7 @@ class SetupSettings {
   Color primary = Colors.yellow;
   Color primaryAccent = Colors.yellowAccent;
 
-  ThemeData getDayTheme() {
+  ThemeData getMaterialDayTheme() {
     return ThemeData(
       fontFamily: "Roboto",
       scaffoldBackgroundColor: Colors.white,
@@ -37,7 +37,7 @@ class SetupSettings {
     );
   }
 
-  ThemeData getNightTheme() {
+  ThemeData getMaterialNightTheme() {
     return ThemeData(
         fontFamily: "Roboto",
         scaffoldBackgroundColor: Colors.grey.shade900,
@@ -63,6 +63,17 @@ class SetupSettings {
         backgroundColor: Colors.yellowAccent,
         accentColor: Colors.yellowAccent);
   }
+
+  CupertinoThemeData getCupertinoDayTheme(){
+
+    return CupertinoThemeData(primaryColor: primary, brightness: Brightness.light);
+  }
+
+  CupertinoThemeData getCupertinoNightTheme(){
+
+    return CupertinoThemeData(primaryColor: primary, brightness: Brightness.dark);
+  }
+
 }
 
 class ThemeProvider extends ChangeNotifier {
