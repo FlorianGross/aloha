@@ -66,37 +66,36 @@ class _MyAppState extends State<MyApp> {
             ),
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.access_time,
+            icon: Icon(
+              PlatformIcons(context).time,
                 color: Theme
                     .of(context)
                     .textTheme
                     .bodyText1!
                     .color),
-            label: 'Timeline',
             backgroundColor: Theme
                 .of(context)
                 .primaryColor,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.center_focus_strong_rounded,
+            icon: Icon(
+                PlatformIcons(context).home,
                 color: Theme
                     .of(context)
                     .textTheme
                     .bodyText1!
                     .color),
-            label: 'Scannen',
             backgroundColor: Theme
                 .of(context)
                 .primaryColor,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person,
+            icon: Icon(PlatformIcons(context).person,
                 color: Theme
                     .of(context)
                     .textTheme
                     .bodyText1!
                     .color),
-            label: 'Woche',
             backgroundColor: Theme
                 .of(context)
                 .primaryColor,
