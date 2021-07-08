@@ -66,12 +66,12 @@ class SetupSettings {
 
   CupertinoThemeData getCupertinoDayTheme(){
 
-    return CupertinoThemeData(primaryColor: primary, brightness: Brightness.light);
+    return CupertinoThemeData(primaryColor: primary, brightness: Brightness.light, scaffoldBackgroundColor: Colors.white);
   }
 
   CupertinoThemeData getCupertinoNightTheme(){
 
-    return CupertinoThemeData(primaryColor: primary, brightness: Brightness.dark);
+    return CupertinoThemeData(primaryColor: primary, brightness: Brightness.dark, scaffoldBackgroundColor: Colors.black26);
   }
 
 }

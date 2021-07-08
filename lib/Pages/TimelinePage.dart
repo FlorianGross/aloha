@@ -1,5 +1,6 @@
 import 'package:aloha/Modelle/Drinks.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:hive/hive.dart';
 import '../Modelle/Drinks.dart';
 import 'DetailsPage.dart';
@@ -62,7 +63,7 @@ class _TimeLineWeekState extends State<TimeLineWeek> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
+            child: PlatformText(
               "Woche $week",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -170,6 +171,7 @@ class _GetraenkeListItemState extends State<GetraenkeListItem> {
     double height = MediaQuery.of(context).size.height;
     _image = currentDrink!.getImage(height * 0.07, width * 0.16, width * 0.16);
     return Card(
+      elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       color: Colors.black38,
       child: Column(
@@ -191,18 +193,18 @@ class _GetraenkeListItemState extends State<GetraenkeListItem> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(
+                    PlatformText(
                       currentDrink!.name.toString(),
-                      style: TextStyle(fontSize: width * 0.03),
+                      style: TextStyle(fontSize: width * 0.03, color: Colors.white),
                     ),
-                    Text(
+                    PlatformText(
                       currentDrink!.volume.toString() + " ml",
-                      style: TextStyle(fontSize: width * 0.03),
+                      style: TextStyle(fontSize: width * 0.03, color: Colors.white),
                     ),
-                    Text(
+                    PlatformText(
                       currentDrink!.volumepart!.toStringAsPrecision(2) +
                           " vol%",
-                      style: TextStyle(fontSize: width * 0.03),
+                      style: TextStyle(fontSize: width * 0.03, color: Colors.white),
                     ),
                   ],
                 ),
