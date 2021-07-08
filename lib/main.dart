@@ -78,9 +78,9 @@ class ExecApp extends StatelessWidget {
               );
             },
             cupertino: (context, platform) {
-              return CupertinoAppData(theme: SetupSettings().getCupertinoDayTheme());
+              return CupertinoAppData(theme: SetupSettings().getCupertinoDayTheme(),);
             },
-            
+
 
             routes: <String, WidgetBuilder>{
               '/homePage': (BuildContext context) => new HomePage(),
