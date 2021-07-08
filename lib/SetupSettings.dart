@@ -17,8 +17,7 @@ class SetupSettings {
       brightness: Brightness.light,
       primaryColor: primary,
       backgroundColor: Colors.yellowAccent,
-      bottomNavigationBarTheme:
-          BottomNavigationBarThemeData(backgroundColor: Colors.black12),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(),
       colorScheme: ColorScheme.light(),
       cardTheme: CardTheme(color: Colors.white60),
       inputDecorationTheme: InputDecorationTheme(
@@ -45,8 +44,7 @@ class SetupSettings {
         colorScheme: ColorScheme.dark(),
         brightness: Brightness.dark,
         primaryColor: Colors.yellow,
-        bottomNavigationBarTheme:
-            BottomNavigationBarThemeData(backgroundColor: Colors.black12),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(),
         inputDecorationTheme: InputDecorationTheme(
           disabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: primary),

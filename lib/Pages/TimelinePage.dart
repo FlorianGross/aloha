@@ -57,7 +57,6 @@ class _TimeLineWeekState extends State<TimeLineWeek> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return Card(
       child: Column(
         children: [
@@ -161,7 +160,7 @@ class _GetraenkeListItemState extends State<GetraenkeListItem> {
   @override
   void initState() {
     currentDrink = box.getAt(id);
-    print("ListItem: " +id.toString() + " - " + currentDrink.toString());
+    print("ListItem: " + id.toString() + " - " + currentDrink.toString());
     super.initState();
   }
 
@@ -180,7 +179,7 @@ class _GetraenkeListItemState extends State<GetraenkeListItem> {
         children: [
           _image!,
           Padding(
-            padding: EdgeInsets.only(bottom: width * 0.000),
+            padding: EdgeInsets.only(bottom: width * 0),
             child: Card(
               color: Colors.black26,
               shape: RoundedRectangleBorder(
@@ -192,10 +191,19 @@ class _GetraenkeListItemState extends State<GetraenkeListItem> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(currentDrink!.name.toString(), style: TextStyle(fontSize: width * 0.04),),
-                    Text(currentDrink!.volume.toString() + " ml", style: TextStyle(fontSize: width * 0.04),),
-                    Text(currentDrink!.volumepart!.toStringAsPrecision(2) +
-                        " vol%", style: TextStyle(fontSize: width * 0.04),),
+                    Text(
+                      currentDrink!.name.toString(),
+                      style: TextStyle(fontSize: width * 0.03),
+                    ),
+                    Text(
+                      currentDrink!.volume.toString() + " ml",
+                      style: TextStyle(fontSize: width * 0.03),
+                    ),
+                    Text(
+                      currentDrink!.volumepart!.toStringAsPrecision(2) +
+                          " vol%",
+                      style: TextStyle(fontSize: width * 0.03),
+                    ),
                   ],
                 ),
               ),
