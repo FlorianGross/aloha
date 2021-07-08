@@ -2,6 +2,7 @@ import 'package:aloha/Modelle/Drinks.dart';
 import 'package:aloha/Modelle/Week.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:hive/hive.dart';
 import '../Modelle/Drinks.dart';
 
@@ -60,72 +61,46 @@ class _HomePageState extends State<HomePage> {
     }
     return Container(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Center(
-            child: Text(
-              usedDay!.toStringAsPrecision(2) +
-                  " / " +
-                  plannedDay!.toStringAsPrecision(2) +
-                  " Tage \n " +
-                  usedThisWeek!.toStringAsPrecision(2) +
-                  " / " +
-                  plannedForWeek!.toStringAsPrecision(2) +
-                  " SE",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: width * 0.05,
+          Padding(
+            padding: EdgeInsets.only(top: height * 0.1),
+            child: Center(
+              child: PlatformText(
+                usedDay!.toStringAsPrecision(2) +
+                    " / " +
+                    plannedDay!.toStringAsPrecision(2) +
+                    " Tage \n " +
+                    usedThisWeek!.toStringAsPrecision(2) +
+                    " / " +
+                    plannedForWeek!.toStringAsPrecision(2) +
+                    " SE",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: width * 0.07,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
           ),
           GestureDetector(
             child: Image(
               image: AssetImage('assets/LaunchImage.png'),
-              width: width * 0.5,
-              height: height * 0.5,
+              width: width * 0.6,
+              height: height * 0.6,
             ),
             onTap: () {
-              if (!fastAdd) {
-                Navigator.of(context).pushNamed('/camera');
-              } else {
-                try {
-                  Drinks current = Drinks(
-                    week: currentWeek.week,
-                    session: getCurrentSession(),
-                    name: getName(),
-                    date: DateTime.now().millisecondsSinceEpoch,
-                    volume: checkVolume(),
-                    volumepart: checkVolumePart(),
-                    uri: null,
-                  );
-                  drinkBox.add(current);
-
-                  print("Added drink: " + current.toString());
-                } catch (e) {
-                  print("Error saving preset: " + e.toString());
-                }
-              }
+              onTap(false);
             },
           ),
-          Column(
-            children: [
-              Text(
-                "Schnell:",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: width * 0.05),
-              ),
-              Transform.scale(
-                scale: 1.6,
-                child: Switch(
-                    activeColor: Colors.yellow,
-                    value: fastAdd,
-                    onChanged: (value) {
-                      setState(() {
-                        fastAdd = value;
-                      });
-                    }),
-              ),
-            ],
+          Padding(
+            padding: EdgeInsets.only(bottom: height * 0.15),
+            child: PlatformElevatedButton(
+              child: PlatformText('Schnell', style: TextStyle(color: Colors.black),),
+              onPressed: () => onTap(true),
+              material: (context, platform) => MaterialElevatedButtonData(),
+              cupertino: (context, platform) => CupertinoElevatedButtonData(),
+            ),
           ),
         ],
       ),
@@ -198,6 +173,29 @@ class _HomePageState extends State<HomePage> {
       settingsBox.put("SEforNextWeek", sePlanned);
       currentWeek = box.getAt(box.length - 1);
       print("New Week Added: " + newWeek.toString());
+    }
+  }
+
+  void onTap(bool fastAdd) {
+    if (!fastAdd) {
+      Navigator.of(context).pushNamed('/camera');
+    } else {
+      try {
+        Drinks current = Drinks(
+          week: currentWeek.week,
+          session: getCurrentSession(),
+          name: getName(),
+          date: DateTime.now().millisecondsSinceEpoch,
+          volume: checkVolume(),
+          volumepart: checkVolumePart(),
+          uri: null,
+        );
+        drinkBox.add(current);
+
+        print("Added drink: " + current.toString());
+      } catch (e) {
+        print("Error saving preset: " + e.toString());
+      }
     }
   }
 }

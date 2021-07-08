@@ -1,6 +1,7 @@
 import 'package:aloha/Modelle/Drinks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:hive/hive.dart';
 import '../Modelle/Drinks.dart';
 import '../MyApp.dart';
@@ -49,7 +50,9 @@ class _DetailsTabState extends State<DetailsTab> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     _image = current!.getImage(height * 0.3, width * 0.3, width * 0.3);
-    return Scaffold(
+    return PlatformScaffold(
+      material: (context, platform) => MaterialScaffoldData(),
+      cupertino: (context, platform) => CupertinoPageScaffoldData(),
       body: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -59,18 +62,18 @@ class _DetailsTabState extends State<DetailsTab> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                PlatformText(
                   "Getränk: " + current!.name.toString(),
                   style: TextStyle(fontSize: width * 0.05),
                 ),
-                ElevatedButton(
+                PlatformElevatedButton(
                   child: Icon(
                     Icons.arrow_back,
                     size: width * 0.08,
                   ),
                   onPressed: pop,
-                  style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor),
+                  cupertino: (context, platform) => CupertinoElevatedButtonData(),
+                  material: (context, platform) => MaterialElevatedButtonData(),
                 ),
               ],
             ),
@@ -92,14 +95,14 @@ class _DetailsTabState extends State<DetailsTab> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          PlatformText(
                             "Name:           ",
                             style: TextStyle(fontSize: width * 0.04),
                           ),
                           Visibility(
                             child: SizedBox(
                               width: width * 0.4,
-                              child: Text(
+                              child: PlatformText(
                                 current!.name!,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(fontSize: width * 0.04),
@@ -111,7 +114,7 @@ class _DetailsTabState extends State<DetailsTab> {
                             child: SizedBox(
                               width: width * 0.4,
                               height: height * 0.08,
-                              child: TextField(
+                              child: PlatformTextField(
                                 maxLength: 10,
                                 style: TextStyle(fontSize: width * 0.03),
                                 controller: nameController,
@@ -127,14 +130,14 @@ class _DetailsTabState extends State<DetailsTab> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          PlatformText(
                             "Volumen:        ",
                             style: TextStyle(fontSize: width * 0.04),
                           ),
                           Visibility(
                             child: SizedBox(
                               width: width * 0.4,
-                              child: Text(
+                              child: PlatformText(
                                 current!.volume!.toInt().toString() + " ml",
                                 textAlign: TextAlign.right,
                                 style: TextStyle(fontSize: width * 0.04),
@@ -147,7 +150,7 @@ class _DetailsTabState extends State<DetailsTab> {
                             child: SizedBox(
                               width: width * 0.4,
                               height: height * 0.08,
-                              child: TextField(
+                              child: PlatformTextField(
                                 keyboardType: TextInputType.number,
                                 maxLength: 5,
                                 style: TextStyle(fontSize: width * 0.03),
@@ -168,14 +171,14 @@ class _DetailsTabState extends State<DetailsTab> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          PlatformText(
                             "Volumenprozent: ",
                             style: TextStyle(fontSize: width * 0.04),
                           ),
                           Visibility(
                             child: SizedBox(
                               width: width * 0.4,
-                              child: Text(
+                              child: PlatformText(
                                 current!.volumepart.toString() + " \u2030",
                                 textAlign: TextAlign.right,
                                 style: TextStyle(fontSize: width * 0.04),
@@ -187,8 +190,7 @@ class _DetailsTabState extends State<DetailsTab> {
                             child: SizedBox(
                               width: width * 0.4,
                               height: height * 0.08,
-                              child: TextField(
-                                decoration: InputDecoration(),
+                              child: PlatformTextField(
                                 maxLength: 5,
                                 style: TextStyle(fontSize: width * 0.03),
                                 inputFormatters: [
@@ -205,11 +207,9 @@ class _DetailsTabState extends State<DetailsTab> {
                         ],
                       ),
                     ),
-                    OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                          primary: Colors.black,
-                          backgroundColor: Theme.of(context).primaryColor,
-                          alignment: Alignment.center),
+                    PlatformElevatedButton(
+                      material: (context, platform) => MaterialElevatedButtonData(),
+                      cupertino: (context, platform) => CupertinoElevatedButtonData(),
                       child: Text(
                         buttonText,
                         style: TextStyle(
@@ -232,6 +232,22 @@ class _DetailsTabState extends State<DetailsTab> {
                         });
                       },
                     ),
+                    Divider(),
+                    PlatformElevatedButton(
+                      cupertino: (context, platform) => CupertinoElevatedButtonData(),
+                      material: (context, platform) => MaterialElevatedButtonData(),
+                      child: Icon(
+                        Icons.delete,
+                        color: Colors.black,
+                        size: width * 0.07,
+                      ),
+                      onPressed: () {
+                        box.deleteAt(id);
+                        print("Item deleted: " + current.toString());
+                        Navigator.pushReplacement(
+                            context, MaterialPageRoute(builder: (context) => MyApp()));
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -243,23 +259,6 @@ class _DetailsTabState extends State<DetailsTab> {
             style: TextStyle(fontSize: width * 0.03),
           ),
         ],
-      ),
-      floatingActionButton: SizedBox(
-        width: width * 0.12,
-        height: height * 0.12,
-        child: FloatingActionButton(
-          child: Icon(
-            Icons.delete,
-            size: width * 0.07,
-          ),
-          backgroundColor: Theme.of(context).primaryColor,
-          onPressed: () {
-            box.deleteAt(id);
-            print("Item deleted: " + current.toString());
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => MyApp()));
-          },
-        ),
       ),
     );
   }
