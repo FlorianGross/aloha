@@ -42,6 +42,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     try {
       weekTest();
       print(box.getAt(box.length - 1).toString());
@@ -72,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                   " SE",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 30,
+                fontSize: width * 0.05,
               ),
               textAlign: TextAlign.center,
             ),
@@ -80,8 +82,8 @@ class _HomePageState extends State<HomePage> {
           GestureDetector(
             child: Image(
               image: AssetImage('assets/LaunchImage.png'),
-              width: 244,
-              height: 244,
+              width: width * 0.5,
+              height: height * 0.5,
             ),
             onTap: () {
               if (!fastAdd) {
@@ -110,29 +112,21 @@ class _HomePageState extends State<HomePage> {
             children: [
               Text(
                 "Schnell:",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: width * 0.05),
               ),
-              Switch(
-                  activeColor: Colors.yellow,
-                  value: fastAdd,
-                  onChanged: (value) {
-                    setState(() {
-                      fastAdd = value;
-                    });
-                  }),
+              Transform.scale(
+                scale: 1.6,
+                child: Switch(
+                    activeColor: Colors.yellow,
+                    value: fastAdd,
+                    onChanged: (value) {
+                      setState(() {
+                        fastAdd = value;
+                      });
+                    }),
+              ),
             ],
           ),
-          Center(
-            child: Container(
-              child: Text(
-                "Drücken Sie den Button um zu starten!",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                ),
-              ),
-            ),
-          )
         ],
       ),
     );

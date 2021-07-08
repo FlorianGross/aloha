@@ -32,9 +32,15 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: tabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        enableFeedback: true,
+        iconSize: height * 0.05,
+        selectedLabelStyle: TextStyle(fontSize: width * 0.03),
+        unselectedLabelStyle: TextStyle(fontSize: width * 0.03),
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Theme.of(context).primaryColor,

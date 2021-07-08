@@ -1,6 +1,7 @@
 import 'package:aloha/Classification/Utility.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+
 part 'Drinks.g.dart';
 
 @HiveType(typeId: 0)
@@ -30,7 +31,7 @@ class Drinks extends HiveObject {
       this.week});
 
   /// Returns an Image in a sizedBox. If the Image == null -> Icons.camera is returned
-  SizedBox getImage(double height, double width) {
+  SizedBox getImage(double height, double width, double size) {
     if (uri != null) {
       return SizedBox(
         child: Utility.imageFromBase64String(uri!),
@@ -39,10 +40,12 @@ class Drinks extends HiveObject {
       );
     } else {
       return SizedBox(
-        child: Icon(Icons.camera),
-        height: height,
-        width: width,
-      );
+          width: width,
+          height: height,
+          child: Icon(
+            Icons.camera,
+            size: size,
+          ));
     }
   }
 

@@ -14,7 +14,7 @@ class SessionPage extends StatefulWidget {
 class _SessionPageState extends State<SessionPage> {
   final box = Hive.box("Week");
   final settingsBox = Hive.box("settings");
-  late TextEditingController amount;
+  TextEditingController? amount;
   double? planSlider = 0, daySlider = 0;
   double seValue = 0, dayValue = 0;
   int week = 0;
@@ -42,94 +42,108 @@ class _SessionPageState extends State<SessionPage> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: new ListView(
+      body: new Column(
         children: [
           Card(
-            child: Column(
-              children: [
-                Text(
-                  "Woche $week",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: Colors.yellow),
-                      child: Icon(
-                        Icons.arrow_left,
-                        color: Colors.black,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Text(
+                    "Woche $week",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: width * 0.09),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(primary: Colors.yellow),
+                        child: Icon(
+                          Icons.arrow_left,
+                          color: Colors.black,
+                          size: width * 0.05,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            if (week > 0) {
+                              week--;
+                              print("Week: $week");
+                              currentWeek = box.getAt(week);
+                              autoDecr = settingsBox.get("autoDecr");
+                              decrAmount = settingsBox.get("autoDecrAmount");
+                              amount = TextEditingController(
+                                  text: decrAmount.toString());
+                              planSlider = calculateNextWeekSEPlan();
+                              daySlider = currentWeek.plannedDay;
+                              seValue = currentWeek.getSethisWeek();
+                              dayValue = currentWeek.getUsedDays();
+                            }
+                          });
+                        },
                       ),
-                      onPressed: () {
-                        setState(() {
-                          if (week > 0) {
-                            week--;
-                            print("Week: $week");
-                            currentWeek = box.getAt(week);
-                            autoDecr = settingsBox.get("autoDecr");
-                            decrAmount = settingsBox.get("autoDecrAmount");
-                            amount = TextEditingController(
-                                text: decrAmount.toString());
-                            planSlider = calculateNextWeekSEPlan();
-                            daySlider = currentWeek.plannedDay;
-                            seValue = currentWeek.getSethisWeek();
-                            dayValue = currentWeek.getUsedDays();
-                          }
-                        });
-                      },
-                    ),
-                    Card(
-                      color: Colors.black12,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Zusammenfassung: \n\n" +
-                              seValue.toString() +
-                              " / " +
-                              currentWeek.plannedSE.toString() +
-                              " SE \n" +
-                              dayValue.toString() +
-                              " / " +
-                              currentWeek.plannedDay.toString() +
-                              " Days\n\n " +
-                              DateFormat.yMd().format(currentWeek.getStartDate()) +
-                              " \n - \n " +
-                              DateFormat.yMd().format(currentWeek.getEndTime()),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15),
+                      SizedBox(
+                        width: width * 0.6,
+                        child: Card(
+                          color: Colors.black12,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              "Zusammenfassung: \n\n" +
+                                  seValue.toString() +
+                                  " / " +
+                                  currentWeek.plannedSE.toString() +
+                                  " SE \n" +
+                                  dayValue.toString() +
+                                  " / " +
+                                  currentWeek.plannedDay.toString() +
+                                  " Days\n\n " +
+                                  DateFormat.yMd()
+                                      .format(currentWeek.getStartDate()) +
+                                  " \n - \n " +
+                                  DateFormat.yMd()
+                                      .format(currentWeek.getEndTime()),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: width * 0.04),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: Colors.yellow),
-                      child: Icon(
-                        Icons.arrow_right,
-                        color: Colors.black,
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(primary: Colors.yellow),
+                        child: Icon(
+                          Icons.arrow_right,
+                          size: width * 0.05,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            if (week < maxWeek) {
+                              week++;
+                              print("Week: $week");
+                              currentWeek = box.getAt(week);
+                              autoDecr = settingsBox.get("autoDecr");
+                              decrAmount = settingsBox.get("autoDecrAmount");
+                              amount = TextEditingController(
+                                  text: decrAmount.toString());
+                              planSlider = calculateNextWeekSEPlan();
+                              daySlider = currentWeek.plannedDay;
+                              seValue = currentWeek.getSethisWeek();
+                              dayValue = currentWeek.getUsedDays();
+                            }
+                          });
+                        },
                       ),
-                      onPressed: () {
-                        setState(() {
-                          if (week < maxWeek) {
-                            week++;
-                            print("Week: $week");
-                            currentWeek = box.getAt(week);
-                            autoDecr = settingsBox.get("autoDecr");
-                            decrAmount = settingsBox.get("autoDecrAmount");
-                            amount = TextEditingController(
-                                text: decrAmount.toString());
-                            planSlider = calculateNextWeekSEPlan();
-                            daySlider = currentWeek.plannedDay;
-                            seValue = currentWeek.getSethisWeek();
-                            dayValue = currentWeek.getUsedDays();
-                          }
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           Card(
@@ -142,7 +156,8 @@ class _SessionPageState extends State<SessionPage> {
                         planSlider!.toStringAsPrecision(2) +
                         " SE",
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: width * 0.05),
                   ),
                   Slider(
                     activeColor: Colors.yellow,
@@ -165,16 +180,22 @@ class _SessionPageState extends State<SessionPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Wöchentlich automatisch verringern?"),
-                      Switch(
-                        value: autoDecr,
-                        activeColor: Theme.of(context).primaryColor,
-                        onChanged: (value) {
-                          setState(() {
-                            autoDecr = value;
-                            settingsBox.put("autoDecr", autoDecr);
-                          });
-                        },
+                      Text(
+                        "Wöchentlich automatisch verringern?",
+                        style: TextStyle(fontSize: width * 0.03),
+                      ),
+                      Transform.scale(
+                        scale: 1.6,
+                        child: Switch(
+                          value: autoDecr,
+                          activeColor: Theme.of(context).primaryColor,
+                          onChanged: (value) {
+                            setState(() {
+                              autoDecr = value;
+                              settingsBox.put("autoDecr", autoDecr);
+                            });
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -184,8 +205,8 @@ class _SessionPageState extends State<SessionPage> {
                       children: [
                         Text("Anzahl: "),
                         SizedBox(
-                            height: 50,
-                            width: 150,
+                            height: height * 0.07,
+                            width: width * 0.3,
                             child: TextField(
                               controller: amount,
                               keyboardType: TextInputType.number,
@@ -202,7 +223,8 @@ class _SessionPageState extends State<SessionPage> {
                   Text(
                     "Konsumtage: \n" + daySlider!.toStringAsPrecision(1),
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: width * 0.05),
                   ),
                   Slider(
                     activeColor: Colors.yellow,
@@ -228,10 +250,17 @@ class _SessionPageState extends State<SessionPage> {
           )
         ],
       ),
-      floatingActionButton: new FloatingActionButton(
-          backgroundColor: Theme.of(context).primaryColor,
-          child: Icon(Icons.settings),
-          onPressed: openSettings),
+      floatingActionButton: SizedBox(
+        height: height * 0.12,
+        width: width * 0.12,
+        child: new FloatingActionButton(
+            backgroundColor: Theme.of(context).primaryColor,
+            child: Icon(
+              Icons.settings,
+              size: width * 0.07,
+            ),
+            onPressed: openSettings),
+      ),
     );
   }
 

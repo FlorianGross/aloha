@@ -47,6 +47,8 @@ class _FirstStartPageState extends State<FirstStartPage> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: ListView(
         children: [
@@ -159,42 +161,49 @@ class _FirstStartPageState extends State<FirstStartPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               DayButton(
+                                  fontSize: width * 0.07,
                                   onTab: (val) {
                                     isMoBut = val;
                                   },
                                   size: 50,
                                   weekday: "Mo"),
                               DayButton(
+                                  fontSize: width * 0.07,
                                   onTab: (value) {
                                     isDiBut = value;
                                   },
                                   size: 50,
                                   weekday: "Di"),
                               DayButton(
+                                  fontSize: width * 0.07,
                                   onTab: (value) {
                                     isMiBut = value;
                                   },
                                   size: 50,
                                   weekday: "Mi"),
                               DayButton(
+                                  fontSize: width * 0.07,
                                   onTab: (val) {
                                     isDoBut = val;
                                   },
                                   size: 50,
                                   weekday: "Do"),
                               DayButton(
+                                  fontSize: width * 0.07,
                                   onTab: (val) {
                                     isFrBut = val;
                                   },
                                   size: 50,
                                   weekday: "Fr"),
                               DayButton(
+                                  fontSize: width * 0.07,
                                   onTab: (val) {
                                     isSaBut = val;
                                   },
                                   size: 50,
                                   weekday: "Sa"),
                               DayButton(
+                                  fontSize: width * 0.07,
                                   onTab: (val) {
                                     isSoBut = val;
                                   },

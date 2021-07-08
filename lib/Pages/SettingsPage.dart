@@ -1,6 +1,7 @@
 import 'package:aloha/Notifications.dart';
 import 'package:aloha/Widgets/ChangeModeButton.dart';
 import 'package:aloha/Widgets/DayButton.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
@@ -104,277 +105,320 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.only(left: 16, top: 25, right: 16),
-        child: ListView(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Einstellungen",
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-                ),
-                ElevatedButton(
-                  child: Icon(Icons.arrow_back),
-                  onPressed: pop,
-                  style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor),
-                ),
-              ],
-            ),
-            Divider(),
-            Card(
-              child: ListView(
-                padding: EdgeInsets.only(left: 16, right: 16),
-                primary: false,
-                shrinkWrap: true,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          padding: EdgeInsets.only(left: 16, top: 25, right: 16),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Darkmode: "),
-                      ChangeModeButton(),
-                    ],
+                  Text(
+                    "Einstellungen",
+                    style: TextStyle(
+                        fontSize: width * 0.06, fontWeight: FontWeight.w500),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Benachrichtigungen: "),
-                      Switch(
-                        activeColor: Theme.of(context).primaryColor,
-                        value: notifications!,
-                        onChanged: (value) {
-                          setState(() {
-                            notifications = value;
-                            box.put("notifications", value);
-                          });
-                        },
-                      ),
-                    ],
+                  ElevatedButton(
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                      size: width * 0.05,
+                    ),
+                    onPressed: pop,
+                    style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).primaryColor),
                   ),
-                  Visibility(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 8.0,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                ],
+              ),
+              Divider(),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView(
+                    padding: EdgeInsets.only(left: 16, right: 16),
+                    primary: false,
+                    shrinkWrap: true,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              DayButton(
-                                  weekday: "Mo",
-                                  size: 30,
-                                  onTab: (val) {
-                                    isMoBut = val;
-                                    if (isMoBut) {
-                                      addNotification(1);
-                                    } else {
-                                      removeNotification(1);
-                                    }
-                                  }),
-                              DayButton(
-                                weekday: "Di",
-                                size: 30,
-                                onTab: (val) {
-                                  isDiBut = val;
-                                  if (isDiBut) {
-                                    addNotification(2);
-                                  } else {
-                                    removeNotification(2);
-                                  }
-                                },
-                              ),
-                              DayButton(
-                                  onTab: (val) {
-                                    isMiBut = val;
-                                  },
-                                  size: 30,
-                                  weekday: "Mi"),
-                              DayButton(
-                                  onTab: (val) {
-                                    isMiBut = val;
-                                    if (isMiBut) {
-                                      addNotification(3);
-                                    } else {
-                                      removeNotification(3);
-                                    }
-                                  },
-                                  weekday: "Mi",
-                                  size: 30),
-                              DayButton(
-                                  onTab: (val) {
-                                    isDoBut = val;
-                                    if (isDoBut) {
-                                      addNotification(4);
-                                    } else {
-                                      removeNotification(4);
-                                    }
-                                  },
-                                  weekday: "Do",
-                                  size: 30),
-                              DayButton(
-                                  onTab: (val) {
-                                    isFrBut = val;
-                                    if (isFrBut) {
-                                      addNotification(5);
-                                    } else {
-                                      removeNotification(5);
-                                    }
-                                  },
-                                  weekday: "Fr",
-                                  size: 30),
-                              DayButton(
-                                  onTab: (val) {
-                                    isSaBut = val;
-                                    if (isSaBut) {
-                                      addNotification(6);
-                                    } else {
-                                      removeNotification(6);
-                                    }
-                                  },
-                                  weekday: "Sa",
-                                  size: 30),
-                              DayButton(
-                                  onTab: (val) {
-                                    isSoBut = val;
-                                    if (isSoBut) {
-                                      addNotification(7);
-                                    } else {
-                                      removeNotification(7);
-                                    }
-                                  },
-                                  weekday: "So",
-                                  size: 30),
-                            ],
+                          Text(
+                            "Darkmode: ",
+                            style: TextStyle(fontSize: width * 0.04),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              top: 8.0,
-                              bottom: 8.0,
-                            ),
-                            child: ElevatedButton(
-                              child: Text(
-                                "Uhrzeit wählen: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}",
-                                style: TextStyle(color: Colors.black),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                  primary: Theme.of(context).primaryColor),
-                              onPressed: () => pickTime(context),
+                          ChangeModeButton(),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Benachrichtigungen: ",
+                            style: TextStyle(fontSize: width * 0.04),
+                          ),
+                          Transform.scale(
+                            scale: 1.6,
+                            child: Switch(
+                              activeColor: Theme.of(context).primaryColor,
+                              value: notifications!,
+                              onChanged: (value) {
+                                setState(() {
+                                  notifications = value;
+                                  box.put("notifications", value);
+                                });
+                              },
                             ),
                           ),
                         ],
                       ),
-                    ),
-                    visible: notifications!,
-                  ),
-                ],
-              ),
-            ),
-            Text(
-              "Eigenes Getränk",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-            ),
-            Divider(),
-            Card(
-              child: ListView(
-                padding:
-                    EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
-                primary: false,
-                shrinkWrap: true,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Name: "),
-                      SizedBox(
-                        width: 200,
-                        height: 50,
-                        child: TextField(
-                          controller: nameController,
+                      Visibility(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: 8.0,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  DayButton(
+                                      weekday: "Mo",
+                                      fontSize: width * 0.03,
+                                      size: width * 0.07,
+                                      onTab: (val) {
+                                        isMoBut = val;
+                                        if (isMoBut) {
+                                          addNotification(1);
+                                        } else {
+                                          removeNotification(1);
+                                        }
+                                      }),
+                                  DayButton(
+                                    weekday: "Di",
+                                    fontSize: width * 0.03,
+                                    size: width * 0.07,
+                                    onTab: (val) {
+                                      isDiBut = val;
+                                      if (isDiBut) {
+                                        addNotification(2);
+                                      } else {
+                                        removeNotification(2);
+                                      }
+                                    },
+                                  ),
+                                  DayButton(
+                                      fontSize: width * 0.03,
+                                      size: width * 0.07,
+                                      onTab: (val) {
+                                        isMiBut = val;
+                                      },
+                                      weekday: "Mi"),
+                                  DayButton(
+                                    fontSize: width * 0.03,
+                                    size: width * 0.07,
+                                    onTab: (val) {
+                                      isMiBut = val;
+                                      if (isMiBut) {
+                                        addNotification(3);
+                                      } else {
+                                        removeNotification(3);
+                                      }
+                                    },
+                                    weekday: "Mi",
+                                  ),
+                                  DayButton(
+                                    fontSize: width * 0.03,
+                                    size: width * 0.07,
+                                    onTab: (val) {
+                                      isDoBut = val;
+                                      if (isDoBut) {
+                                        addNotification(4);
+                                      } else {
+                                        removeNotification(4);
+                                      }
+                                    },
+                                    weekday: "Do",
+                                  ),
+                                  DayButton(
+                                    fontSize: width * 0.03,
+                                    size: width * 0.07,
+                                    onTab: (val) {
+                                      isFrBut = val;
+                                      if (isFrBut) {
+                                        addNotification(5);
+                                      } else {
+                                        removeNotification(5);
+                                      }
+                                    },
+                                    weekday: "Fr",
+                                  ),
+                                  DayButton(
+                                    fontSize: width * 0.03,
+                                    size: width * 0.07,
+                                      onTab: (val) {
+                                        isSaBut = val;
+                                        if (isSaBut) {
+                                          addNotification(6);
+                                        } else {
+                                          removeNotification(6);
+                                        }
+                                      },
+                                      weekday: "Sa",
+                                      ),
+                                  DayButton(
+                                      fontSize: width * 0.03,
+                                      size: width * 0.07,
+                                      onTab: (val) {
+                                        isSoBut = val;
+                                        if (isSoBut) {
+                                          addNotification(7);
+                                        } else {
+                                          removeNotification(7);
+                                        }
+                                      },
+                                      weekday: "So",
+                                      ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  top: 8.0,
+                                  bottom: 8.0,
+                                ),
+                                child: ElevatedButton(
+                                  child: Text(
+                                    "Uhrzeit wählen: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}",
+                                    style: TextStyle(color: Colors.black, fontSize: width * 0.03),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Theme.of(context).primaryColor),
+                                  onPressed: () => pickTime(context),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
+                        visible: notifications!,
                       ),
                     ],
                   ),
-                  Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Volumen in ml: "),
-                      SizedBox(
-                        width: 200,
-                        height: 50,
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r"^\d*\.?\d*"))
-                          ],
-                          controller: volumeController,
-                          onSubmitted: (value) {
-                            setState(() {
-                              volumen = double.parse(value);
-                              ownSE =
-                                  (volumen! * 0.8 * (volumePart! / 1000)) / 2;
-                            });
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                  Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Volumen%: "),
-                      SizedBox(
-                        width: 200,
-                        height: 50,
-                        child: TextField(
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r"^\d*\.?\d*"))
-                          ],
-                          keyboardType: TextInputType.number,
-                          controller: volumePartController,
-                          onSubmitted: (value) {
-                            setState(() {
-                              volumePart = double.parse(value);
-                              ownSE =
-                                  (volumen! * 0.8 * (volumePart! / 1000)) / 2;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Entspricht in SE: "),
-                      Text(ownSE.toStringAsPrecision(2) + " SE"),
-                    ],
-                  ),
-                  Divider(),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                        primary: Colors.black,
-                        backgroundColor: Theme.of(context).primaryColor,
-                        alignment: Alignment.center),
-                    child: Text(
-                      "Speichern",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    onPressed: confirmOwnDrink,
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
+              Row(
+                children: [Text(
+                  "Eigenes Getränk",
+                  style: TextStyle(fontSize: width * 0.06, fontWeight: FontWeight.w500,),
+                ),Spacer()]
+              ),
+              Divider(),
+              Card(
+                child: ListView(
+                  padding:
+                      EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
+                  primary: false,
+                  shrinkWrap: true,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Name: ", style: TextStyle(fontSize: width * 0.04),),
+                        SizedBox(
+                          width: width * 0.4,
+                          height: height * 0.08,
+                          child: TextField(
+                            style: TextStyle(fontSize: width * 0.03),
+                            controller: nameController,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Volumen in ml: ", style: TextStyle(fontSize: width * 0.04),),
+                        SizedBox(
+                          width: width * 0.4,
+                          height: height * 0.08,
+                          child: TextField(
+                            style: TextStyle(fontSize: width * 0.03),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r"^\d*\.?\d*"))
+                            ],
+                            controller: volumeController,
+                            onSubmitted: (value) {
+                              setState(() {
+                                volumen = double.parse(value);
+                                ownSE =
+                                    (volumen! * 0.8 * (volumePart! / 1000)) / 2;
+                              });
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                    Divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Volumen%: ", style: TextStyle(fontSize: width * 0.04),),
+                        SizedBox(
+                          width: width * 0.4,
+                          height: height * 0.08,
+                          child: TextField(
+                            style: TextStyle(fontSize: width * 0.03),
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r"^\d*\.?\d*"))
+                            ],
+                            keyboardType: TextInputType.number,
+                            controller: volumePartController,
+                            onSubmitted: (value) {
+                              setState(() {
+                                volumePart = double.parse(value);
+                                ownSE =
+                                    (volumen! * 0.8 * (volumePart! / 1000)) / 2;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    Divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Entspricht in SE: ", style: TextStyle(fontSize: width * 0.04),),
+                        Padding(
+                          padding: EdgeInsets.only(right: width * 0.17),
+                          child: Text(ownSE.toStringAsPrecision(2) + " SE", style: TextStyle(fontSize: width * 0.03),),
+                        ),
+                      ],
+                    ),
+                    Divider(),
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                          primary: Colors.black,
+                          backgroundColor: Theme.of(context).primaryColor,
+                          alignment: Alignment.center),
+                      child: Text(
+                        "Speichern",
+                        style: TextStyle(color: Colors.black, fontSize: width * 0.03),
+                      ),
+                      onPressed: confirmOwnDrink,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

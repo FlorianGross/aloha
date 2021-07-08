@@ -32,7 +32,6 @@ class _DetailsTabState extends State<DetailsTab> {
   @override
   void initState() {
     current = box.getAt(id);
-    _image = current!.getImage(255.0, 286.0);
     date = DateTime.fromMillisecondsSinceEpoch(current!.date!);
     nameController = TextEditingController(text: current!.name);
     volumeController = TextEditingController(text: current!.volume.toString());
@@ -47,17 +46,28 @@ class _DetailsTabState extends State<DetailsTab> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    _image = current!.getImage(height * 0.3, width * 0.3, width * 0.3);
     return Scaffold(
-      body: ListView(
+      body: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(width * 0.04),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Getränk: " + current!.name.toString(), style: TextStyle(fontSize: 30),),
+                Text(
+                  "Getränk: " + current!.name.toString(),
+                  style: TextStyle(fontSize: width * 0.05),
+                ),
                 ElevatedButton(
-                  child: Icon(Icons.arrow_back),
+                  child: Icon(
+                    Icons.arrow_back,
+                    size: width * 0.08,
+                  ),
                   onPressed: pop,
                   style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).primaryColor),
@@ -66,104 +76,134 @@ class _DetailsTabState extends State<DetailsTab> {
             ),
           ),
           Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _image == null
-                  ? Icon(
-                      Icons.autorenew_sharp,
-                      size: 255,
-                    )
-                  : _image,
-            ),
+            child: Padding(padding: const EdgeInsets.all(8.0), child: _image),
           ),
           Card(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(width * 0.03),
               child: SizedBox(
-                height: 250,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        SizedBox(width: 110,child: Text("Name: ")),
-                        Visibility(
-                          child: Text(current!.name!,),
-                          visible: !edit,
-                        ),
-                        Visibility(
-                          child: SizedBox(
-                            width: 200,
-                            height: 50,
-                            child: TextField(
-                              controller: nameController,
+                    SizedBox(
+                      height: height * 0.08,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Name:           ",
+                            style: TextStyle(fontSize: width * 0.04),
+                          ),
+                          Visibility(
+                            child: SizedBox(
+                              width: width * 0.4,
+                              child: Text(
+                                current!.name!,
+                                textAlign: TextAlign.right,
+                                style: TextStyle(fontSize: width * 0.04),
+                              ),
                             ),
+                            visible: !edit,
                           ),
-                          visible: edit,
-                        ),
-                      ],
+                          Visibility(
+                            child: SizedBox(
+                              width: width * 0.4,
+                              height: height * 0.08,
+                              child: TextField(
+                                maxLength: 10,
+                                style: TextStyle(fontSize: width * 0.03),
+                                controller: nameController,
+                              ),
+                            ),
+                            visible: edit,
+                          ),
+                        ],
+                      ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        SizedBox(
-                          width: 110,
-                          child: Text(
-                            "Volumen: ",
+                    SizedBox(
+                      height: height*0.08,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Volumen:        ",
+                            style: TextStyle(fontSize: width * 0.04),
                           ),
-                        ),
-                        Visibility(
-                          child: Text(current!.volume.toString() + " ml", textAlign: TextAlign.center,),
-                          visible: !edit,
-                        ),
-                        Visibility(
+                          Visibility(
+                            child: SizedBox(
+                              width: width * 0.4,
+                              child: Text(
+                                current!.volume!.toInt().toString() + " ml",
+                                textAlign: TextAlign.right,
+                                style: TextStyle(fontSize: width * 0.04),
+                              ),
+                            ),
+                            visible: !edit,
+                          ),
+                          Visibility(
                             visible: edit,
                             child: SizedBox(
-                              width: 200,
-                              height: 50,
+                              width: width * 0.4,
+                              height: height * 0.08,
                               child: TextField(
                                 keyboardType: TextInputType.number,
+                                maxLength: 5,
+                                style: TextStyle(fontSize: width * 0.03),
                                 inputFormatters: [
                                   FilteringTextInputFormatter.allow(
-                                      RegExp(r"^\d*\.?\d*"))
+                                      RegExp(r"^\d*"))
                                 ],
                                 controller: volumeController,
                                 onSubmitted: (value) {},
                               ),
-                            )),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        SizedBox(width:110,child: Text("Volumenprozent: ")),
-                        Visibility(
-                          child:
-                              Text(current!.volumepart.toString() + " \u2030"),
-                          visible: !edit,
-                        ),
-                        Visibility(
-                          child: SizedBox(
-                            width: 200,
-                            height: 50,
-                            child: TextField(
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(r"^\d*\.?\d*"))
-                              ],
-                              keyboardType: TextInputType.number,
-                              controller: volumePartController,
-                              onSubmitted: (value) {},
                             ),
                           ),
-                          visible: edit,
-                        ),
-                      ],
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: height * 0.08,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Volumenprozent: ",
+                            style: TextStyle(fontSize: width * 0.04),
+                          ),
+                          Visibility(
+                            child: SizedBox(
+                              width: width * 0.4,
+                              child: Text(
+                                current!.volumepart.toString() + " \u2030",
+                                textAlign: TextAlign.right,
+                                style: TextStyle(fontSize: width * 0.04),
+                              ),
+                            ),
+                            visible: !edit,
+                          ),
+                          Visibility(
+                            child: SizedBox(
+                              width: width * 0.4,
+                              height: height * 0.08,
+                              child: TextField(
+                                decoration: InputDecoration(),
+                                maxLength: 5,
+                                style: TextStyle(fontSize: width * 0.03),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r"^\d*\.?\d*"))
+                                ],
+                                keyboardType: TextInputType.number,
+                                controller: volumePartController,
+                                onSubmitted: (value) {},
+                              ),
+                            ),
+                            visible: edit,
+                          ),
+                        ],
+                      ),
                     ),
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(
@@ -172,7 +212,8 @@ class _DetailsTabState extends State<DetailsTab> {
                           alignment: Alignment.center),
                       child: Text(
                         buttonText,
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(
+                            color: Colors.black, fontSize: width * 0.03),
                       ),
                       onPressed: () {
                         setState(() {
@@ -199,18 +240,26 @@ class _DetailsTabState extends State<DetailsTab> {
           Text(
             date.toString(),
             textAlign: TextAlign.center,
+            style: TextStyle(fontSize: width * 0.03),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.delete),
-        backgroundColor: Theme.of(context).primaryColor,
-        onPressed: () {
-          box.deleteAt(id);
-          print("Item deleted: " + current.toString());
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => MyApp()));
-        },
+      floatingActionButton: SizedBox(
+        width: width * 0.12,
+        height: height * 0.12,
+        child: FloatingActionButton(
+          child: Icon(
+            Icons.delete,
+            size: width * 0.07,
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
+          onPressed: () {
+            box.deleteAt(id);
+            print("Item deleted: " + current.toString());
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => MyApp()));
+          },
+        ),
       ),
     );
   }

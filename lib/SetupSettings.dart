@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SetupSettings {
-  BuildContext? context;
   double screenWidth = 100;
   double screenHeight = 100;
   Color backgroundColor = Colors.black26;
@@ -18,11 +17,24 @@ class SetupSettings {
       brightness: Brightness.light,
       primaryColor: primary,
       backgroundColor: Colors.yellowAccent,
+      bottomNavigationBarTheme:
+          BottomNavigationBarThemeData(backgroundColor: Colors.black12),
       colorScheme: ColorScheme.light(),
       cardTheme: CardTheme(color: Colors.white60),
       inputDecorationTheme: InputDecorationTheme(
-          disabledBorder:
-              OutlineInputBorder(borderSide: BorderSide(color: primary))),
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: primary),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: primary),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: primary),
+        ),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: primary),
+        ),
+      ),
     );
   }
 
@@ -33,28 +45,25 @@ class SetupSettings {
         colorScheme: ColorScheme.dark(),
         brightness: Brightness.dark,
         primaryColor: Colors.yellow,
+        bottomNavigationBarTheme:
+            BottomNavigationBarThemeData(backgroundColor: Colors.black12),
         inputDecorationTheme: InputDecorationTheme(
           disabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: primary),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.yellow),
+            borderSide: BorderSide(color: primary),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.yellow),
+            borderSide: BorderSide(color: primary),
           ),
           border: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.yellow),
+            borderSide: BorderSide(color: primary),
           ),
         ),
         cardTheme: CardTheme(color: Colors.black12),
         backgroundColor: Colors.yellowAccent,
         accentColor: Colors.yellowAccent);
-  }
-
-  Future<void> setScreenSize(BuildContext context) async {
-    screenWidth = MediaQuery.of(context).size.width;
-    screenHeight = MediaQuery.of(context).size.height;
   }
 }
 

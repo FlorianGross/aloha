@@ -46,7 +46,7 @@ class _CameraState extends State<Camera> {
       .map<DropdownMenuItem<String>>((String value) {
     return DropdownMenuItem<String>(
       value: value,
-      child: Text(value),
+      child: Text(value,),
     );
   }).toList();
 
@@ -89,6 +89,8 @@ class _CameraState extends State<Camera> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: ListView(
         children: [
@@ -102,12 +104,12 @@ class _CameraState extends State<Camera> {
                     child: _image == null
                         ? Icon(
                             Icons.autorenew_sharp,
-                            size: 200,
+                            size: width * 0.45,
                           )
                         : _imageWidget,
                   ),
                   Container(
-                    width: 150,
+                    width: width * 0.3,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
@@ -118,8 +120,7 @@ class _CameraState extends State<Camera> {
                       value: dropdownValue,
                       focusColor: Theme.of(context).primaryColor,
                       elevation: 19,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: width * 0.05, fontWeight: FontWeight.bold),
                       onChanged: (dynamic value) {
                         setState(() {
                           dropdownValue = value;
@@ -228,9 +229,9 @@ class _CameraState extends State<Camera> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text("Name: $ownName"),
-                      Text("Volumen: $ownVolume ml"),
-                      Text("Volumenprozent: $ownVolumePart \u2030")
+                      Text("Name: $ownName", style: TextStyle(fontSize: width * 0.05),),
+                      Text("Volumen: $ownVolume ml", style: TextStyle(fontSize: width * 0.05),),
+                      Text("Volumenprozent: $ownVolumePart \u2030", style: TextStyle(fontSize: width * 0.05),)
                     ],
                   ),
                 ),
@@ -247,9 +248,9 @@ class _CameraState extends State<Camera> {
                     Text(
                       "Volumenprozent: ",
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: width * 0.05, fontWeight: FontWeight.bold),
                     ),
-                    Text(_currentSliderValue.toStringAsPrecision(2)),
+                    Text(_currentSliderValue.toStringAsPrecision(2), style: TextStyle(fontSize: width * 0.04),),
                     Slider(
                       value: _currentSliderValue,
                       min: 0,
@@ -280,9 +281,9 @@ class _CameraState extends State<Camera> {
                       Text(
                         "Volumen: ",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: width * 0.05, fontWeight: FontWeight.bold),
                       ),
-                      Text(_currentSliderValuePart.toStringAsPrecision(2)),
+                      Text(_currentSliderValuePart.toStringAsPrecision(2), style: TextStyle(fontSize: width * 0.04),),
                       Slider(
                         activeColor: Colors.yellow,
                         inactiveColor: Colors.amber,
@@ -314,7 +315,7 @@ class _CameraState extends State<Camera> {
                       child: Text(
                         "Volumen: ",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: width * 0.05, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Row(
@@ -332,20 +333,20 @@ class _CameraState extends State<Camera> {
                             });
                           },
                           child: SizedBox(
-                            width: 50,
-                            height: 135,
+                            width: width / 8,
+                            height: height / 5,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Icon(
                                   getraenkIcon,
-                                  size: 45,
+                                  size: width * 0.1,
                                   color: Colors.black,
                                 ),
                                 Text(
                                   "$lowValue L",
                                   style: TextStyle(
-                                      color: Colors.black, fontSize: 20),
+                                      color: Colors.black, fontSize: width * 0.05),
                                 ),
                               ],
                             ),
@@ -363,20 +364,20 @@ class _CameraState extends State<Camera> {
                             });
                           },
                           child: SizedBox(
-                            width: 50,
-                            height: 135,
+                            width: width / 8,
+                            height: height / 5,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Icon(
                                   getraenkIcon,
-                                  size: 55,
+                                  size: width * 0.12,
                                   color: Colors.black,
                                 ),
                                 Text(
                                   "$mediumValue L",
                                   style: TextStyle(
-                                      color: Colors.black, fontSize: 20),
+                                      color: Colors.black, fontSize: width * 0.05),
                                 ),
                               ],
                             ),
@@ -394,20 +395,20 @@ class _CameraState extends State<Camera> {
                             });
                           },
                           child: SizedBox(
-                            width: 50,
-                            height: 135,
+                            width: width / 8,
+                            height: height / 5,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Icon(
                                   getraenkIcon,
-                                  size: 65,
+                                  size: width * 0.14,
                                   color: Colors.black,
                                 ),
                                 Text(
                                   "$largeValue L",
                                   style: TextStyle(
-                                      color: Colors.black, fontSize: 20),
+                                      color: Colors.black, fontSize: width * 0.05),
                                 ),
                               ],
                             ),
@@ -425,20 +426,20 @@ class _CameraState extends State<Camera> {
                             });
                           },
                           child: SizedBox(
-                            width: 50,
-                            height: 135,
+                            width: width / 8,
+                            height: height / 5,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Icon(
                                   getraenkIcon,
-                                  size: 75,
+                                  size: width * 0.17,
                                   color: Colors.black,
                                 ),
                                 Text(
                                   "$xLargeValue L",
                                   style: TextStyle(
-                                      color: Colors.black, fontSize: 20),
+                                      color: Colors.black, fontSize: width * 0.05),
                                 ),
                               ],
                             ),
@@ -464,7 +465,7 @@ class _CameraState extends State<Camera> {
                     primary: Colors.black),
                 child: Text(
                   "Nochmal",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: width * 0.05, fontWeight: FontWeight.bold),
                 ),
               ),
               Visibility(
@@ -478,7 +479,7 @@ class _CameraState extends State<Camera> {
                       primary: Colors.black),
                   child: Text(
                     "Speichern",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: width * 0.05, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),

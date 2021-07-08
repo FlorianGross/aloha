@@ -56,6 +56,8 @@ class _TimeLineWeekState extends State<TimeLineWeek> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return Card(
       child: Column(
         children: [
@@ -65,7 +67,7 @@ class _TimeLineWeekState extends State<TimeLineWeek> {
               "Woche $week",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 20,
+                fontSize: width * 0.05,
               ),
               textAlign: TextAlign.left,
             ),
@@ -159,23 +161,26 @@ class _GetraenkeListItemState extends State<GetraenkeListItem> {
   @override
   void initState() {
     currentDrink = box.getAt(id);
-    _image = currentDrink!.getImage(60.0, 90.0);
     print("ListItem: " +id.toString() + " - " + currentDrink.toString());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    _image = currentDrink!.getImage(height * 0.07, width * 0.16, width * 0.16);
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       color: Colors.black38,
-      child: ListView(
-        primary: false,
-        shrinkWrap: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _image!,
           Padding(
-            padding: const EdgeInsets.only(bottom: 2.0),
+            padding: EdgeInsets.only(bottom: width * 0.000),
             child: Card(
               color: Colors.black26,
               shape: RoundedRectangleBorder(
@@ -183,18 +188,14 @@ class _GetraenkeListItemState extends State<GetraenkeListItem> {
               child: Padding(
                 padding: EdgeInsets.all(3),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(
-                      width: 130,
-                      child: Text(
-                        currentDrink!.name.toString(),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Text(currentDrink!.volume.toString() + " ml"),
+                    Text(currentDrink!.name.toString(), style: TextStyle(fontSize: width * 0.04),),
+                    Text(currentDrink!.volume.toString() + " ml", style: TextStyle(fontSize: width * 0.04),),
                     Text(currentDrink!.volumepart!.toStringAsPrecision(2) +
-                        " vol%"),
+                        " vol%", style: TextStyle(fontSize: width * 0.04),),
                   ],
                 ),
               ),
