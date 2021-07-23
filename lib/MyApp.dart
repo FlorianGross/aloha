@@ -33,72 +33,39 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery
-        .of(context)
-        .size
-        .width;
-    double height = MediaQuery
-        .of(context)
-        .size
-        .height;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return PlatformScaffold(
       body: tabs[_currentIndex],
       material: (context, platform) => MaterialScaffoldData(),
       cupertino: (context, platform) => CupertinoPageScaffoldData(),
-      bottomNavBar: PlatformNavBar(material: (context, platform) =>
-          MaterialNavBarData(
-            enableFeedback: true,
-            iconSize: height * 0.05,
-            selectedLabelStyle: TextStyle(fontSize: width * 0.03),
-            unselectedLabelStyle: TextStyle(fontSize: width * 0.03),
-            currentIndex: _currentIndex,
-            type: BottomNavigationBarType.fixed,
-            selectedItemColor: Theme
-                .of(context)
-                .primaryColor,),
-        cupertino: (context, platform) =>
-            CupertinoTabBarData(
-              iconSize: height * 0.05,
-              activeColor: Theme
-                  .of(context)
-                  .primaryColor,
-              currentIndex: _currentIndex,
-            ),
+      bottomNavBar: PlatformNavBar(
+        material: (context, platform) => MaterialNavBarData(
+          enableFeedback: true,
+          iconSize: height * 0.05,
+          selectedLabelStyle: TextStyle(fontSize: width * 0.03),
+          unselectedLabelStyle: TextStyle(fontSize: width * 0.03),
+          currentIndex: _currentIndex,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Theme.of(context).primaryColor,
+        ),
+        cupertino: (context, platform) => CupertinoTabBarData(
+          iconSize: height * 0.04,
+          activeColor: Theme.of(context).primaryColor,
+          currentIndex: _currentIndex,
+        ),
         items: [
           BottomNavigationBarItem(
-            icon: Icon(
-              PlatformIcons(context).time,
-                color: Theme
-                    .of(context)
-                    .textTheme
-                    .bodyText1!
-                    .color),
-            backgroundColor: Theme
-                .of(context)
-                .primaryColor,
+            icon: Icon(PlatformIcons(context).time,
+                color: Theme.of(context).primaryColor),
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-                PlatformIcons(context).home,
-                color: Theme
-                    .of(context)
-                    .textTheme
-                    .bodyText1!
-                    .color),
-            backgroundColor: Theme
-                .of(context)
-                .primaryColor,
+            icon: Icon(PlatformIcons(context).home,
+                color: Theme.of(context).primaryColor),
           ),
           BottomNavigationBarItem(
             icon: Icon(PlatformIcons(context).person,
-                color: Theme
-                    .of(context)
-                    .textTheme
-                    .bodyText1!
-                    .color),
-            backgroundColor: Theme
-                .of(context)
-                .primaryColor,
+                color: Theme.of(context).primaryColor),
           ),
         ],
         itemChanged: (index) {

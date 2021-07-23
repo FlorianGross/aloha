@@ -41,5 +41,11 @@
 		<false/>
 		<key>UIStatusBarHidden</key>
 		<true/>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<true/>
+		<key>NSCameraUsageDescription</key>
+		<true/>
+        <key>NSMicrophoneUsageDescription</key>
+        <true/>
 	</dict>
 </plist>

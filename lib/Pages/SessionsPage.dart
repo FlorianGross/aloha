@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:aloha/Modelle/Week.dart';
 import 'package:aloha/Pages/SettingsPage.dart';
@@ -44,7 +45,9 @@ class _SessionPageState extends State<SessionPage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return Scaffold(
+    return PlatformScaffold(
+      material: (context, platform) => MaterialScaffoldData(),
+      cupertino: (context, platform) => CupertinoPageScaffoldData(),
       body: new Column(
         children: [
           Card(
@@ -52,7 +55,7 @@ class _SessionPageState extends State<SessionPage> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  Text(
+                  PlatformText(
                     "Woche $week",
                     style: TextStyle(
                         fontWeight: FontWeight.bold, fontSize: width * 0.09),
@@ -61,30 +64,34 @@ class _SessionPageState extends State<SessionPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(primary: Colors.yellow),
-                        child: Icon(
-                          Icons.arrow_left,
-                          color: Colors.black,
-                          size: width * 0.05,
+                      SizedBox(
+                        width: width * 0.2,
+                        child: PlatformElevatedButton(
+                          cupertino: (context, platform) => CupertinoElevatedButtonData(),
+                          material: (context, platform) => MaterialElevatedButtonData(style: ElevatedButton.styleFrom(primary: Colors.yellow),),
+                          child: Icon(
+                            Icons.arrow_left,
+                            color: Colors.black,
+                            size: width * 0.05,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              if (week > 0) {
+                                week--;
+                                print("Week: $week");
+                                currentWeek = box.getAt(week);
+                                autoDecr = settingsBox.get("autoDecr");
+                                decrAmount = settingsBox.get("autoDecrAmount");
+                                amount = TextEditingController(
+                                    text: decrAmount.toString());
+                                planSlider = calculateNextWeekSEPlan();
+                                daySlider = currentWeek.plannedDay;
+                                seValue = currentWeek.getSethisWeek();
+                                dayValue = currentWeek.getUsedDays();
+                              }
+                            });
+                          },
                         ),
-                        onPressed: () {
-                          setState(() {
-                            if (week > 0) {
-                              week--;
-                              print("Week: $week");
-                              currentWeek = box.getAt(week);
-                              autoDecr = settingsBox.get("autoDecr");
-                              decrAmount = settingsBox.get("autoDecrAmount");
-                              amount = TextEditingController(
-                                  text: decrAmount.toString());
-                              planSlider = calculateNextWeekSEPlan();
-                              daySlider = currentWeek.plannedDay;
-                              seValue = currentWeek.getSethisWeek();
-                              dayValue = currentWeek.getUsedDays();
-                            }
-                          });
-                        },
                       ),
                       SizedBox(
                         width: width * 0.6,
@@ -92,7 +99,7 @@ class _SessionPageState extends State<SessionPage> {
                           color: Colors.black12,
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
-                            child: Text(
+                            child: PlatformText(
                               "Zusammenfassung: \n\n" +
                                   seValue.toString() +
                                   " / " +
@@ -115,30 +122,34 @@ class _SessionPageState extends State<SessionPage> {
                           ),
                         ),
                       ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(primary: Colors.yellow),
-                        child: Icon(
-                          Icons.arrow_right,
-                          size: width * 0.05,
-                          color: Colors.black,
+                      SizedBox(
+                        width: width * 0.2,
+                        child: PlatformElevatedButton(
+                          cupertino: (context, platform) => CupertinoElevatedButtonData(),
+                          material: (context, platform) => MaterialElevatedButtonData(style: ElevatedButton.styleFrom(primary: Colors.yellow),),
+                          child: Icon(
+                            Icons.arrow_right,
+                            size: width * 0.05,
+                            color: Colors.black,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              if (week < maxWeek) {
+                                week++;
+                                print("Week: $week");
+                                currentWeek = box.getAt(week);
+                                autoDecr = settingsBox.get("autoDecr");
+                                decrAmount = settingsBox.get("autoDecrAmount");
+                                amount = TextEditingController(
+                                    text: decrAmount.toString());
+                                planSlider = calculateNextWeekSEPlan();
+                                daySlider = currentWeek.plannedDay;
+                                seValue = currentWeek.getSethisWeek();
+                                dayValue = currentWeek.getUsedDays();
+                              }
+                            });
+                          },
                         ),
-                        onPressed: () {
-                          setState(() {
-                            if (week < maxWeek) {
-                              week++;
-                              print("Week: $week");
-                              currentWeek = box.getAt(week);
-                              autoDecr = settingsBox.get("autoDecr");
-                              decrAmount = settingsBox.get("autoDecrAmount");
-                              amount = TextEditingController(
-                                  text: decrAmount.toString());
-                              planSlider = calculateNextWeekSEPlan();
-                              daySlider = currentWeek.plannedDay;
-                              seValue = currentWeek.getSethisWeek();
-                              dayValue = currentWeek.getUsedDays();
-                            }
-                          });
-                        },
                       ),
                     ],
                   ),
@@ -151,7 +162,7 @@ class _SessionPageState extends State<SessionPage> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  Text(
+                  PlatformText(
                     "Planung Woche ${week + 1}:  \n" +
                         planSlider!.toStringAsPrecision(2) +
                         " SE",
@@ -159,7 +170,7 @@ class _SessionPageState extends State<SessionPage> {
                     style: TextStyle(
                         fontWeight: FontWeight.bold, fontSize: width * 0.05),
                   ),
-                  Slider(
+                  PlatformSlider(
                     activeColor: Colors.yellow,
                     value: planSlider!,
                     min: 0,
@@ -180,13 +191,13 @@ class _SessionPageState extends State<SessionPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      PlatformText(
                         "Wöchentlich automatisch verringern?",
                         style: TextStyle(fontSize: width * 0.03),
                       ),
                       Transform.scale(
                         scale: 1.6,
-                        child: Switch(
+                        child: PlatformSwitch(
                           value: autoDecr,
                           activeColor: Theme.of(context).primaryColor,
                           onChanged: (value) {
@@ -203,11 +214,11 @@ class _SessionPageState extends State<SessionPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text("Anzahl: "),
+                        PlatformText("Anzahl: "),
                         SizedBox(
                             height: height * 0.07,
                             width: width * 0.3,
-                            child: TextField(
+                            child: PlatformTextField(
                               controller: amount,
                               keyboardType: TextInputType.number,
                               onSubmitted: (value) {
@@ -220,13 +231,13 @@ class _SessionPageState extends State<SessionPage> {
                     visible: autoDecr,
                   ),
                   Divider(),
-                  Text(
+                  PlatformText(
                     "Konsumtage: \n" + daySlider!.toStringAsPrecision(1),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontWeight: FontWeight.bold, fontSize: width * 0.05),
                   ),
-                  Slider(
+                  PlatformSlider(
                     activeColor: Colors.yellow,
                     value: daySlider!,
                     min: 0,
@@ -249,17 +260,6 @@ class _SessionPageState extends State<SessionPage> {
             ),
           )
         ],
-      ),
-      floatingActionButton: SizedBox(
-        height: height * 0.12,
-        width: width * 0.12,
-        child: new FloatingActionButton(
-            backgroundColor: Theme.of(context).primaryColor,
-            child: Icon(
-              Icons.settings,
-              size: width * 0.07,
-            ),
-            onPressed: openSettings),
       ),
     );
   }

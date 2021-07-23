@@ -3,6 +3,7 @@ import 'package:aloha/Classification/ClassifierQuant.dart';
 import 'package:aloha/Classification/Utility.dart';
 import 'package:aloha/Modelle/Drinks.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as img;
@@ -91,7 +92,7 @@ class _CameraState extends State<Camera> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return Scaffold(
+    return PlatformScaffold(
       body: ListView(
         children: [
           Card(
@@ -103,7 +104,7 @@ class _CameraState extends State<Camera> {
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: _image == null
                         ? Icon(
-                            Icons.autorenew_sharp,
+                            PlatformIcons(context).refresh,
                             size: width * 0.45,
                           )
                         : _imageWidget,
@@ -190,14 +191,13 @@ class _CameraState extends State<Camera> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    Text(
+                    PlatformText(
                       "Name: ",
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    TextField(
-                      controller: nameCollector,
-                      decoration: InputDecoration(
+                    PlatformTextField(
+                      material: (context, platform) => MaterialTextFieldData(decoration: InputDecoration(
                         disabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Theme.of(context).primaryColor)),
@@ -210,7 +210,9 @@ class _CameraState extends State<Camera> {
                         border: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Theme.of(context).primaryColor)),
-                      ),
+                      ),),
+                      controller: nameCollector,
+
                     ),
                   ],
                 ),
@@ -229,9 +231,9 @@ class _CameraState extends State<Camera> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text("Name: $ownName", style: TextStyle(fontSize: width * 0.05),),
-                      Text("Volumen: $ownVolume ml", style: TextStyle(fontSize: width * 0.05),),
-                      Text("Volumenprozent: $ownVolumePart \u2030", style: TextStyle(fontSize: width * 0.05),)
+                      PlatformText("Name: $ownName", style: TextStyle(fontSize: width * 0.05),),
+                      PlatformText("Volumen: $ownVolume ml", style: TextStyle(fontSize: width * 0.05),),
+                      PlatformText("Volumenprozent: $ownVolumePart \u2030", style: TextStyle(fontSize: width * 0.05),)
                     ],
                   ),
                 ),
@@ -245,20 +247,18 @@ class _CameraState extends State<Camera> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    Text(
+                    PlatformText(
                       "Volumenprozent: ",
                       style:
                           TextStyle(fontSize: width * 0.05, fontWeight: FontWeight.bold),
                     ),
-                    Text(_currentSliderValue.toStringAsPrecision(2), style: TextStyle(fontSize: width * 0.04),),
-                    Slider(
+                    PlatformText(_currentSliderValue.toStringAsPrecision(2), style: TextStyle(fontSize: width * 0.04),),
+                    PlatformSlider(
                       value: _currentSliderValue,
                       min: 0,
                       max: volumeSliderMax,
                       divisions: 1000,
-                      inactiveColor: Colors.amber,
                       activeColor: Colors.yellow,
-                      label: _currentSliderValue.toStringAsPrecision(2),
                       onChanged: (double value) {
                         setState(() {
                           _currentSliderValue = value;
@@ -278,20 +278,18 @@ class _CameraState extends State<Camera> {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      Text(
+                      PlatformText(
                         "Volumen: ",
                         style: TextStyle(
                             fontSize: width * 0.05, fontWeight: FontWeight.bold),
                       ),
-                      Text(_currentSliderValuePart.toStringAsPrecision(2), style: TextStyle(fontSize: width * 0.04),),
-                      Slider(
+                      PlatformText(_currentSliderValuePart.toStringAsPrecision(2), style: TextStyle(fontSize: width * 0.04),),
+                      PlatformSlider(
                         activeColor: Colors.yellow,
-                        inactiveColor: Colors.amber,
                         value: _currentSliderValuePart,
                         min: 0.0,
                         max: 2.0,
                         divisions: 20,
-                        label: _currentSliderValuePart.toStringAsPrecision(2),
                         onChanged: (double value) {
                           setState(() {
                             _currentSliderValuePart = value;
@@ -312,7 +310,7 @@ class _CameraState extends State<Camera> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Text(
+                      child: PlatformText(
                         "Volumen: ",
                         style: TextStyle(
                             fontSize: width * 0.05, fontWeight: FontWeight.bold),
@@ -321,8 +319,8 @@ class _CameraState extends State<Camera> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        OutlinedButton(
-                          style: smallButtonStyle,
+                        PlatformElevatedButton(
+                          material: (context, platform) => MaterialElevatedButtonData(style: smallButtonStyle,),
                           onPressed: () {
                             setState(() {
                               selectedButton = 0;
@@ -343,7 +341,7 @@ class _CameraState extends State<Camera> {
                                   size: width * 0.1,
                                   color: Colors.black,
                                 ),
-                                Text(
+                                PlatformText(
                                   "$lowValue L",
                                   style: TextStyle(
                                       color: Colors.black, fontSize: width * 0.05),
@@ -352,8 +350,8 @@ class _CameraState extends State<Camera> {
                             ),
                           ),
                         ),
-                        OutlinedButton(
-                          style: mediumButtonStyle,
+                        PlatformElevatedButton(
+                          material: (context, platform) => MaterialElevatedButtonData(style: mediumButtonStyle,),
                           onPressed: () {
                             setState(() {
                               selectedButton = 1;
@@ -374,7 +372,7 @@ class _CameraState extends State<Camera> {
                                   size: width * 0.12,
                                   color: Colors.black,
                                 ),
-                                Text(
+                                PlatformText(
                                   "$mediumValue L",
                                   style: TextStyle(
                                       color: Colors.black, fontSize: width * 0.05),
@@ -383,8 +381,8 @@ class _CameraState extends State<Camera> {
                             ),
                           ),
                         ),
-                        OutlinedButton(
-                          style: largeButtonStyle,
+                        PlatformElevatedButton(
+                          material: (context, platform) => MaterialElevatedButtonData(style: largeButtonStyle,),
                           onPressed: () {
                             setState(() {
                               selectedButton = 2;
@@ -405,7 +403,7 @@ class _CameraState extends State<Camera> {
                                   size: width * 0.14,
                                   color: Colors.black,
                                 ),
-                                Text(
+                                PlatformText(
                                   "$largeValue L",
                                   style: TextStyle(
                                       color: Colors.black, fontSize: width * 0.05),
@@ -414,8 +412,8 @@ class _CameraState extends State<Camera> {
                             ),
                           ),
                         ),
-                        OutlinedButton(
-                          style: xlargeButtonStyle,
+                        PlatformElevatedButton(
+                          material: (context, platform) => MaterialElevatedButtonData(style: xlargeButtonStyle,),
                           onPressed: () {
                             setState(() {
                               selectedButton = 3;
@@ -436,7 +434,7 @@ class _CameraState extends State<Camera> {
                                   size: width * 0.17,
                                   color: Colors.black,
                                 ),
-                                Text(
+                                PlatformText(
                                   "$xLargeValue L",
                                   style: TextStyle(
                                       color: Colors.black, fontSize: width * 0.05),
@@ -456,28 +454,29 @@ class _CameraState extends State<Camera> {
           Row(
             mainAxisAlignment: buttonCentered,
             children: [
-              ElevatedButton(
+              PlatformElevatedButton(
+                material: (context, platform) => MaterialElevatedButtonData(
+                  style: OutlinedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      primary: Colors.black),),
                 onPressed: () {
                   getImage();
                 },
-                style: OutlinedButton.styleFrom(
-                    backgroundColor: Theme.of(context).primaryColor,
-                    primary: Colors.black),
-                child: Text(
+                child: PlatformText(
                   "Nochmal",
                   style: TextStyle(fontSize: width * 0.05, fontWeight: FontWeight.bold),
                 ),
               ),
               Visibility(
                 visible: !isNone,
-                child: ElevatedButton(
+                child: PlatformElevatedButton(
+                  material: (context, platform) => MaterialElevatedButtonData(style: OutlinedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      primary: Colors.black),),
                   onPressed: () {
                     save(context);
                   },
-                  style: OutlinedButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      primary: Colors.black),
-                  child: Text(
+                  child: PlatformText(
                     "Speichern",
                     style: TextStyle(fontSize: width * 0.05, fontWeight: FontWeight.bold),
                   ),
