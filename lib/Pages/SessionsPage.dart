@@ -6,7 +6,6 @@ import 'package:aloha/Pages/SettingsPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:page_view_indicators/animated_circle_page_indicator.dart';
 import 'package:page_view_indicators/arrow_page_indicator.dart';
 
 class SessionPage extends StatefulWidget {
