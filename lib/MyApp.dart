@@ -56,14 +56,17 @@ class _MyAppState extends State<MyApp> {
         ),
         items: [
           BottomNavigationBarItem(
+            label: "Timeline",
             icon: Icon(PlatformIcons(context).time,
                 color: Theme.of(context).primaryColor),
           ),
           BottomNavigationBarItem(
+            label: "Home",
             icon: Icon(PlatformIcons(context).home,
                 color: Theme.of(context).primaryColor),
           ),
           BottomNavigationBarItem(
+            label: "Woche",
             icon: Icon(PlatformIcons(context).person,
                 color: Theme.of(context).primaryColor),
           ),

@@ -651,4 +651,9 @@ class _CameraState extends State<Camera> {
       return 0;
     }
   }
+  @override
+  void dispose() {
+    nameCollector.dispose();
+    super.dispose();
+  }
 }

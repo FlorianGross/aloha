@@ -4,6 +4,7 @@ import 'package:aloha/Widgets/DayButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:hive/hive.dart';
 
 class Settings extends StatefulWidget {
@@ -117,20 +118,21 @@ class _SettingsState extends State<Settings> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  PlatformText(
                     "Einstellungen",
                     style: TextStyle(
                         fontSize: width * 0.06, fontWeight: FontWeight.w500),
                   ),
-                  ElevatedButton(
+                  PlatformElevatedButton(
+                    material: (context, platform) => MaterialElevatedButtonData(style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).primaryColor),),
                     child: Icon(
                       Icons.arrow_back,
                       color: Colors.black,
                       size: width * 0.05,
                     ),
                     onPressed: pop,
-                    style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).primaryColor),
+
                   ),
                 ],
               ),
@@ -146,7 +148,7 @@ class _SettingsState extends State<Settings> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          PlatformText(
                             "Darkmode: ",
                             style: TextStyle(fontSize: width * 0.04),
                           ),
@@ -156,13 +158,13 @@ class _SettingsState extends State<Settings> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          PlatformText(
                             "Benachrichtigungen: ",
                             style: TextStyle(fontSize: width * 0.04),
                           ),
                           Transform.scale(
                             scale: 1.6,
-                            child: Switch(
+                            child: PlatformSwitch(
                               activeColor: Theme.of(context).primaryColor,
                               value: notifications!,
                               onChanged: (value) {
@@ -290,13 +292,13 @@ class _SettingsState extends State<Settings> {
                                   top: 8.0,
                                   bottom: 8.0,
                                 ),
-                                child: ElevatedButton(
-                                  child: Text(
+                                child: PlatformElevatedButton(
+                                  material: (context, platform) => MaterialElevatedButtonData(style: ElevatedButton.styleFrom(
+                                      primary: Theme.of(context).primaryColor),),
+                                  child: PlatformText(
                                     "Uhrzeit wählen: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}",
                                     style: TextStyle(color: Colors.black, fontSize: width * 0.03),
                                   ),
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Theme.of(context).primaryColor),
                                   onPressed: () => pickTime(context),
                                 ),
                               ),
@@ -310,27 +312,23 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
               Row(
-                children: [Text(
+                children: [PlatformText(
                   "Eigenes Getränk",
                   style: TextStyle(fontSize: width * 0.06, fontWeight: FontWeight.w500,),
                 ),Spacer()]
               ),
               Divider(),
               Card(
-                child: ListView(
-                  padding:
-                      EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
-                  primary: false,
-                  shrinkWrap: true,
+                child: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Name: ", style: TextStyle(fontSize: width * 0.04),),
+                        PlatformText("Name: ", style: TextStyle(fontSize: width * 0.04),),
                         SizedBox(
                           width: width * 0.4,
                           height: height * 0.08,
-                          child: TextField(
+                          child: PlatformTextField(
                             style: TextStyle(fontSize: width * 0.03),
                             controller: nameController,
                           ),
@@ -341,11 +339,11 @@ class _SettingsState extends State<Settings> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Volumen in ml: ", style: TextStyle(fontSize: width * 0.04),),
+                        PlatformText("Volumen in ml: ", style: TextStyle(fontSize: width * 0.04),),
                         SizedBox(
                           width: width * 0.4,
                           height: height * 0.08,
-                          child: TextField(
+                          child: PlatformTextField(
                             style: TextStyle(fontSize: width * 0.03),
                             keyboardType: TextInputType.number,
                             inputFormatters: [
@@ -368,11 +366,11 @@ class _SettingsState extends State<Settings> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Volumen%: ", style: TextStyle(fontSize: width * 0.04),),
+                        PlatformText("Volumen%: ", style: TextStyle(fontSize: width * 0.04),),
                         SizedBox(
                           width: width * 0.4,
                           height: height * 0.08,
-                          child: TextField(
+                          child: PlatformTextField(
                             style: TextStyle(fontSize: width * 0.03),
                             inputFormatters: [
                               FilteringTextInputFormatter.allow(
@@ -395,7 +393,7 @@ class _SettingsState extends State<Settings> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Entspricht in SE: ", style: TextStyle(fontSize: width * 0.04),),
+                        PlatformText("Entspricht in SE: ", style: TextStyle(fontSize: width * 0.04),),
                         Padding(
                           padding: EdgeInsets.only(right: width * 0.17),
                           child: Text(ownSE.toStringAsPrecision(2) + " SE", style: TextStyle(fontSize: width * 0.03),),
@@ -403,12 +401,13 @@ class _SettingsState extends State<Settings> {
                       ],
                     ),
                     Divider(),
-                    OutlinedButton(
-                      style: OutlinedButton.styleFrom(
+                    PlatformElevatedButton(
+                      material: (context, platform) => MaterialElevatedButtonData(style: OutlinedButton.styleFrom(
                           primary: Colors.black,
                           backgroundColor: Theme.of(context).primaryColor,
-                          alignment: Alignment.center),
-                      child: Text(
+                          alignment: Alignment.center),),
+
+                      child: PlatformText(
                         "Speichern",
                         style: TextStyle(color: Colors.black, fontSize: width * 0.03),
                       ),

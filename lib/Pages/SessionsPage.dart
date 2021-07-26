@@ -53,7 +53,9 @@ class _SessionPageState extends State<SessionPage> {
       cupertino: (context, platform) => CupertinoPageScaffoldData(),
       body: Padding(
         padding: EdgeInsets.only(top: height * 0.05),
-        child: new Column(
+        child: ListView(
+          shrinkWrap: true,
+          primary: true,
           children: [
             Card(
               child: Padding(
@@ -103,10 +105,8 @@ class _SessionPageState extends State<SessionPage> {
                         });
                       },
                       onChangeEnd: (value) {
-                        setState(() {
                           settingsBox.put("SEforNextWeek", value);
                           print("save");
-                        });
                       },
                     ),
                     Row(
@@ -167,19 +167,18 @@ class _SessionPageState extends State<SessionPage> {
                       onChanged: (value) {
                         setState(() {
                           daySlider = value;
-                          settingsBox.put("DaysForNextWeek", value);
                         });
                       },
                       onChangeEnd: (value) {
-                        setState(() {
                           print("save");
-                        });
+                          settingsBox.put("DaysForNextWeek", value);
                       },
                     ),
                   ],
                 ),
               ),
-            )
+            ),
+            PlatformElevatedButton(onPressed: openSettings, child: Text("Einstellungen"),)
           ],
         ),
       ),
@@ -207,13 +206,19 @@ class _SessionPageState extends State<SessionPage> {
   }
 
   Future<void> setWeek(int value) async {
-    setState(() {
       week = value;
       currentWeek = box.getAt(week);
       seValue = currentWeek.getSethisWeek();
       dayValue = currentWeek.getUsedDays();
       _currentPageNotifier.value = value;
-    });
+  }
+
+  Future<void> initWeek(int value) async {
+      week = value;
+      currentWeek = box.getAt(week);
+      seValue = currentWeek.getSethisWeek();
+      dayValue = currentWeek.getUsedDays();
+      _currentPageNotifier.value = value;
   }
 
   _buildPageView(double width) {
@@ -222,10 +227,10 @@ class _SessionPageState extends State<SessionPage> {
       controller: _pageController,
       reverse: true,
       onPageChanged: (value) {
-        setWeek(maxWeek - value);
+        setWeek(value);
       },
       itemBuilder: (context, index) {
-        setWeek(maxWeek - index);
+        initWeek(index);
         return Card(
           color: Colors.black12,
           child: Padding(
@@ -251,5 +256,13 @@ class _SessionPageState extends State<SessionPage> {
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    amount!.dispose();
+    _pageController.dispose();
+    _currentPageNotifier.dispose();
+    super.dispose();
   }
 }

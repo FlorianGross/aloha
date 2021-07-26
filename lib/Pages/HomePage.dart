@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
     }
     return Container(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
             padding: EdgeInsets.only(top: height * 0.1),
@@ -94,12 +94,12 @@ class _HomePageState extends State<HomePage> {
             },
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: height * 0.15),
+            padding: EdgeInsets.only(bottom: height * 0.05),
             child: PlatformElevatedButton(
               child: PlatformText('Schnell', style: TextStyle(color: Colors.black),),
               onPressed: () => onTap(true),
-              material: (context, platform) => MaterialElevatedButtonData(),
-              cupertino: (context, platform) => CupertinoElevatedButtonData(),
+              material: (context, platform) => MaterialElevatedButtonData(style: OutlinedButton.styleFrom(backgroundColor: Colors.yellow)),
+              cupertino: (context, platform) => CupertinoElevatedButtonData(color: Colors.yellow),
             ),
           ),
         ],
@@ -197,5 +197,10 @@ class _HomePageState extends State<HomePage> {
         print("Error saving preset: " + e.toString());
       }
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

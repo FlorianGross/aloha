@@ -215,4 +215,9 @@ class _GetraenkeListItemState extends State<GetraenkeListItem> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 }

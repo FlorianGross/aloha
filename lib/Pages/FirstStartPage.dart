@@ -3,6 +3,7 @@ import 'package:aloha/Widgets/DayButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:hive/hive.dart';
 import '../MyApp.dart';
 import '../Notifications.dart';
@@ -49,7 +50,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return Scaffold(
+    return PlatformScaffold(
       body: ListView(
         children: [
           Padding(
@@ -72,11 +73,11 @@ class _FirstStartPageState extends State<FirstStartPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("SE für die erste Woche:"),
+                        PlatformText("SE für die erste Woche:"),
                         SizedBox(
                           height: 50,
                           width: 150,
-                          child: TextField(
+                          child: PlatformTextField(
                             controller: seFirstWeek,
                             keyboardType: TextInputType.number,
                             inputFormatters: [
@@ -90,8 +91,8 @@ class _FirstStartPageState extends State<FirstStartPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Wöchentlich automatisch verringern?"),
-                        Switch(
+                        PlatformText("Wöchentlich automatisch verringern?"),
+                        PlatformSwitch(
                           value: autoDecr,
                           activeColor: Theme.of(context).primaryColor,
                           onChanged: (value) {
@@ -106,11 +107,11 @@ class _FirstStartPageState extends State<FirstStartPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Text("Anzahl: "),
+                          PlatformText("Anzahl: "),
                           SizedBox(
                             height: 50,
                             width: 150,
-                            child: TextField(
+                            child: PlatformTextField(
                               controller: amount,
                               keyboardType: TextInputType.number,
                               inputFormatters: [
@@ -126,15 +127,16 @@ class _FirstStartPageState extends State<FirstStartPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Konsumtage: "),
+                        PlatformText("Konsumtage: "),
                         SizedBox(
                           height: 50,
                           width: 150,
-                          child: TextField(
+                          child: PlatformTextField(
                             controller: consumptionDays,
                             keyboardType: TextInputType.number,
                             inputFormatters: [
-                              FilteringTextInputFormatter.allow(RegExp(r"^\d*"))
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r"[0-7]"))
                             ],
                           ),
                         ),
@@ -143,8 +145,8 @@ class _FirstStartPageState extends State<FirstStartPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Benachrichtigungen: "),
-                        Switch(
+                        PlatformText("Benachrichtigungen: "),
+                        PlatformSwitch(
                             activeColor: Theme.of(context).primaryColor,
                             value: notificationsOn,
                             onChanged: (value) {
@@ -211,13 +213,16 @@ class _FirstStartPageState extends State<FirstStartPage> {
                                   weekday: "So"),
                             ],
                           ),
-                          ElevatedButton(
-                              child: Text(
+                          PlatformElevatedButton(
+                              material: (context, platform) =>
+                                  MaterialElevatedButtonData(
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.yellow),
+                                  ),
+                              child: PlatformText(
                                 "Uhrzeit wählen: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}",
                                 style: TextStyle(color: Colors.black),
                               ),
-                              style: ElevatedButton.styleFrom(
-                                  primary: Colors.yellow),
                               onPressed: () => pickTime(context)),
                         ],
                       ),
@@ -225,8 +230,8 @@ class _FirstStartPageState extends State<FirstStartPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(backgroundColor: Theme.of(context).primaryColor),
+                      child: PlatformButton(
+                        material: (context, platform) => MaterialRaisedButtonData(),
                         onPressed: () {
                           try {
                             saveSettings();
@@ -241,7 +246,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
                             print("Error: " + e.toString());
                           }
                         },
-                        child: Text(
+                        child: PlatformText(
                           "Speichern",
                           style: TextStyle(
                             color: Colors.black,
@@ -255,7 +260,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
             ),
           ),
           Center(
-              child: Text("Erster Start: " +
+              child: PlatformText("Erster Start: " +
                   settingsBox.get("firstStartDate").toString())),
         ],
       ),
@@ -286,12 +291,12 @@ class _FirstStartPageState extends State<FirstStartPage> {
         week: 0,
         endDate: startDate
             .add(Duration(
-            days: 6,
-            hours: 23,
-            minutes: 59,
-            microseconds: 999,
-            milliseconds: 99,
-            seconds: 59))
+                days: 6,
+                hours: 23,
+                minutes: 59,
+                microseconds: 999,
+                milliseconds: 99,
+                seconds: 59))
             .millisecondsSinceEpoch,
         plannedDay: double.parse(consumptionDays.text),
         startdate: startDate.millisecondsSinceEpoch);
@@ -341,6 +346,8 @@ class _FirstStartPageState extends State<FirstStartPage> {
 
   @override
   void dispose() {
+    consumptionDays.dispose();
+    amount.dispose();
     seFirstWeek.dispose();
     super.dispose();
   }

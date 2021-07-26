@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class DayButton extends StatefulWidget {
   final ValueChanged<bool> onTab;
@@ -38,7 +39,7 @@ class _DayButtonState extends State<DayButton> {
         onTab.call(_isSelected);
       },
       child: Container(
-        child: Center(child: Text(weekday, style: TextStyle(color: _textColor, fontSize: fontSize),)),
+        child: Center(child: PlatformText(weekday, style: TextStyle(color: _textColor, fontSize: fontSize),)),
         height: size,
         width: size,
         decoration: BoxDecoration(
