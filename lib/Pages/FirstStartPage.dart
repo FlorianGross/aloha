@@ -49,7 +49,6 @@ class _FirstStartPageState extends State<FirstStartPage> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     return PlatformScaffold(
       body: ListView(
         children: [
@@ -78,6 +77,11 @@ class _FirstStartPageState extends State<FirstStartPage> {
                           height: 50,
                           width: 150,
                           child: PlatformTextField(
+                            material: (context, platform) =>
+                                MaterialTextFieldData(
+                                    cursorColor: Colors.yellow,
+                                    decoration: InputDecoration(
+                                        filled: true, fillColor: Colors.white)),
                             controller: seFirstWeek,
                             keyboardType: TextInputType.number,
                             inputFormatters: [
@@ -112,6 +116,12 @@ class _FirstStartPageState extends State<FirstStartPage> {
                             height: 50,
                             width: 150,
                             child: PlatformTextField(
+                              material: (context, platform) =>
+                                  MaterialTextFieldData(
+                                      cursorColor: Colors.yellow,
+                                      decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.white)),
                               controller: amount,
                               keyboardType: TextInputType.number,
                               inputFormatters: [
@@ -132,6 +142,11 @@ class _FirstStartPageState extends State<FirstStartPage> {
                           height: 50,
                           width: 150,
                           child: PlatformTextField(
+                            material: (context, platform) =>
+                                MaterialTextFieldData(
+                                    cursorColor: Colors.yellow,
+                                    decoration: InputDecoration(
+                                        filled: true, fillColor: Colors.white)),
                             controller: consumptionDays,
                             keyboardType: TextInputType.number,
                             inputFormatters: [
@@ -163,49 +178,49 @@ class _FirstStartPageState extends State<FirstStartPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               DayButton(
-                                  fontSize: width * 0.07,
+                                  fontSize: width * 0.06,
                                   onTab: (val) {
                                     isMoBut = val;
                                   },
                                   size: 50,
                                   weekday: "Mo"),
                               DayButton(
-                                  fontSize: width * 0.07,
+                                  fontSize: width * 0.06,
                                   onTab: (value) {
                                     isDiBut = value;
                                   },
                                   size: 50,
                                   weekday: "Di"),
                               DayButton(
-                                  fontSize: width * 0.07,
+                                  fontSize: width * 0.06,
                                   onTab: (value) {
                                     isMiBut = value;
                                   },
                                   size: 50,
                                   weekday: "Mi"),
                               DayButton(
-                                  fontSize: width * 0.07,
+                                  fontSize: width * 0.06,
                                   onTab: (val) {
                                     isDoBut = val;
                                   },
                                   size: 50,
                                   weekday: "Do"),
                               DayButton(
-                                  fontSize: width * 0.07,
+                                  fontSize: width * 0.06,
                                   onTab: (val) {
                                     isFrBut = val;
                                   },
                                   size: 50,
                                   weekday: "Fr"),
                               DayButton(
-                                  fontSize: width * 0.07,
+                                  fontSize: width * 0.06,
                                   onTab: (val) {
                                     isSaBut = val;
                                   },
                                   size: 50,
                                   weekday: "Sa"),
                               DayButton(
-                                  fontSize: width * 0.07,
+                                  fontSize: width * 0.06,
                                   onTab: (val) {
                                     isSoBut = val;
                                   },
@@ -231,7 +246,8 @@ class _FirstStartPageState extends State<FirstStartPage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: PlatformButton(
-                        material: (context, platform) => MaterialRaisedButtonData(),
+                        material: (context, platform) =>
+                            MaterialRaisedButtonData(),
                         onPressed: () {
                           try {
                             saveSettings();
@@ -335,8 +351,14 @@ class _FirstStartPageState extends State<FirstStartPage> {
 
   Future<void> pickTime(BuildContext context) async {
     final initialTime = TimeOfDay(hour: hour, minute: minute);
-    final newTime =
-        await showTimePicker(context: context, initialTime: initialTime);
+    final newTime = await showTimePicker(
+      context: context,
+      initialTime: initialTime,
+      cancelText: "Abbrechen",
+      confirmText: "Bestätigen",
+      initialEntryMode: TimePickerEntryMode.dial,
+      helpText: "Hilfe",
+    );
     if (newTime == null) return;
     setState(() {
       hour = newTime.hour;

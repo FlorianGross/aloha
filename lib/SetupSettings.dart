@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SetupSettings {
-  double screenWidth = 100;
-  double screenHeight = 100;
   Color backgroundColor = Colors.black26;
   Color textSelected = Colors.black;
   Color textUnselected = Colors.white;
@@ -12,10 +10,26 @@ class SetupSettings {
 
   ThemeData getMaterialDayTheme() {
     return ThemeData(
+      indicatorColor: primary,
+      accentColor: Colors.yellowAccent,
+      textSelectionTheme: TextSelectionThemeData(
+          cursorColor: primary, selectionHandleColor: primary),
       fontFamily: "Roboto",
       scaffoldBackgroundColor: Colors.white,
       brightness: Brightness.light,
       primaryColor: primary,
+      buttonColor: primary,
+      timePickerTheme: TimePickerThemeData(
+          dialBackgroundColor: primary,
+          hourMinuteColor: primary,
+          inputDecorationTheme: InputDecorationTheme(
+            focusColor: primary,
+          ),
+          dayPeriodTextColor: Colors.black,
+          dialHandColor: Colors.white,
+          dialTextColor: Colors.black,
+          hourMinuteTextColor: Colors.black,
+          backgroundColor: Colors.white),
       backgroundColor: Colors.yellowAccent,
       bottomNavigationBarTheme: BottomNavigationBarThemeData(),
       colorScheme: ColorScheme.light(),
@@ -64,16 +78,19 @@ class SetupSettings {
         accentColor: Colors.yellowAccent);
   }
 
-  CupertinoThemeData getCupertinoDayTheme(){
-
-    return CupertinoThemeData(primaryColor: primary, brightness: Brightness.light, scaffoldBackgroundColor: Colors.white);
+  CupertinoThemeData getCupertinoDayTheme() {
+    return CupertinoThemeData(
+        primaryColor: primary,
+        brightness: Brightness.light,
+        scaffoldBackgroundColor: Colors.white);
   }
 
-  CupertinoThemeData getCupertinoNightTheme(){
-
-    return CupertinoThemeData(primaryColor: primary, brightness: Brightness.dark, scaffoldBackgroundColor: Colors.black26);
+  CupertinoThemeData getCupertinoNightTheme() {
+    return CupertinoThemeData(
+        primaryColor: primary,
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: Colors.black26);
   }
-
 }
 
 class ThemeProvider extends ChangeNotifier {

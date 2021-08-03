@@ -45,7 +45,7 @@
 		<true/>
 		<key>NSCameraUsageDescription</key>
 		<true/>
-        <key>NSMicrophoneUsageDescription</key>
-        <true/>
+		<key>NSMicrophoneUsageDescription</key>
+		<true/>
 	</dict>
 </plist>

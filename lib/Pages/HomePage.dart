@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
             },
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: height * 0.05),
+            padding: EdgeInsets.only(bottom: height * 0.04),
             child: PlatformElevatedButton(
               child: PlatformText('Schnell', style: TextStyle(color: Colors.black),),
               onPressed: () => onTap(true),

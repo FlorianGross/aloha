@@ -124,15 +124,16 @@ class _SettingsState extends State<Settings> {
                         fontSize: width * 0.06, fontWeight: FontWeight.w500),
                   ),
                   PlatformElevatedButton(
-                    material: (context, platform) => MaterialElevatedButtonData(style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).primaryColor),),
+                    material: (context, platform) => MaterialElevatedButtonData(
+                      style: ElevatedButton.styleFrom(
+                          primary: Theme.of(context).primaryColor),
+                    ),
                     child: Icon(
                       Icons.arrow_back,
                       color: Colors.black,
                       size: width * 0.05,
                     ),
                     onPressed: pop,
-
                   ),
                 ],
               ),
@@ -186,7 +187,8 @@ class _SettingsState extends State<Settings> {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   DayButton(
                                       weekday: "Mo",
@@ -262,29 +264,29 @@ class _SettingsState extends State<Settings> {
                                   DayButton(
                                     fontSize: width * 0.03,
                                     size: width * 0.07,
-                                      onTab: (val) {
-                                        isSaBut = val;
-                                        if (isSaBut) {
-                                          addNotification(6);
-                                        } else {
-                                          removeNotification(6);
-                                        }
-                                      },
-                                      weekday: "Sa",
-                                      ),
+                                    onTab: (val) {
+                                      isSaBut = val;
+                                      if (isSaBut) {
+                                        addNotification(6);
+                                      } else {
+                                        removeNotification(6);
+                                      }
+                                    },
+                                    weekday: "Sa",
+                                  ),
                                   DayButton(
-                                      fontSize: width * 0.03,
-                                      size: width * 0.07,
-                                      onTab: (val) {
-                                        isSoBut = val;
-                                        if (isSoBut) {
-                                          addNotification(7);
-                                        } else {
-                                          removeNotification(7);
-                                        }
-                                      },
-                                      weekday: "So",
-                                      ),
+                                    fontSize: width * 0.03,
+                                    size: width * 0.07,
+                                    onTab: (val) {
+                                      isSoBut = val;
+                                      if (isSoBut) {
+                                        addNotification(7);
+                                      } else {
+                                        removeNotification(7);
+                                      }
+                                    },
+                                    weekday: "So",
+                                  ),
                                 ],
                               ),
                               Padding(
@@ -293,11 +295,17 @@ class _SettingsState extends State<Settings> {
                                   bottom: 8.0,
                                 ),
                                 child: PlatformElevatedButton(
-                                  material: (context, platform) => MaterialElevatedButtonData(style: ElevatedButton.styleFrom(
-                                      primary: Theme.of(context).primaryColor),),
+                                  material: (context, platform) =>
+                                      MaterialElevatedButtonData(
+                                    style: ElevatedButton.styleFrom(
+                                        primary:
+                                            Theme.of(context).primaryColor),
+                                  ),
                                   child: PlatformText(
                                     "Uhrzeit wählen: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}",
-                                    style: TextStyle(color: Colors.black, fontSize: width * 0.03),
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: width * 0.03),
                                   ),
                                   onPressed: () => pickTime(context),
                                 ),
@@ -311,109 +319,134 @@ class _SettingsState extends State<Settings> {
                   ),
                 ),
               ),
-              Row(
-                children: [PlatformText(
+              Row(children: [
+                PlatformText(
                   "Eigenes Getränk",
-                  style: TextStyle(fontSize: width * 0.06, fontWeight: FontWeight.w500,),
-                ),Spacer()]
-              ),
+                  style: TextStyle(
+                    fontSize: width * 0.06,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Spacer()
+              ]),
               Divider(),
               Card(
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        PlatformText("Name: ", style: TextStyle(fontSize: width * 0.04),),
-                        SizedBox(
-                          width: width * 0.4,
-                          height: height * 0.08,
-                          child: PlatformTextField(
-                            style: TextStyle(fontSize: width * 0.03),
-                            controller: nameController,
+                child: Padding(
+                  padding: EdgeInsets.all(width * 0.05),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          PlatformText(
+                            "Name: ",
+                            style: TextStyle(fontSize: width * 0.04),
                           ),
-                        ),
-                      ],
-                    ),
-                    Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        PlatformText("Volumen in ml: ", style: TextStyle(fontSize: width * 0.04),),
-                        SizedBox(
-                          width: width * 0.4,
-                          height: height * 0.08,
-                          child: PlatformTextField(
-                            style: TextStyle(fontSize: width * 0.03),
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r"^\d*\.?\d*"))
-                            ],
-                            controller: volumeController,
-                            onSubmitted: (value) {
-                              setState(() {
-                                volumen = double.parse(value);
-                                ownSE =
-                                    (volumen! * 0.8 * (volumePart! / 1000)) / 2;
-                              });
-                            },
+                          SizedBox(
+                            width: width * 0.4,
+                            height: height * 0.08,
+                            child: PlatformTextField(
+                              style: TextStyle(fontSize: width * 0.03),
+                              controller: nameController,
+                            ),
                           ),
-                        )
-                      ],
-                    ),
-                    Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        PlatformText("Volumen%: ", style: TextStyle(fontSize: width * 0.04),),
-                        SizedBox(
-                          width: width * 0.4,
-                          height: height * 0.08,
-                          child: PlatformTextField(
-                            style: TextStyle(fontSize: width * 0.03),
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r"^\d*\.?\d*"))
-                            ],
-                            keyboardType: TextInputType.number,
-                            controller: volumePartController,
-                            onSubmitted: (value) {
-                              setState(() {
-                                volumePart = double.parse(value);
-                                ownSE =
-                                    (volumen! * 0.8 * (volumePart! / 1000)) / 2;
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        PlatformText("Entspricht in SE: ", style: TextStyle(fontSize: width * 0.04),),
-                        Padding(
-                          padding: EdgeInsets.only(right: width * 0.17),
-                          child: Text(ownSE.toStringAsPrecision(2) + " SE", style: TextStyle(fontSize: width * 0.03),),
-                        ),
-                      ],
-                    ),
-                    Divider(),
-                    PlatformElevatedButton(
-                      material: (context, platform) => MaterialElevatedButtonData(style: OutlinedButton.styleFrom(
-                          primary: Colors.black,
-                          backgroundColor: Theme.of(context).primaryColor,
-                          alignment: Alignment.center),),
-
-                      child: PlatformText(
-                        "Speichern",
-                        style: TextStyle(color: Colors.black, fontSize: width * 0.03),
+                        ],
                       ),
-                      onPressed: confirmOwnDrink,
-                    ),
-                  ],
+                      Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          PlatformText(
+                            "Volumen in ml: ",
+                            style: TextStyle(fontSize: width * 0.04),
+                          ),
+                          SizedBox(
+                            width: width * 0.4,
+                            height: height * 0.08,
+                            child: PlatformTextField(
+                              style: TextStyle(fontSize: width * 0.03),
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r"^\d*\.?\d*"))
+                              ],
+                              controller: volumeController,
+                              onSubmitted: (value) {
+                                setState(() {
+                                  volumen = double.parse(value);
+                                  ownSE =
+                                      (volumen! * 0.8 * (volumePart! / 1000)) / 2;
+                                });
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                      Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          PlatformText(
+                            "Volumen%: ",
+                            style: TextStyle(fontSize: width * 0.04),
+                          ),
+                          SizedBox(
+                            width: width * 0.4,
+                            height: height * 0.08,
+                            child: PlatformTextField(
+                              style: TextStyle(fontSize: width * 0.03),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r"^\d*\.?\d*"))
+                              ],
+                              keyboardType: TextInputType.number,
+                              controller: volumePartController,
+                              onSubmitted: (value) {
+                                setState(() {
+                                  volumePart = double.parse(value);
+                                  ownSE =
+                                      (volumen! * 0.8 * (volumePart! / 1000)) / 2;
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          PlatformText(
+                            "Entspricht in SE: ",
+                            style: TextStyle(fontSize: width * 0.04),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(right: width * 0.17),
+                            child: Text(
+                              ownSE.toStringAsPrecision(2) + " SE",
+                              style: TextStyle(fontSize: width * 0.03),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Divider(),
+                      PlatformElevatedButton(
+                        material: (context, platform) =>
+                            MaterialElevatedButtonData(
+                          style: OutlinedButton.styleFrom(
+                              primary: Colors.black,
+                              backgroundColor: Theme.of(context).primaryColor,
+                              alignment: Alignment.center),
+                        ),
+                        child: PlatformText(
+                          "Speichern",
+                          style: TextStyle(
+                              color: Colors.black, fontSize: width * 0.03),
+                        ),
+                        onPressed: confirmOwnDrink,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -450,8 +483,10 @@ class _SettingsState extends State<Settings> {
 
   Future<void> pickTime(BuildContext context) async {
     final initialTime = TimeOfDay(hour: hour, minute: minute);
-    final newTime =
-        await showTimePicker(context: context, initialTime: initialTime);
+    final newTime = await showTimePicker(
+      context: context,
+      initialTime: initialTime,
+    );
     if (newTime == null) return;
     setState(() {
       hour = newTime.hour;
