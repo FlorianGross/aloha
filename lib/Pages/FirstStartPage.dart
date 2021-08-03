@@ -18,11 +18,11 @@ class _FirstStartPageState extends State<FirstStartPage> {
   final ownBox = Hive.box("own");
   final weekBox = Hive.box("Week");
   TextEditingController seFirstWeek = TextEditingController(text: "0"),
-      amount = TextEditingController(text: "0"),
-      consumptionDays = TextEditingController(text: "0");
+      amount = TextEditingController(text: "0");
   bool autoDecr = false;
   bool notificationsOn = false;
   int hour = 12, minute = 00;
+  double consumptionDays = 0;
   Color selected = Colors.yellow, unselected = Colors.black38;
   Color? moBut, diBut, miBut, doBut, frBut, saBut, soBut;
   bool isMoBut = false,
@@ -141,18 +141,21 @@ class _FirstStartPageState extends State<FirstStartPage> {
                         SizedBox(
                           height: 50,
                           width: 150,
-                          child: PlatformTextField(
-                            material: (context, platform) =>
-                                MaterialTextFieldData(
-                                    cursorColor: Colors.yellow,
-                                    decoration: InputDecoration(
-                                        filled: true, fillColor: Colors.white)),
-                            controller: consumptionDays,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r"[0-7]"))
-                            ],
+                          child: PlatformSlider(
+                            activeColor: Colors.yellow,
+                            value: consumptionDays,
+                            min: 0,
+                            max: 7,
+                            divisions: 7,
+                            onChanged: (value) {
+                              setState(() {
+                                consumptionDays = value;
+                              });
+                            },
+                            onChangeEnd: (value) {
+                              print("save");
+                              settingsBox.put("DaysForNextWeek", value);
+                            },
                           ),
                         ),
                       ],
@@ -293,7 +296,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
     settingsBox.put("isSo", isSoBut);
     settingsBox.put("autoDecr", autoDecr);
     settingsBox.put("SEforNextWeek", double.parse(seFirstWeek.text));
-    settingsBox.put("DaysForNextWeek", double.parse(consumptionDays.text));
+    settingsBox.put("DaysForNextWeek", consumptionDays);
     settingsBox.put("autoDecrAmount", int.parse(amount.text));
     settingsBox.put("notifications", notificationsOn);
     settingsBox.put("hour", hour);
@@ -314,7 +317,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
                 milliseconds: 99,
                 seconds: 59))
             .millisecondsSinceEpoch,
-        plannedDay: double.parse(consumptionDays.text),
+        plannedDay: consumptionDays,
         startdate: startDate.millisecondsSinceEpoch);
     weekBox.add(firstWeek);
     print(weekBox.getAt(0).toString());
@@ -368,7 +371,6 @@ class _FirstStartPageState extends State<FirstStartPage> {
 
   @override
   void dispose() {
-    consumptionDays.dispose();
     amount.dispose();
     seFirstWeek.dispose();
     super.dispose();

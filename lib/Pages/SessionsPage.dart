@@ -178,7 +178,7 @@ class _SessionPageState extends State<SessionPage> {
                 ),
               ),
             ),
-            PlatformElevatedButton(onPressed: openSettings, child: Text("Einstellungen"),)
+            PlatformElevatedButton(onPressed: openSettings, child: Text("Einstellungen"), material: (context, platform) => MaterialElevatedButtonData(style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor)),)
           ],
         ),
       ),
