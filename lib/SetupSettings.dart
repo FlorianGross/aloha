@@ -80,14 +80,14 @@ class SetupSettings {
 
   CupertinoThemeData getCupertinoDayTheme() {
     return CupertinoThemeData(
-        primaryColor: primary,
+        primaryColor: Colors.yellow,
         brightness: Brightness.light,
         scaffoldBackgroundColor: Colors.white);
   }
 
   CupertinoThemeData getCupertinoNightTheme() {
     return CupertinoThemeData(
-        primaryColor: primary,
+        primaryColor: Colors.yellow,
         brightness: Brightness.dark,
         scaffoldBackgroundColor: Colors.black26);
   }

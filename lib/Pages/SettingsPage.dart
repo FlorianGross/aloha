@@ -108,7 +108,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    return Scaffold(
+    return PlatformScaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
@@ -138,7 +138,8 @@ class _SettingsState extends State<Settings> {
                 ],
               ),
               Divider(),
-              Card(
+              Container(
+                color: Colors.black38,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListView(
@@ -330,7 +331,8 @@ class _SettingsState extends State<Settings> {
                 Spacer()
               ]),
               Divider(),
-              Card(
+              Container(
+                color: Colors.black38,
                 child: Padding(
                   padding: EdgeInsets.all(width * 0.05),
                   child: Column(

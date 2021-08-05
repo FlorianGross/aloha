@@ -51,6 +51,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     return PlatformScaffold(
       body: ListView(
         children: [
@@ -66,7 +67,8 @@ class _FirstStartPageState extends State<FirstStartPage> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Card(
+            child: Container(
+              color: Colors.black38,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -85,7 +87,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
                                     decoration: InputDecoration(
                                         filled: true, fillColor: Colors.white)),
                             cupertino: (context, platform) =>
-                                CupertinoTextFieldData(),
+                                CupertinoTextFieldData(cursorColor: Theme.of(context).primaryColor),
                             controller: seFirstWeek,
                             keyboardType: TextInputType.number,
                             inputFormatters: [
@@ -96,20 +98,24 @@ class _FirstStartPageState extends State<FirstStartPage> {
                         ),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        PlatformText("Wöchentlich automatisch verringern?"),
-                        PlatformSwitch(
-                          value: autoDecr,
-                          activeColor: Theme.of(context).primaryColor,
-                          onChanged: (value) {
-                            setState(() {
-                              autoDecr = value;
-                            });
-                          },
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          PlatformText("Wöchentlich automatisch verringern?"),
+                          PlatformSwitch(
+                            cupertino: (context, platform) => CupertinoSwitchData(activeColor: Theme.of(context).primaryColor),
+                            value: autoDecr,
+                            activeColor: Theme.of(context).primaryColor,
+                            onChanged: (value) {
+                              setState(() {
+                                autoDecr = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                     Visibility(
                       child: Row(
@@ -138,123 +144,134 @@ class _FirstStartPageState extends State<FirstStartPage> {
                       ),
                       visible: autoDecr,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        PlatformText("Konsumtage: "),
-                        SizedBox(
-                          height: 50,
-                          width: 150,
-                          child: PlatformTextField(
-                            material: (context, platform) =>
-                                MaterialTextFieldData(
-                                    cursorColor: Colors.yellow,
-                                    decoration: InputDecoration(
-                                        filled: true, fillColor: Colors.white)),
-                            controller: consumptionDays,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r"[0-7]"))
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        PlatformText("Benachrichtigungen: "),
-                        PlatformSwitch(
-                            activeColor: Theme.of(context).primaryColor,
-                            value: notificationsOn,
-                            onChanged: (value) {
-                              setState(() {
-                                notificationsOn = value;
-                              });
-                            }),
-                      ],
-                    ),
-                    Visibility(
-                      child: Column(
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              DayButton(
-                                  fontSize: width * 0.06,
-                                  onTab: (val) {
-                                    isMoBut = val;
-                                  },
-                                  size: 50,
-                                  weekday: "Mo"),
-                              DayButton(
-                                  fontSize: width * 0.06,
-                                  onTab: (value) {
-                                    isDiBut = value;
-                                  },
-                                  size: 50,
-                                  weekday: "Di"),
-                              DayButton(
-                                  fontSize: width * 0.06,
-                                  onTab: (value) {
-                                    isMiBut = value;
-                                  },
-                                  size: 50,
-                                  weekday: "Mi"),
-                              DayButton(
-                                  fontSize: width * 0.06,
-                                  onTab: (val) {
-                                    isDoBut = val;
-                                  },
-                                  size: 50,
-                                  weekday: "Do"),
-                              DayButton(
-                                  fontSize: width * 0.06,
-                                  onTab: (val) {
-                                    isFrBut = val;
-                                  },
-                                  size: 50,
-                                  weekday: "Fr"),
-                              DayButton(
-                                  fontSize: width * 0.06,
-                                  onTab: (val) {
-                                    isSaBut = val;
-                                  },
-                                  size: 50,
-                                  weekday: "Sa"),
-                              DayButton(
-                                  fontSize: width * 0.06,
-                                  onTab: (val) {
-                                    isSoBut = val;
-                                  },
-                                  size: 50,
-                                  weekday: "So"),
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: PlatformElevatedButton(
-                                material: (context, platform) =>
-                                    MaterialElevatedButtonData(
-                                      style: ElevatedButton.styleFrom(
-                                          primary: Colors.yellow),
-                                    ),
-                                child: PlatformText(
-                                  "Uhrzeit wählen: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}",
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                                onPressed: () => pickTime(context)),
+                          PlatformText("Konsumtage: "),
+                          SizedBox(
+                            height: 50,
+                            width: 150,
+                            child: PlatformTextField(
+                              material: (context, platform) =>
+                                  MaterialTextFieldData(
+                                      cursorColor: Colors.yellow,
+                                      decoration: InputDecoration(
+                                          filled: true, fillColor: Colors.white)),
+                              controller: consumptionDays,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r"[0-7]"))
+                              ],
+                            ),
                           ),
                         ],
                       ),
-                      visible: notificationsOn,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top:8.0,),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          PlatformText("Benachrichtigungen: "),
+                          PlatformSwitch(
+                              cupertino: (context, platform) => CupertinoSwitchData(activeColor: Theme.of(context).primaryColor),
+                              activeColor: Theme.of(context).primaryColor,
+                              value: notificationsOn,
+                              onChanged: (value) {
+                                setState(() {
+                                  notificationsOn = value;
+                                });
+                              }),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: height * 0.02),
+                      child: Visibility(
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                DayButton(
+                                    fontSize: width * 0.06,
+                                    onTab: (val) {
+                                      isMoBut = val;
+                                    },
+                                    size: 50,
+                                    weekday: "Mo"),
+                                DayButton(
+                                    fontSize: width * 0.06,
+                                    onTab: (value) {
+                                      isDiBut = value;
+                                    },
+                                    size: 50,
+                                    weekday: "Di"),
+                                DayButton(
+                                    fontSize: width * 0.06,
+                                    onTab: (value) {
+                                      isMiBut = value;
+                                    },
+                                    size: 50,
+                                    weekday: "Mi"),
+                                DayButton(
+                                    fontSize: width * 0.06,
+                                    onTab: (val) {
+                                      isDoBut = val;
+                                    },
+                                    size: 50,
+                                    weekday: "Do"),
+                                DayButton(
+                                    fontSize: width * 0.06,
+                                    onTab: (val) {
+                                      isFrBut = val;
+                                    },
+                                    size: 50,
+                                    weekday: "Fr"),
+                                DayButton(
+                                    fontSize: width * 0.06,
+                                    onTab: (val) {
+                                      isSaBut = val;
+                                    },
+                                    size: 50,
+                                    weekday: "Sa"),
+                                DayButton(
+                                    fontSize: width * 0.06,
+                                    onTab: (val) {
+                                      isSoBut = val;
+                                    },
+                                    size: 50,
+                                    weekday: "So"),
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: PlatformElevatedButton(
+                                  material: (context, platform) =>
+                                      MaterialElevatedButtonData(
+                                        style: ElevatedButton.styleFrom(
+                                            primary: Colors.yellow),
+                                      ),
+                                  child: PlatformText(
+                                    "Uhrzeit wählen: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}",
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  onPressed: () => pickTime(context)),
+                            ),
+                          ],
+                        ),
+                        visible: notificationsOn,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: PlatformButton(
                         material: (context, platform) =>
                             MaterialRaisedButtonData(),
+                        cupertino: (context, platform) => CupertinoButtonData(color: Theme.of(context).primaryColor),
                         onPressed: () {
                           try {
                             saveSettings();
@@ -270,6 +287,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
                           }
                         },
                         child: PlatformText(
+
                           "Speichern",
                           style: TextStyle(
                             color: Colors.black,

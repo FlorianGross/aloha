@@ -51,24 +51,21 @@ class _MyAppState extends State<MyApp> {
         ),
         cupertino: (context, platform) => CupertinoTabBarData(
           iconSize: height * 0.04,
-          activeColor: Theme.of(context).primaryColor,
           currentIndex: _currentIndex,
         ),
         items: [
           BottomNavigationBarItem(
             label: "Timeline",
-            icon: Icon(PlatformIcons(context).time,
-                color: Theme.of(context).primaryColor),
+            icon: Icon(PlatformIcons(context).time,),
           ),
           BottomNavigationBarItem(
             label: "Home",
             icon: Icon(PlatformIcons(context).home,
-                color: Theme.of(context).primaryColor),
+            ),
           ),
           BottomNavigationBarItem(
             label: "Woche",
-            icon: Icon(PlatformIcons(context).person,
-                color: Theme.of(context).primaryColor),
+            icon: Icon(PlatformIcons(context).person,),
           ),
         ],
         itemChanged: (index) {
