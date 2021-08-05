@@ -65,7 +65,7 @@ class _CameraState extends State<Camera> {
     ownVolumePart = ownBox.get("volumenpart") + 0.0;
     super.initState();
     print("Camera initialized");
-    getImage();
+    //getImage();
   }
 
   ButtonStyle? smallButtonStyle,

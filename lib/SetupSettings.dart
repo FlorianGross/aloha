@@ -7,6 +7,8 @@ class SetupSettings {
   Color textUnselected = Colors.white;
   Color primary = Colors.yellow;
   Color primaryAccent = Colors.yellowAccent;
+  Color backCard = Colors.black26;
+  Color card = Colors.black12;
 
   ThemeData getMaterialDayTheme() {
     return ThemeData(
