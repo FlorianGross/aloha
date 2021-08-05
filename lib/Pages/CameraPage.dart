@@ -47,7 +47,9 @@ class _CameraState extends State<Camera> {
       .map<DropdownMenuItem<String>>((String value) {
     return DropdownMenuItem<String>(
       value: value,
-      child: Text(value,),
+      child: Text(
+        value,
+      ),
     );
   }).toList();
 
@@ -92,7 +94,7 @@ class _CameraState extends State<Camera> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return PlatformScaffold(
+    return Scaffold(
       body: ListView(
         children: [
           Card(
@@ -121,7 +123,8 @@ class _CameraState extends State<Camera> {
                       value: dropdownValue,
                       focusColor: Theme.of(context).primaryColor,
                       elevation: 19,
-                      style: TextStyle(fontSize: width * 0.05, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: width * 0.05, fontWeight: FontWeight.bold),
                       onChanged: (dynamic value) {
                         setState(() {
                           dropdownValue = value;
@@ -191,13 +194,13 @@ class _CameraState extends State<Camera> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    PlatformText(
+                    Text(
                       "Name: ",
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    PlatformTextField(
-                      material: (context, platform) => MaterialTextFieldData(decoration: InputDecoration(
+                    TextField(
+                      decoration: InputDecoration(
                         disabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Theme.of(context).primaryColor)),
@@ -210,9 +213,8 @@ class _CameraState extends State<Camera> {
                         border: OutlineInputBorder(
                             borderSide: BorderSide(
                                 color: Theme.of(context).primaryColor)),
-                      ),),
+                      ),
                       controller: nameCollector,
-
                     ),
                   ],
                 ),
@@ -231,9 +233,18 @@ class _CameraState extends State<Camera> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      PlatformText("Name: $ownName", style: TextStyle(fontSize: width * 0.05),),
-                      PlatformText("Volumen: $ownVolume ml", style: TextStyle(fontSize: width * 0.05),),
-                      PlatformText("Volumenprozent: $ownVolumePart \u2030", style: TextStyle(fontSize: width * 0.05),)
+                      Text(
+                        "Name: $ownName",
+                        style: TextStyle(fontSize: width * 0.05),
+                      ),
+                      Text(
+                        "Volumen: $ownVolume ml",
+                        style: TextStyle(fontSize: width * 0.05),
+                      ),
+                      Text(
+                        "Volumenprozent: $ownVolumePart \u2030",
+                        style: TextStyle(fontSize: width * 0.05),
+                      )
                     ],
                   ),
                 ),
@@ -247,12 +258,15 @@ class _CameraState extends State<Camera> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    PlatformText(
+                    Text(
                       "Volumenprozent: ",
-                      style:
-                          TextStyle(fontSize: width * 0.05, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: width * 0.05, fontWeight: FontWeight.bold),
                     ),
-                    PlatformText(_currentSliderValue.toStringAsPrecision(2), style: TextStyle(fontSize: width * 0.04),),
+                    Text(
+                      _currentSliderValue.toStringAsPrecision(2),
+                      style: TextStyle(fontSize: width * 0.04),
+                    ),
                     PlatformSlider(
                       value: _currentSliderValue,
                       min: 0,
@@ -278,12 +292,16 @@ class _CameraState extends State<Camera> {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      PlatformText(
+                      Text(
                         "Volumen: ",
                         style: TextStyle(
-                            fontSize: width * 0.05, fontWeight: FontWeight.bold),
+                            fontSize: width * 0.05,
+                            fontWeight: FontWeight.bold),
                       ),
-                      PlatformText(_currentSliderValuePart.toStringAsPrecision(2), style: TextStyle(fontSize: width * 0.04),),
+                      Text(
+                        _currentSliderValuePart.toStringAsPrecision(2),
+                        style: TextStyle(fontSize: width * 0.04),
+                      ),
                       PlatformSlider(
                         activeColor: Colors.yellow,
                         value: _currentSliderValuePart,
@@ -310,17 +328,20 @@ class _CameraState extends State<Camera> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
-                      child: PlatformText(
+                      child: Text(
                         "Volumen: ",
                         style: TextStyle(
-                            fontSize: width * 0.05, fontWeight: FontWeight.bold),
+                            fontSize: width * 0.05,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        PlatformElevatedButton(
-                          material: (context, platform) => MaterialElevatedButtonData(style: smallButtonStyle,),
+                        ElevatedButton(
+
+                            style: smallButtonStyle,
+
                           onPressed: () {
                             setState(() {
                               selectedButton = 0;
@@ -341,17 +362,18 @@ class _CameraState extends State<Camera> {
                                   size: width * 0.1,
                                   color: Colors.black,
                                 ),
-                                PlatformText(
+                                Text(
                                   "$lowValue L",
                                   style: TextStyle(
-                                      color: Colors.black, fontSize: width * 0.05),
+                                      color: Colors.black,
+                                      fontSize: width * 0.05),
                                 ),
                               ],
                             ),
                           ),
                         ),
-                        PlatformElevatedButton(
-                          material: (context, platform) => MaterialElevatedButtonData(style: mediumButtonStyle,),
+                        ElevatedButton(
+                          style: mediumButtonStyle,
                           onPressed: () {
                             setState(() {
                               selectedButton = 1;
@@ -372,17 +394,19 @@ class _CameraState extends State<Camera> {
                                   size: width * 0.12,
                                   color: Colors.black,
                                 ),
-                                PlatformText(
+                                Text(
                                   "$mediumValue L",
                                   style: TextStyle(
-                                      color: Colors.black, fontSize: width * 0.05),
+                                      color: Colors.black,
+                                      fontSize: width * 0.05),
                                 ),
                               ],
                             ),
                           ),
                         ),
-                        PlatformElevatedButton(
-                          material: (context, platform) => MaterialElevatedButtonData(style: largeButtonStyle,),
+                        ElevatedButton(
+
+                            style: largeButtonStyle,
                           onPressed: () {
                             setState(() {
                               selectedButton = 2;
@@ -403,17 +427,20 @@ class _CameraState extends State<Camera> {
                                   size: width * 0.14,
                                   color: Colors.black,
                                 ),
-                                PlatformText(
+                                Text(
                                   "$largeValue L",
                                   style: TextStyle(
-                                      color: Colors.black, fontSize: width * 0.05),
+                                      color: Colors.black,
+                                      fontSize: width * 0.05),
                                 ),
                               ],
                             ),
                           ),
                         ),
-                        PlatformElevatedButton(
-                          material: (context, platform) => MaterialElevatedButtonData(style: xlargeButtonStyle,),
+                        ElevatedButton(
+
+                            style: xlargeButtonStyle,
+
                           onPressed: () {
                             setState(() {
                               selectedButton = 3;
@@ -434,10 +461,11 @@ class _CameraState extends State<Camera> {
                                   size: width * 0.17,
                                   color: Colors.black,
                                 ),
-                                PlatformText(
+                                Text(
                                   "$xLargeValue L",
                                   style: TextStyle(
-                                      color: Colors.black, fontSize: width * 0.05),
+                                      color: Colors.black,
+                                      fontSize: width * 0.05),
                                 ),
                               ],
                             ),
@@ -454,31 +482,36 @@ class _CameraState extends State<Camera> {
           Row(
             mainAxisAlignment: buttonCentered,
             children: [
-              PlatformElevatedButton(
-                material: (context, platform) => MaterialElevatedButtonData(
+              ElevatedButton(
+
                   style: OutlinedButton.styleFrom(
                       backgroundColor: Theme.of(context).primaryColor,
-                      primary: Colors.black),),
+                      primary: Colors.black),
+
                 onPressed: () {
                   getImage();
                 },
-                child: PlatformText(
+                child: Text(
                   "Nochmal",
-                  style: TextStyle(fontSize: width * 0.05, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: width * 0.05, fontWeight: FontWeight.bold),
                 ),
               ),
               Visibility(
                 visible: !isNone,
-                child: PlatformElevatedButton(
-                  material: (context, platform) => MaterialElevatedButtonData(style: OutlinedButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      primary: Colors.black),),
+                child: ElevatedButton(
+
+                    style: OutlinedButton.styleFrom(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        primary: Colors.black),
+
                   onPressed: () {
                     save(context);
                   },
-                  child: PlatformText(
+                  child: Text(
                     "Speichern",
-                    style: TextStyle(fontSize: width * 0.05, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: width * 0.05, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -651,6 +684,7 @@ class _CameraState extends State<Camera> {
       return 0;
     }
   }
+
   @override
   void dispose() {
     nameCollector.dispose();

@@ -4,7 +4,6 @@ import 'package:aloha/Widgets/DayButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:hive/hive.dart';
 
 class Settings extends StatefulWidget {
@@ -108,7 +107,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    return PlatformScaffold(
+    return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
@@ -118,16 +117,14 @@ class _SettingsState extends State<Settings> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  PlatformText(
+                  Text(
                     "Einstellungen",
                     style: TextStyle(
                         fontSize: width * 0.06, fontWeight: FontWeight.w500),
                   ),
-                  PlatformElevatedButton(
-                    material: (context, platform) => MaterialElevatedButtonData(
+                  ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           primary: Theme.of(context).primaryColor),
-                    ),
                     child: Icon(
                       Icons.arrow_back,
                       color: Colors.black,
@@ -150,7 +147,7 @@ class _SettingsState extends State<Settings> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          PlatformText(
+                          Text(
                             "Darkmode: ",
                             style: TextStyle(fontSize: width * 0.04),
                           ),
@@ -160,13 +157,13 @@ class _SettingsState extends State<Settings> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          PlatformText(
+                          Text(
                             "Benachrichtigungen: ",
                             style: TextStyle(fontSize: width * 0.04),
                           ),
                           Transform.scale(
                             scale: 1.6,
-                            child: PlatformSwitch(
+                            child: Switch(
                               activeColor: Theme.of(context).primaryColor,
                               value: notifications!,
                               onChanged: (value) {
@@ -295,14 +292,11 @@ class _SettingsState extends State<Settings> {
                                   top: 8.0,
                                   bottom: 8.0,
                                 ),
-                                child: PlatformElevatedButton(
-                                  material: (context, platform) =>
-                                      MaterialElevatedButtonData(
+                                child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                         primary:
                                             Theme.of(context).primaryColor),
-                                  ),
-                                  child: PlatformText(
+                                  child: Text(
                                     "Uhrzeit wählen: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}",
                                     style: TextStyle(
                                         color: Colors.black,
@@ -321,7 +315,7 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
               Row(children: [
-                PlatformText(
+                Text(
                   "Eigenes Getränk",
                   style: TextStyle(
                     fontSize: width * 0.06,
@@ -340,14 +334,14 @@ class _SettingsState extends State<Settings> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          PlatformText(
+                          Text(
                             "Name: ",
                             style: TextStyle(fontSize: width * 0.04),
                           ),
                           SizedBox(
                             width: width * 0.4,
                             height: height * 0.08,
-                            child: PlatformTextField(
+                            child: TextField(
                               style: TextStyle(fontSize: width * 0.03),
                               controller: nameController,
                             ),
@@ -358,14 +352,14 @@ class _SettingsState extends State<Settings> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          PlatformText(
+                          Text(
                             "Volumen in ml: ",
                             style: TextStyle(fontSize: width * 0.04),
                           ),
                           SizedBox(
                             width: width * 0.4,
                             height: height * 0.08,
-                            child: PlatformTextField(
+                            child: TextField(
                               style: TextStyle(fontSize: width * 0.03),
                               keyboardType: TextInputType.number,
                               inputFormatters: [
@@ -377,7 +371,8 @@ class _SettingsState extends State<Settings> {
                                 setState(() {
                                   volumen = double.parse(value);
                                   ownSE =
-                                      (volumen! * 0.8 * (volumePart! / 1000)) / 2;
+                                      (volumen! * 0.8 * (volumePart! / 1000)) /
+                                          2;
                                 });
                               },
                             ),
@@ -388,14 +383,14 @@ class _SettingsState extends State<Settings> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          PlatformText(
+                          Text(
                             "Volumen%: ",
                             style: TextStyle(fontSize: width * 0.04),
                           ),
                           SizedBox(
                             width: width * 0.4,
                             height: height * 0.08,
-                            child: PlatformTextField(
+                            child: TextField(
                               style: TextStyle(fontSize: width * 0.03),
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
@@ -407,7 +402,8 @@ class _SettingsState extends State<Settings> {
                                 setState(() {
                                   volumePart = double.parse(value);
                                   ownSE =
-                                      (volumen! * 0.8 * (volumePart! / 1000)) / 2;
+                                      (volumen! * 0.8 * (volumePart! / 1000)) /
+                                          2;
                                 });
                               },
                             ),
@@ -418,7 +414,7 @@ class _SettingsState extends State<Settings> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          PlatformText(
+                          Text(
                             "Entspricht in SE: ",
                             style: TextStyle(fontSize: width * 0.04),
                           ),
@@ -432,15 +428,12 @@ class _SettingsState extends State<Settings> {
                         ],
                       ),
                       Divider(),
-                      PlatformElevatedButton(
-                        material: (context, platform) =>
-                            MaterialElevatedButtonData(
+                      ElevatedButton(
                           style: OutlinedButton.styleFrom(
                               primary: Colors.black,
                               backgroundColor: Theme.of(context).primaryColor,
                               alignment: Alignment.center),
-                        ),
-                        child: PlatformText(
+                        child: Text(
                           "Speichern",
                           style: TextStyle(
                               color: Colors.black, fontSize: width * 0.03),

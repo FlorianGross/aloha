@@ -50,9 +50,7 @@ class _DetailsTabState extends State<DetailsTab> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     _image = current!.getImage(height * 0.3, width * 0.3, width * 0.3);
-    return PlatformScaffold(
-      material: (context, platform) => MaterialScaffoldData(),
-      cupertino: (context, platform) => CupertinoPageScaffoldData(),
+    return Scaffold(
       body: Padding(
         padding: EdgeInsets.only(top: height * 0.05),
         child: Column(
@@ -64,19 +62,17 @@ class _DetailsTabState extends State<DetailsTab> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  PlatformText(
+                  Text(
                     "Getränk: " + current!.name.toString(),
                     style: TextStyle(fontSize: width * 0.05),
                   ),
-                  PlatformElevatedButton(
+                  ElevatedButton(
                     child: Icon(
                       PlatformIcons(context).leftChevron,
                       color: Colors.black,
                       size: width * 0.05,
                     ),
                     onPressed: pop,
-                    cupertino: (context, platform) => CupertinoElevatedButtonData(),
-                    material: (context, platform) => MaterialElevatedButtonData(),
                   ),
                 ],
               ),
@@ -98,14 +94,14 @@ class _DetailsTabState extends State<DetailsTab> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            PlatformText(
+                            Text(
                               "Name:           ",
                               style: TextStyle(fontSize: width * 0.04),
                             ),
                             Visibility(
                               child: SizedBox(
                                 width: width * 0.4,
-                                child: PlatformText(
+                                child: Text(
                                   current!.name!,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(fontSize: width * 0.04),
@@ -117,7 +113,7 @@ class _DetailsTabState extends State<DetailsTab> {
                               child: SizedBox(
                                 width: width * 0.4,
                                 height: height * 0.08,
-                                child: PlatformTextField(
+                                child: TextField(
                                   maxLength: 10,
                                   style: TextStyle(fontSize: width * 0.03),
                                   controller: nameController,
@@ -129,18 +125,18 @@ class _DetailsTabState extends State<DetailsTab> {
                         ),
                       ),
                       SizedBox(
-                        height: height*0.08,
+                        height: height * 0.08,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            PlatformText(
+                            Text(
                               "Volumen:        ",
                               style: TextStyle(fontSize: width * 0.04),
                             ),
                             Visibility(
                               child: SizedBox(
                                 width: width * 0.4,
-                                child: PlatformText(
+                                child: Text(
                                   current!.volume!.toInt().toString() + " ml",
                                   textAlign: TextAlign.right,
                                   style: TextStyle(fontSize: width * 0.04),
@@ -153,7 +149,7 @@ class _DetailsTabState extends State<DetailsTab> {
                               child: SizedBox(
                                 width: width * 0.4,
                                 height: height * 0.08,
-                                child: PlatformTextField(
+                                child: TextField(
                                   keyboardType: TextInputType.number,
                                   maxLength: 5,
                                   style: TextStyle(fontSize: width * 0.03),
@@ -174,14 +170,14 @@ class _DetailsTabState extends State<DetailsTab> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            PlatformText(
+                            Text(
                               "Volumenprozent: ",
                               style: TextStyle(fontSize: width * 0.04),
                             ),
                             Visibility(
                               child: SizedBox(
                                 width: width * 0.4,
-                                child: PlatformText(
+                                child: Text(
                                   current!.volumepart.toString() + " \u2030",
                                   textAlign: TextAlign.right,
                                   style: TextStyle(fontSize: width * 0.04),
@@ -193,7 +189,7 @@ class _DetailsTabState extends State<DetailsTab> {
                               child: SizedBox(
                                 width: width * 0.4,
                                 height: height * 0.08,
-                                child: PlatformTextField(
+                                child: TextField(
                                   maxLength: 5,
                                   style: TextStyle(fontSize: width * 0.03),
                                   inputFormatters: [
@@ -210,9 +206,8 @@ class _DetailsTabState extends State<DetailsTab> {
                           ],
                         ),
                       ),
-                      PlatformElevatedButton(
-                        material: (context, platform) => MaterialElevatedButtonData(),
-                        cupertino: (context, platform) => CupertinoElevatedButtonData(),
+                      ElevatedButton(
+
                         child: Text(
                           buttonText,
                           style: TextStyle(
@@ -236,9 +231,8 @@ class _DetailsTabState extends State<DetailsTab> {
                         },
                       ),
                       Divider(),
-                      PlatformElevatedButton(
-                        cupertino: (context, platform) => CupertinoElevatedButtonData(),
-                        material: (context, platform) => MaterialElevatedButtonData(),
+                      ElevatedButton(
+
                         child: Icon(
                           PlatformIcons(context).delete,
                           color: Colors.black,
@@ -247,8 +241,8 @@ class _DetailsTabState extends State<DetailsTab> {
                         onPressed: () {
                           box.deleteAt(id);
                           print("Item deleted: " + current.toString());
-                          Navigator.pushReplacement(
-                              context, MaterialPageRoute(builder: (context) => MyApp()));
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) => MyApp()));
                         },
                       ),
                     ],

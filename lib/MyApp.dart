@@ -35,44 +35,41 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return PlatformScaffold(
+    return Scaffold(
       body: tabs[_currentIndex],
-      material: (context, platform) => MaterialScaffoldData(),
-      cupertino: (context, platform) => CupertinoPageScaffoldData(),
-      bottomNavBar: PlatformNavBar(
-        material: (context, platform) => MaterialNavBarData(
-          enableFeedback: true,
-          iconSize: height * 0.05,
-          selectedLabelStyle: TextStyle(fontSize: width * 0.03),
-          unselectedLabelStyle: TextStyle(fontSize: width * 0.03),
-          currentIndex: _currentIndex,
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: Theme.of(context).primaryColor,
-        ),
-        cupertino: (context, platform) => CupertinoTabBarData(
-          iconSize: height * 0.04,
-          currentIndex: _currentIndex,
-        ),
-        items: [
-          BottomNavigationBarItem(
-            label: "Timeline",
-            icon: Icon(PlatformIcons(context).time,),
-          ),
-          BottomNavigationBarItem(
-            label: "Home",
-            icon: Icon(PlatformIcons(context).home,
-            ),
-          ),
-          BottomNavigationBarItem(
-            label: "Woche",
-            icon: Icon(PlatformIcons(context).person,),
-          ),
-        ],
-        itemChanged: (index) {
+      bottomNavigationBar: BottomNavigationBar(
+        enableFeedback: true,
+        iconSize: height * 0.05,
+        selectedLabelStyle: TextStyle(fontSize: width * 0.03),
+        unselectedLabelStyle: TextStyle(fontSize: width * 0.03),
+        currentIndex: _currentIndex,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Theme.of(context).primaryColor,
+        onTap: (index) {
           setState(() {
             _currentIndex = index;
           });
         },
+        items: [
+          BottomNavigationBarItem(
+            label: "Timeline",
+            icon: Icon(
+              PlatformIcons(context).time,
+            ),
+          ),
+          BottomNavigationBarItem(
+            label: "Home",
+            icon: Icon(
+              PlatformIcons(context).home,
+            ),
+          ),
+          BottomNavigationBarItem(
+            label: "Woche",
+            icon: Icon(
+              PlatformIcons(context).person,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -77,12 +77,12 @@ class ExecApp extends StatelessWidget {
               );
             },
             cupertino: (context, platform) {
-              return CupertinoAppData(theme: CupertinoThemeData(primaryColor: Colors.yellow,
-                  brightness: Brightness.dark,
-                  scaffoldBackgroundColor: Colors.black26));
+              return CupertinoAppData(
+                  theme: CupertinoThemeData(
+                      primaryColor: Colors.yellow,
+                      brightness: Brightness.dark,
+                      scaffoldBackgroundColor: Colors.black26));
             },
-
-
             routes: <String, WidgetBuilder>{
               '/homePage': (BuildContext context) => new HomePage(),
               '/camera': (BuildContext context) => new Camera(),

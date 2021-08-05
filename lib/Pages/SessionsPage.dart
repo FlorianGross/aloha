@@ -105,8 +105,8 @@ class _SessionPageState extends State<SessionPage> {
                         });
                       },
                       onChangeEnd: (value) {
-                          settingsBox.put("SEforNextWeek", value);
-                          print("save");
+                        settingsBox.put("SEforNextWeek", value);
+                        print("save");
                       },
                     ),
                     Row(
@@ -170,15 +170,21 @@ class _SessionPageState extends State<SessionPage> {
                         });
                       },
                       onChangeEnd: (value) {
-                          print("save");
-                          settingsBox.put("DaysForNextWeek", value);
+                        print("save");
+                        settingsBox.put("DaysForNextWeek", value);
                       },
                     ),
                   ],
                 ),
               ),
             ),
-            PlatformElevatedButton(onPressed: openSettings, child: Text("Einstellungen"), material: (context, platform) => MaterialElevatedButtonData(style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor)),)
+            PlatformElevatedButton(
+              onPressed: openSettings,
+              child: Text("Einstellungen"),
+              material: (context, platform) => MaterialElevatedButtonData(
+                  style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor)),
+            )
           ],
         ),
       ),
@@ -206,19 +212,19 @@ class _SessionPageState extends State<SessionPage> {
   }
 
   Future<void> setWeek(int value) async {
-      week = value;
-      currentWeek = box.getAt(week);
-      seValue = currentWeek.getSethisWeek();
-      dayValue = currentWeek.getUsedDays();
-      _currentPageNotifier.value = value;
+    week = value;
+    currentWeek = box.getAt(week);
+    seValue = currentWeek.getSethisWeek();
+    dayValue = currentWeek.getUsedDays();
+    _currentPageNotifier.value = value;
   }
 
   Future<void> initWeek(int value) async {
-      week = value;
-      currentWeek = box.getAt(week);
-      seValue = currentWeek.getSethisWeek();
-      dayValue = currentWeek.getUsedDays();
-      _currentPageNotifier.value = value;
+    week = value;
+    currentWeek = box.getAt(week);
+    seValue = currentWeek.getSethisWeek();
+    dayValue = currentWeek.getUsedDays();
+    _currentPageNotifier.value = value;
   }
 
   _buildPageView(double width) {

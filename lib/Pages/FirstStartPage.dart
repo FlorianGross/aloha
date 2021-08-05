@@ -52,7 +52,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return PlatformScaffold(
+    return Scaffold(
       body: ListView(
         children: [
           Padding(
@@ -76,18 +76,11 @@ class _FirstStartPageState extends State<FirstStartPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        PlatformText("SE für die erste Woche:"),
+                        Text("SE für die erste Woche:"),
                         SizedBox(
                           height: 50,
                           width: 150,
-                          child: PlatformTextField(
-                            material: (context, platform) =>
-                                MaterialTextFieldData(
-                                    cursorColor: Colors.yellow,
-                                    decoration: InputDecoration(
-                                        filled: true, fillColor: Colors.white)),
-                            cupertino: (context, platform) =>
-                                CupertinoTextFieldData(cursorColor: Theme.of(context).primaryColor),
+                          child: TextField(
                             controller: seFirstWeek,
                             keyboardType: TextInputType.number,
                             inputFormatters: [
@@ -103,9 +96,12 @@ class _FirstStartPageState extends State<FirstStartPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          PlatformText("Wöchentlich automatisch verringern?"),
+                          Text("Wöchentlich automatisch verringern?"),
                           PlatformSwitch(
-                            cupertino: (context, platform) => CupertinoSwitchData(activeColor: Theme.of(context).primaryColor),
+                            cupertino: (context, platform) =>
+                                CupertinoSwitchData(
+                                    activeColor:
+                                        Theme.of(context).primaryColor),
                             value: autoDecr,
                             activeColor: Theme.of(context).primaryColor,
                             onChanged: (value) {
@@ -121,17 +117,11 @@ class _FirstStartPageState extends State<FirstStartPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          PlatformText("Anzahl: "),
+                          Text("Anzahl: "),
                           SizedBox(
                             height: 50,
                             width: 150,
-                            child: PlatformTextField(
-                              material: (context, platform) =>
-                                  MaterialTextFieldData(
-                                      cursorColor: Colors.yellow,
-                                      decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Colors.white)),
+                            child: TextField(
                               controller: amount,
                               keyboardType: TextInputType.number,
                               inputFormatters: [
@@ -149,16 +139,11 @@ class _FirstStartPageState extends State<FirstStartPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          PlatformText("Konsumtage: "),
+                          Text("Konsumtage: "),
                           SizedBox(
                             height: 50,
                             width: 150,
-                            child: PlatformTextField(
-                              material: (context, platform) =>
-                                  MaterialTextFieldData(
-                                      cursorColor: Colors.yellow,
-                                      decoration: InputDecoration(
-                                          filled: true, fillColor: Colors.white)),
+                            child: TextField(
                               controller: consumptionDays,
                               keyboardType: TextInputType.number,
                               inputFormatters: [
@@ -171,13 +156,18 @@ class _FirstStartPageState extends State<FirstStartPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top:8.0,),
+                      padding: const EdgeInsets.only(
+                        top: 8.0,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          PlatformText("Benachrichtigungen: "),
+                          Text("Benachrichtigungen: "),
                           PlatformSwitch(
-                              cupertino: (context, platform) => CupertinoSwitchData(activeColor: Theme.of(context).primaryColor),
+                              cupertino: (context, platform) =>
+                                  CupertinoSwitchData(
+                                      activeColor:
+                                          Theme.of(context).primaryColor),
                               activeColor: Theme.of(context).primaryColor,
                               value: notificationsOn,
                               onChanged: (value) {
@@ -249,13 +239,8 @@ class _FirstStartPageState extends State<FirstStartPage> {
                             ),
                             Padding(
                               padding: EdgeInsets.all(8.0),
-                              child: PlatformElevatedButton(
-                                  material: (context, platform) =>
-                                      MaterialElevatedButtonData(
-                                        style: ElevatedButton.styleFrom(
-                                            primary: Colors.yellow),
-                                      ),
-                                  child: PlatformText(
+                              child: ElevatedButton(
+                                  child: Text(
                                     "Uhrzeit wählen: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}",
                                     style: TextStyle(color: Colors.black),
                                   ),
@@ -268,10 +253,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: PlatformButton(
-                        material: (context, platform) =>
-                            MaterialRaisedButtonData(),
-                        cupertino: (context, platform) => CupertinoButtonData(color: Theme.of(context).primaryColor),
+                      child: ElevatedButton(
                         onPressed: () {
                           try {
                             saveSettings();
@@ -286,8 +268,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
                             print("Error: " + e.toString());
                           }
                         },
-                        child: PlatformText(
-
+                        child: Text(
                           "Speichern",
                           style: TextStyle(
                             color: Colors.black,
@@ -301,7 +282,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
             ),
           ),
           Center(
-              child: PlatformText("Erster Start: " +
+              child: Text("Erster Start: " +
                   settingsBox.get("firstStartDate").toString())),
         ],
       ),
@@ -405,7 +386,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
                 height: 400,
                 child: CupertinoDatePicker(
                   mode: CupertinoDatePickerMode.time,
-                  initialDateTime: DateTime(0,0,hour, minute),
+                  initialDateTime: DateTime(0, 0, hour, minute),
                   onDateTimeChanged: (val) {
                     setState(
                       () {

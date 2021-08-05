@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: EdgeInsets.only(top: height * 0.1),
             child: Center(
-              child: PlatformText(
+              child: Text(
                 usedDay!.toStringAsPrecision(2) +
                     " / " +
                     plannedDay!.toStringAsPrecision(2) +
@@ -95,12 +95,14 @@ class _HomePageState extends State<HomePage> {
           ),
           Padding(
             padding: EdgeInsets.only(bottom: height * 0.04),
-            child: PlatformElevatedButton(
-              child: PlatformText('Schnell', style: TextStyle(color: Colors.black),),
-              onPressed: () => onTap(true),
-              material: (context, platform) => MaterialElevatedButtonData(style: OutlinedButton.styleFrom(backgroundColor: Colors.yellow)),
-              cupertino: (context, platform) => CupertinoElevatedButtonData(color: Colors.yellow),
-            ),
+            child: ElevatedButton(
+                child: Text(
+                  'Schnell',
+                  style: TextStyle(color: Colors.black),
+                ),
+                onPressed: () => onTap(true),
+                style:
+                    OutlinedButton.styleFrom(backgroundColor: Colors.yellow)),
           ),
         ],
       ),

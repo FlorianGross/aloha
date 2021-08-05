@@ -1,6 +1,5 @@
 import 'package:aloha/Modelle/Drinks.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:hive/hive.dart';
 import '../Modelle/Drinks.dart';
 import 'DetailsPage.dart';
@@ -63,7 +62,7 @@ class _TimeLineWeekState extends State<TimeLineWeek> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: PlatformText(
+            child: Text(
               "Woche $week",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -193,18 +192,21 @@ class _GetraenkeListItemState extends State<GetraenkeListItem> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    PlatformText(
+                    Text(
                       currentDrink!.name.toString(),
-                      style: TextStyle(fontSize: width * 0.03, color: Colors.white),
+                      style: TextStyle(
+                          fontSize: width * 0.03, color: Colors.white),
                     ),
-                    PlatformText(
+                    Text(
                       currentDrink!.volume.toString() + " ml",
-                      style: TextStyle(fontSize: width * 0.03, color: Colors.white),
+                      style: TextStyle(
+                          fontSize: width * 0.03, color: Colors.white),
                     ),
-                    PlatformText(
+                    Text(
                       currentDrink!.volumepart!.toStringAsPrecision(2) +
                           " vol%",
-                      style: TextStyle(fontSize: width * 0.03, color: Colors.white),
+                      style: TextStyle(
+                          fontSize: width * 0.03, color: Colors.white),
                     ),
                   ],
                 ),
