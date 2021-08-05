@@ -1,5 +1,6 @@
 import 'package:aloha/Modelle/Week.dart';
 import 'package:aloha/Widgets/DayButton.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:hive/hive.dart';
 import '../MyApp.dart';
 import '../Notifications.dart';
+import 'package:flutter/foundation.dart' show TargetPlatform;
 
 class FirstStartPage extends StatefulWidget {
   @override
@@ -82,6 +84,8 @@ class _FirstStartPageState extends State<FirstStartPage> {
                                     cursorColor: Colors.yellow,
                                     decoration: InputDecoration(
                                         filled: true, fillColor: Colors.white)),
+                            cupertino: (context, platform) =>
+                                CupertinoTextFieldData(),
                             controller: seFirstWeek,
                             keyboardType: TextInputType.number,
                             inputFormatters: [
@@ -228,17 +232,20 @@ class _FirstStartPageState extends State<FirstStartPage> {
                                   weekday: "So"),
                             ],
                           ),
-                          PlatformElevatedButton(
-                              material: (context, platform) =>
-                                  MaterialElevatedButtonData(
-                                    style: ElevatedButton.styleFrom(
-                                        primary: Colors.yellow),
-                                  ),
-                              child: PlatformText(
-                                "Uhrzeit wählen: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}",
-                                style: TextStyle(color: Colors.black),
-                              ),
-                              onPressed: () => pickTime(context)),
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: PlatformElevatedButton(
+                                material: (context, platform) =>
+                                    MaterialElevatedButtonData(
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.yellow),
+                                    ),
+                                child: PlatformText(
+                                  "Uhrzeit wählen: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                onPressed: () => pickTime(context)),
+                          ),
                         ],
                       ),
                       visible: notificationsOn,
@@ -350,20 +357,60 @@ class _FirstStartPageState extends State<FirstStartPage> {
   }
 
   Future<void> pickTime(BuildContext context) async {
-    final initialTime = TimeOfDay(hour: hour, minute: minute);
-    final newTime = await showTimePicker(
-      context: context,
-      initialTime: initialTime,
-      cancelText: "Abbrechen",
-      confirmText: "Bestätigen",
-      initialEntryMode: TimePickerEntryMode.dial,
-      helpText: "Hilfe",
-    );
-    if (newTime == null) return;
-    setState(() {
-      hour = newTime.hour;
-      minute = newTime.minute;
-    });
+    var platform = Theme.of(context).platform;
+
+    if (platform == TargetPlatform.android) {
+      final initialTime = TimeOfDay(hour: hour, minute: minute);
+      final newTime = await showTimePicker(
+        context: context,
+        initialTime: initialTime,
+        cancelText: "Abbrechen",
+        confirmText: "Bestätigen",
+        initialEntryMode: TimePickerEntryMode.dial,
+        helpText: "Hilfe",
+      );
+      if (newTime == null) return;
+      setState(() {
+        hour = newTime.hour;
+        minute = newTime.minute;
+      });
+    } else {
+      var newTime;
+      showCupertinoModalPopup(
+        context: context,
+        builder: (context) => Container(
+          height: 500,
+          color: Colors.black87,
+          child: Column(
+            children: [
+              Container(
+                height: 400,
+                child: CupertinoDatePicker(
+                  mode: CupertinoDatePickerMode.time,
+                  initialDateTime: DateTime(0,0,hour, minute),
+                  onDateTimeChanged: (val) {
+                    setState(
+                      () {
+                        newTime = val;
+                      },
+                    );
+                  },
+                ),
+              ),
+              CupertinoButton.filled(
+                child: Text('OK'),
+                onPressed: () => Navigator.of(context).pop(),
+              )
+            ],
+          ),
+        ),
+      );
+      if (newTime == null) return;
+      setState(() {
+        hour = newTime.hour;
+        minute = newTime.minute;
+      });
+    }
   }
 
   @override
