@@ -21,7 +21,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   LocalNotifyManager.init();
-  //SetupSettings.init();
   tz.initializeTimeZones();
   await setupTimeZone();
   await Hive.initFlutter();
@@ -78,7 +77,9 @@ class ExecApp extends StatelessWidget {
               );
             },
             cupertino: (context, platform) {
-              return CupertinoAppData(theme: SetupSettings().getCupertinoNightTheme(),);
+              return CupertinoAppData(theme: CupertinoThemeData(primaryColor: Colors.yellow,
+                  brightness: Brightness.dark,
+                  scaffoldBackgroundColor: Colors.black26));
             },
 
 

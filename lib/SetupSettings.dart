@@ -7,6 +7,8 @@ class SetupSettings {
   Color textUnselected = Colors.white;
   Color primary = Colors.yellow;
   Color primaryAccent = Colors.yellowAccent;
+  Color backCard = Colors.black26;
+  Color card = Colors.black12;
 
   ThemeData getMaterialDayTheme() {
     return ThemeData(
@@ -80,14 +82,14 @@ class SetupSettings {
 
   CupertinoThemeData getCupertinoDayTheme() {
     return CupertinoThemeData(
-        primaryColor: primary,
+        primaryColor: Colors.yellow,
         brightness: Brightness.light,
         scaffoldBackgroundColor: Colors.white);
   }
 
   CupertinoThemeData getCupertinoNightTheme() {
     return CupertinoThemeData(
-        primaryColor: primary,
+        primaryColor: Colors.yellow,
         brightness: Brightness.dark,
         scaffoldBackgroundColor: Colors.black26);
   }
