@@ -135,8 +135,7 @@ class _SettingsState extends State<Settings> {
                 ],
               ),
               Divider(),
-              Container(
-                color: Colors.black38,
+              Card(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListView(
@@ -154,27 +153,30 @@ class _SettingsState extends State<Settings> {
                           ChangeModeButton(),
                         ],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Benachrichtigungen: ",
-                            style: TextStyle(fontSize: width * 0.04),
-                          ),
-                          Transform.scale(
-                            scale: 1.6,
-                            child: Switch(
-                              activeColor: Theme.of(context).primaryColor,
-                              value: notifications!,
-                              onChanged: (value) {
-                                setState(() {
-                                  notifications = value;
-                                  box.put("notifications", value);
-                                });
-                              },
+                      Padding(
+                        padding: EdgeInsets.only(top: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Benachrichtigungen: ",
+                              style: TextStyle(fontSize: width * 0.04),
                             ),
-                          ),
-                        ],
+                            Transform.scale(
+                              scale: 1.6,
+                              child: Switch.adaptive(
+                                activeColor: Theme.of(context).primaryColor,
+                                value: notifications!,
+                                onChanged: (value) {
+                                  setState(() {
+                                    notifications = value;
+                                    box.put("notifications", value);
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       Visibility(
                         child: Padding(
@@ -325,8 +327,7 @@ class _SettingsState extends State<Settings> {
                 Spacer()
               ]),
               Divider(),
-              Container(
-                color: Colors.black38,
+              Card(
                 child: Padding(
                   padding: EdgeInsets.all(width * 0.05),
                   child: Column(

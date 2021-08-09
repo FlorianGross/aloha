@@ -88,7 +88,7 @@ class _CameraState extends State<Camera> {
             color: Colors.black,
           ),
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)));
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)), backgroundColor: Colors.black26);
 
   @override
   Widget build(BuildContext context) {
@@ -339,9 +339,7 @@ class _CameraState extends State<Camera> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton(
-
-                            style: smallButtonStyle,
-
+                          style: smallButtonStyle,
                           onPressed: () {
                             setState(() {
                               selectedButton = 0;
@@ -405,8 +403,7 @@ class _CameraState extends State<Camera> {
                           ),
                         ),
                         ElevatedButton(
-
-                            style: largeButtonStyle,
+                          style: largeButtonStyle,
                           onPressed: () {
                             setState(() {
                               selectedButton = 2;
@@ -438,9 +435,7 @@ class _CameraState extends State<Camera> {
                           ),
                         ),
                         ElevatedButton(
-
-                            style: xlargeButtonStyle,
-
+                          style: xlargeButtonStyle,
                           onPressed: () {
                             setState(() {
                               selectedButton = 3;
@@ -483,11 +478,9 @@ class _CameraState extends State<Camera> {
             mainAxisAlignment: buttonCentered,
             children: [
               ElevatedButton(
-
-                  style: OutlinedButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      primary: Colors.black),
-
+                style: OutlinedButton.styleFrom(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    primary: Colors.black),
                 onPressed: () {
                   getImage();
                 },
@@ -500,11 +493,9 @@ class _CameraState extends State<Camera> {
               Visibility(
                 visible: !isNone,
                 child: ElevatedButton(
-
-                    style: OutlinedButton.styleFrom(
-                        backgroundColor: Theme.of(context).primaryColor,
-                        primary: Colors.black),
-
+                  style: OutlinedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      primary: Colors.black),
                   onPressed: () {
                     save(context);
                   },

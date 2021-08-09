@@ -48,12 +48,8 @@ class _SessionPageState extends State<SessionPage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return PlatformScaffold(
-      material: (context, platform) => MaterialScaffoldData(),
-      cupertino: (context, platform) => CupertinoPageScaffoldData(),
-      body: Padding(
-        padding: EdgeInsets.only(top: height * 0.05),
-        child: ListView(
+    return Scaffold(
+      body: ListView(
           shrinkWrap: true,
           primary: true,
           children: [
@@ -63,7 +59,7 @@ class _SessionPageState extends State<SessionPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    PlatformText(
+                    Text(
                       "Woche $week",
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: width * 0.09),
@@ -85,7 +81,7 @@ class _SessionPageState extends State<SessionPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    PlatformText(
+                    Text(
                       "Planung Woche ${box.length}:  \n" +
                           planSlider!.toStringAsPrecision(2) +
                           " SE",
@@ -112,7 +108,7 @@ class _SessionPageState extends State<SessionPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        PlatformText(
+                        Text(
                           "Wöchentlich automatisch verringern?",
                           style: TextStyle(fontSize: width * 0.03),
                         ),
@@ -135,11 +131,11 @@ class _SessionPageState extends State<SessionPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          PlatformText("Anzahl: "),
+                          Text("Anzahl: "),
                           SizedBox(
                               height: height * 0.07,
                               width: width * 0.3,
-                              child: PlatformTextField(
+                              child: TextField(
                                 controller: amount,
                                 keyboardType: TextInputType.number,
                                 onSubmitted: (value) {
@@ -152,7 +148,7 @@ class _SessionPageState extends State<SessionPage> {
                       visible: autoDecr,
                     ),
                     Divider(),
-                    PlatformText(
+                    Text(
                       "Konsumtage: \n" + daySlider!.toStringAsPrecision(1),
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -178,16 +174,13 @@ class _SessionPageState extends State<SessionPage> {
                 ),
               ),
             ),
-            PlatformElevatedButton(
+            ElevatedButton(
               onPressed: openSettings,
-              child: Text("Einstellungen"),
-              material: (context, platform) => MaterialElevatedButtonData(
-                  style: ElevatedButton.styleFrom(
+              child: Text("Einstellungen", style: TextStyle(color: Colors.black),),
+               style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).primaryColor)),
-            )
           ],
         ),
-      ),
     );
   }
 

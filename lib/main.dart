@@ -67,22 +67,11 @@ class ExecApp extends StatelessWidget {
         create: (context) => ThemeProvider(),
         builder: (context, _) {
           final themeProvider = Provider.of<ThemeProvider>(context);
-          return PlatformApp(
+          return MaterialApp(
             home: home,
-            material: (context, platform) {
-              return MaterialAppData(
-                themeMode: themeProvider.themeMode,
-                theme: SetupSettings().getMaterialDayTheme(),
-                darkTheme: SetupSettings().getMaterialNightTheme(),
-              );
-            },
-            cupertino: (context, platform) {
-              return CupertinoAppData(
-                  theme: CupertinoThemeData(
-                      primaryColor: Colors.yellow,
-                      brightness: Brightness.dark,
-                      scaffoldBackgroundColor: Colors.black26));
-            },
+            themeMode: themeProvider.themeMode,
+            theme: SetupSettings().getMaterialDayTheme(),
+            darkTheme: SetupSettings().getMaterialNightTheme(),
             routes: <String, WidgetBuilder>{
               '/homePage': (BuildContext context) => new HomePage(),
               '/camera': (BuildContext context) => new Camera(),
