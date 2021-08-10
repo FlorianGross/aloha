@@ -11,7 +11,7 @@ class ChangeModeButton extends StatelessWidget {
     return Transform.scale(
       scale: 1.6,
       child: Switch.adaptive(
-        value: themeProvider.isDarkMode,
+        value: themeProvider.getDarkMode(),
         activeColor: Theme.of(context).primaryColor,
         onChanged: (value) {
           final provider = Provider.of<ThemeProvider>(context, listen: false);

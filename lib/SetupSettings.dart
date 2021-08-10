@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 class SetupSettings {
   Color backgroundColor = Colors.black26;
@@ -96,12 +97,19 @@ class SetupSettings {
 }
 
 class ThemeProvider extends ChangeNotifier {
+  var box = Hive.box("settings");
   ThemeMode themeMode = ThemeMode.system;
-
   bool get isDarkMode => themeMode == ThemeMode.dark;
-
+  bool getDarkMode(){
+    if(box.get("darkmode")){
+      return true;
+    }else{
+      return false;
+    }
+  }
   void toggleTheme(bool isOn) {
     themeMode = isOn ? ThemeMode.dark : ThemeMode.light;
+    box.put("darkmode", isOn);
     print("Theme toggled to: " + themeMode.toString());
     notifyListeners();
   }

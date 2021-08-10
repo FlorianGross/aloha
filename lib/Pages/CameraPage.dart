@@ -20,12 +20,13 @@ class Camera extends StatefulWidget {
 class _CameraState extends State<Camera> {
   final box = Hive.box('drinks');
   final ownBox = Hive.box("own");
+  final settings = Hive.box("settings");
   Io.File? _image;
   String? name, uri;
   DateTime? date;
   bool isCustom = false;
   bool isOwn = false;
-  bool isNone = false;
+  bool isNone = true;
   String? ownName;
   double? ownVolume, ownVolumePart;
   String? customName;
@@ -69,7 +70,7 @@ class _CameraState extends State<Camera> {
     ownVolumePart = ownBox.get("volumenpart") + 0.0;
     super.initState();
     print("Camera initialized");
-    //getImage();
+    getImage();
   }
 
   ButtonStyle? smallButtonStyle,
@@ -108,21 +109,9 @@ class _CameraState extends State<Camera> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
-                    child: FutureBuilder(
-                      future: getImage(),
-                      builder: (context, snapshot) {
-                        if(snapshot.hasData){
-                          return  _image == null
-                              ? Icon(
-                            PlatformIcons(context).refresh,
-                            size: width * 0.45,
-                          )
-                              : _imageWidget!;
-                        }else{
-                          return CircularProgressIndicator();
-                        }
-                      },
-                    )
+                    child: _image == null
+                              ? CircularProgressIndicator()
+                              : _imageWidget!
                   ),
                   Container(
                     width: width * 0.3,
@@ -136,7 +125,7 @@ class _CameraState extends State<Camera> {
                       value: dropdownValue,
                       elevation: 19,
                       style: TextStyle(
-                          color: Colors.black,
+                          color: settings.get("darkmode") ? Colors.black : Colors.yellow,
                           fontSize: width * 0.05, fontWeight: FontWeight.bold),
                       onChanged: (dynamic value) {
                         setState(() {
@@ -371,12 +360,12 @@ class _CameraState extends State<Camera> {
                                 Icon(
                                   getraenkIcon,
                                   size: width * 0.1,
-                                  color: Colors.black,
+                                  color: selectedButton != 0 ?(settings.get("darkmode") ? Colors.black : Colors.yellow) : Colors.black,
                                 ),
                                 Text(
                                   "$lowValue L",
                                   style: TextStyle(
-                                      color: Colors.black,
+                                      color: selectedButton != 0 ?(settings.get("darkmode") ? Colors.black : Colors.yellow) : Colors.black,
                                       fontSize: width * 0.05),
                                 ),
                               ],
@@ -403,12 +392,12 @@ class _CameraState extends State<Camera> {
                                 Icon(
                                   getraenkIcon,
                                   size: width * 0.12,
-                                  color: Colors.black,
+                                  color: selectedButton != 1 ?(settings.get("darkmode") ? Colors.black : Colors.yellow) : Colors.black,
                                 ),
                                 Text(
                                   "$mediumValue L",
                                   style: TextStyle(
-                                      color: Colors.black,
+                                      color: selectedButton != 1 ?(settings.get("darkmode") ? Colors.black : Colors.yellow) : Colors.black,
                                       fontSize: width * 0.05),
                                 ),
                               ],
@@ -435,12 +424,12 @@ class _CameraState extends State<Camera> {
                                 Icon(
                                   getraenkIcon,
                                   size: width * 0.14,
-                                  color: Colors.black,
+                                  color: selectedButton != 2 ?(settings.get("darkmode") ? Colors.black : Colors.yellow) : Colors.black,
                                 ),
                                 Text(
                                   "$largeValue L",
                                   style: TextStyle(
-                                      color: Colors.black,
+                                      color: selectedButton != 2 ?(settings.get("darkmode") ? Colors.black : Colors.yellow) : Colors.black,
                                       fontSize: width * 0.05),
                                 ),
                               ],
@@ -467,12 +456,12 @@ class _CameraState extends State<Camera> {
                                 Icon(
                                   getraenkIcon,
                                   size: width * 0.17,
-                                  color: Colors.black,
+                                  color: selectedButton != 3 ?(settings.get("darkmode") ? Colors.black : Colors.yellow) : Colors.black,
                                 ),
                                 Text(
                                   "$xLargeValue L",
                                   style: TextStyle(
-                                      color: Colors.black,
+                                      color: selectedButton != 3 ?(settings.get("darkmode") ? Colors.black : Colors.yellow) : Colors.black,
                                       fontSize: width * 0.05),
                                 ),
                               ],
