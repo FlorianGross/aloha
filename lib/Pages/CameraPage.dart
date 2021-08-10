@@ -55,6 +55,8 @@ class _CameraState extends State<Camera> {
 
   var buttonCentered = MainAxisAlignment.spaceAround;
 
+
+
   @override
   void initState() {
     _classifier = ClassifierQuant();
@@ -79,6 +81,7 @@ class _CameraState extends State<Camera> {
             width: 4,
             color: Colors.black,
           ),
+          primary: Colors.yellow,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           backgroundColor: Colors.yellow),
@@ -87,6 +90,7 @@ class _CameraState extends State<Camera> {
             width: 4,
             color: Colors.black,
           ),
+          primary: Colors.white,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)), backgroundColor: Colors.black26);
 
@@ -104,12 +108,21 @@ class _CameraState extends State<Camera> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
-                    child: _image == null
-                        ? Icon(
+                    child: FutureBuilder(
+                      future: getImage(),
+                      builder: (context, snapshot) {
+                        if(snapshot.hasData){
+                          return  _image == null
+                              ? Icon(
                             PlatformIcons(context).refresh,
                             size: width * 0.45,
                           )
-                        : _imageWidget,
+                              : _imageWidget!;
+                        }else{
+                          return CircularProgressIndicator();
+                        }
+                      },
+                    )
                   ),
                   Container(
                     width: width * 0.3,
@@ -121,9 +134,9 @@ class _CameraState extends State<Camera> {
                     child: DropdownButton(
                       items: dropdownItems as List<DropdownMenuItem>?,
                       value: dropdownValue,
-                      focusColor: Theme.of(context).primaryColor,
                       elevation: 19,
                       style: TextStyle(
+                          color: Colors.black,
                           fontSize: width * 0.05, fontWeight: FontWeight.bold),
                       onChanged: (dynamic value) {
                         setState(() {
