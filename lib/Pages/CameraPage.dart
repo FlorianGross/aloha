@@ -63,7 +63,7 @@ class _CameraState extends State<Camera> {
     _classifier = ClassifierQuant();
     smallButtonStyle = buttonUnselected;
     mediumButtonStyle = buttonUnselected;
-    largeButtonStyle = buttonUnselected;
+    largeButtonStyle = buttonSelected;
     xlargeButtonStyle = buttonUnselected;
     ownName = ownBox.get("name");
     ownVolume = ownBox.get("volumen") + 0.0;

@@ -2,7 +2,6 @@ import 'package:aloha/Modelle/Drinks.dart';
 import 'package:aloha/Modelle/Week.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:hive/hive.dart';
 import '../Modelle/Drinks.dart';
 
@@ -93,9 +92,7 @@ class _HomePageState extends State<HomePage> {
               onTap(false);
             },
           ),
-          Padding(
-            padding: EdgeInsets.only(bottom: height * 0.04),
-            child: ElevatedButton(
+    ElevatedButton(
                 child: Text(
                   'Schnell',
                   style: TextStyle(color: Colors.black),
@@ -103,7 +100,6 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () => onTap(true),
                 style:
                     OutlinedButton.styleFrom(backgroundColor: Colors.yellow)),
-          ),
         ],
       ),
     );

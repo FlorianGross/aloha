@@ -195,18 +195,18 @@ class _GetraenkeListItemState extends State<GetraenkeListItem> {
                     Text(
                       currentDrink!.name.toString(),
                       style: TextStyle(
-                          fontSize: width * 0.03, color: Colors.white),
+                          fontSize: width * 0.029, color: Colors.white),
                     ),
                     Text(
                       currentDrink!.volume.toString() + " ml",
                       style: TextStyle(
-                          fontSize: width * 0.03, color: Colors.white),
+                          fontSize: width * 0.029, color: Colors.white),
                     ),
                     Text(
                       currentDrink!.volumepart!.toStringAsPrecision(2) +
                           " vol%",
                       style: TextStyle(
-                          fontSize: width * 0.03, color: Colors.white),
+                          fontSize: width * 0.029, color: Colors.white),
                     ),
                   ],
                 ),

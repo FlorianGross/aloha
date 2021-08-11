@@ -112,7 +112,7 @@ class _SettingsState extends State<Settings> {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           padding: EdgeInsets.only(left: 16, top: 25, right: 16),
-          child: Column(
+          child: ListView(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
