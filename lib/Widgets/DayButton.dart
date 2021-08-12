@@ -39,7 +39,7 @@ class _DayButtonState extends State<DayButton> {
         onTab.call(_isSelected);
       },
       child: Container(
-        child: Center(child: PlatformText(weekday, style: TextStyle(color: _textColor, fontSize: fontSize),)),
+        child: Center(child: Text(weekday, style: TextStyle(color: _textColor, fontSize: fontSize),)),
         height: size,
         width: size,
         decoration: BoxDecoration(
