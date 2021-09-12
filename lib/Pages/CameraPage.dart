@@ -11,6 +11,7 @@ import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 import 'dart:io' as Io;
 import '../BrueckeIcons.dart';
 import '../Modelle/Drinks.dart';
+import '../SetupSettings.dart';
 
 class Camera extends StatefulWidget {
   @override
@@ -82,10 +83,10 @@ class _CameraState extends State<Camera> {
             width: 4,
             color: Colors.black,
           ),
-          primary: Colors.yellow,
+          primary: SetupSettings().primary,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          backgroundColor: Colors.yellow),
+          backgroundColor: SetupSettings().primary),
       buttonUnselected = OutlinedButton.styleFrom(
           side: BorderSide(
             width: 4,
@@ -125,7 +126,7 @@ class _CameraState extends State<Camera> {
                       value: dropdownValue,
                       elevation: 19,
                       style: TextStyle(
-                          color: settings.get("darkmode") ? Colors.black : Colors.yellow,
+                          color: settings.get("darkmode") ? Colors.black : SetupSettings().primary,
                           fontSize: width * 0.05, fontWeight: FontWeight.bold),
                       onChanged: (dynamic value) {
                         setState(() {
@@ -274,7 +275,7 @@ class _CameraState extends State<Camera> {
                       min: 0,
                       max: volumeSliderMax,
                       divisions: 1000,
-                      activeColor: Colors.yellow,
+                      activeColor: SetupSettings().primary,
                       onChanged: (double value) {
                         setState(() {
                           _currentSliderValue = value;
@@ -305,7 +306,7 @@ class _CameraState extends State<Camera> {
                         style: TextStyle(fontSize: width * 0.04),
                       ),
                       PlatformSlider(
-                        activeColor: Colors.yellow,
+                        activeColor: SetupSettings().primary,
                         value: _currentSliderValuePart,
                         min: 0.0,
                         max: 2.0,
@@ -360,12 +361,12 @@ class _CameraState extends State<Camera> {
                                 Icon(
                                   getraenkIcon,
                                   size: width * 0.1,
-                                  color: selectedButton != 0 ?(settings.get("darkmode") ? Colors.black : Colors.yellow) : Colors.black,
+                                  color: selectedButton != 0 ?(settings.get("darkmode") ? Colors.black : Theme.of(context).primaryColor) : Colors.black,
                                 ),
                                 Text(
                                   "$lowValue L",
                                   style: TextStyle(
-                                      color: selectedButton != 0 ?(settings.get("darkmode") ? Colors.black : Colors.yellow) : Colors.black,
+                                      color: selectedButton != 0 ?(settings.get("darkmode") ? Colors.black : Theme.of(context).primaryColor) : Colors.black,
                                       fontSize: width * 0.05),
                                 ),
                               ],
@@ -392,12 +393,12 @@ class _CameraState extends State<Camera> {
                                 Icon(
                                   getraenkIcon,
                                   size: width * 0.12,
-                                  color: selectedButton != 1 ?(settings.get("darkmode") ? Colors.black : Colors.yellow) : Colors.black,
+                                  color: selectedButton != 1 ?(settings.get("darkmode") ? Colors.black : Theme.of(context).primaryColor) : Colors.black,
                                 ),
                                 Text(
                                   "$mediumValue L",
                                   style: TextStyle(
-                                      color: selectedButton != 1 ?(settings.get("darkmode") ? Colors.black : Colors.yellow) : Colors.black,
+                                      color: selectedButton != 1 ?(settings.get("darkmode") ? Colors.black : Theme.of(context).primaryColor) : Colors.black,
                                       fontSize: width * 0.05),
                                 ),
                               ],
@@ -424,12 +425,12 @@ class _CameraState extends State<Camera> {
                                 Icon(
                                   getraenkIcon,
                                   size: width * 0.14,
-                                  color: selectedButton != 2 ?(settings.get("darkmode") ? Colors.black : Colors.yellow) : Colors.black,
+                                  color: selectedButton != 2 ?(settings.get("darkmode") ? Colors.black : Theme.of(context).primaryColor) : Colors.black,
                                 ),
                                 Text(
                                   "$largeValue L",
                                   style: TextStyle(
-                                      color: selectedButton != 2 ?(settings.get("darkmode") ? Colors.black : Colors.yellow) : Colors.black,
+                                      color: selectedButton != 2 ?(settings.get("darkmode") ? Colors.black : Theme.of(context).primaryColor) : Colors.black,
                                       fontSize: width * 0.05),
                                 ),
                               ],
@@ -456,12 +457,12 @@ class _CameraState extends State<Camera> {
                                 Icon(
                                   getraenkIcon,
                                   size: width * 0.17,
-                                  color: selectedButton != 3 ?(settings.get("darkmode") ? Colors.black : Colors.yellow) : Colors.black,
+                                  color: selectedButton != 3 ?(settings.get("darkmode") ? Colors.black : Theme.of(context).primaryColor) : Colors.black,
                                 ),
                                 Text(
                                   "$xLargeValue L",
                                   style: TextStyle(
-                                      color: selectedButton != 3 ?(settings.get("darkmode") ? Colors.black : Colors.yellow) : Colors.black,
+                                      color: selectedButton != 3 ?(settings.get("darkmode") ? Colors.black : Theme.of(context).primaryColor) : Colors.black,
                                       fontSize: width * 0.05),
                                 ),
                               ],

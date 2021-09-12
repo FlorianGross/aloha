@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 
+import '../SetupSettings.dart';
+
 class Settings extends StatefulWidget {
   @override
   _SettingsState createState() => _SettingsState();
@@ -21,7 +23,7 @@ class _SettingsState extends State<Settings> {
   double? volumePart;
   int hour = 0;
   int minute = 0;
-  Color selected = Colors.yellow, unselected = Colors.black38;
+  Color selected = SetupSettings().primary, unselected = Colors.black38;
   Color? moBut, diBut, miBut, doBut, frBut, saBut, soBut;
   bool isMoBut = false,
       isDiBut = false,

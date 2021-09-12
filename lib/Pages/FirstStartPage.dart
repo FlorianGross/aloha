@@ -59,7 +59,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
             padding: const EdgeInsets.all(20.0),
             child: Center(
               child: Image(
-                image: AssetImage('assets/LaunchImage.png'),
+                image: AssetImage('assets/AlohA_Logo.png'),
                 width: 244,
                 height: 244,
               ),

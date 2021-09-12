@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
           ),
           GestureDetector(
             child: Image(
-              image: AssetImage('assets/LaunchImage.png'),
+              image: AssetImage('assets/AlohA_Logo.png'),
               width: width * 0.6,
               height: height * 0.6,
             ),
@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onPressed: () => onTap(true),
                 style:
-                    OutlinedButton.styleFrom(backgroundColor: Colors.yellow)),
+                    OutlinedButton.styleFrom(backgroundColor: Theme.of(context).primaryColor)),
         ],
       ),
     );

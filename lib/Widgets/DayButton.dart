@@ -44,7 +44,7 @@ class _DayButtonState extends State<DayButton> {
         width: size,
         decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: _isSelected ? Colors.yellow : Colors.black26),
+            color: _isSelected ? Theme.of(context).primaryColor : Colors.black26),
       ),
     );
   }

@@ -6,15 +6,15 @@ class SetupSettings {
   Color backgroundColor = Colors.black26;
   Color textSelected = Colors.black;
   Color textUnselected = Colors.white;
-  Color primary = Colors.yellow;
-  Color primaryAccent = Colors.yellowAccent;
+  Color primary = Colors.blue;
+  Color primaryAccent = Colors.blueAccent;
   Color backCard = Colors.black26;
   Color card = Colors.black12;
 
   ThemeData getMaterialDayTheme() {
     return ThemeData(
       indicatorColor: primary,
-      accentColor: Colors.yellowAccent,
+      accentColor: primaryAccent,
       textSelectionTheme: TextSelectionThemeData(
           cursorColor: primary, selectionHandleColor: primary),
       fontFamily: "Roboto",
@@ -33,7 +33,7 @@ class SetupSettings {
           dialTextColor: Colors.black,
           hourMinuteTextColor: Colors.black,
           backgroundColor: Colors.white),
-      backgroundColor: Colors.yellowAccent,
+      backgroundColor: primaryAccent,
       bottomNavigationBarTheme: BottomNavigationBarThemeData(),
       colorScheme: ColorScheme.light(),
       cardTheme: CardTheme(color: Colors.white60),
@@ -60,7 +60,7 @@ class SetupSettings {
         scaffoldBackgroundColor: Colors.grey.shade900,
         colorScheme: ColorScheme.dark(),
         brightness: Brightness.dark,
-        primaryColor: Colors.yellow,
+        primaryColor: primary,
         bottomNavigationBarTheme: BottomNavigationBarThemeData(),
         inputDecorationTheme: InputDecorationTheme(
           disabledBorder: OutlineInputBorder(
@@ -77,22 +77,8 @@ class SetupSettings {
           ),
         ),
         cardTheme: CardTheme(color: Colors.black12),
-        backgroundColor: Colors.yellowAccent,
-        accentColor: Colors.yellowAccent);
-  }
-
-  CupertinoThemeData getCupertinoDayTheme() {
-    return CupertinoThemeData(
-        primaryColor: Colors.yellow,
-        brightness: Brightness.light,
-        scaffoldBackgroundColor: Colors.white);
-  }
-
-  CupertinoThemeData getCupertinoNightTheme() {
-    return CupertinoThemeData(
-        primaryColor: Colors.yellow,
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: Colors.black26);
+        backgroundColor: primaryAccent,
+        accentColor: primaryAccent);
   }
 }
 

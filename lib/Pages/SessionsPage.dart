@@ -90,7 +90,7 @@ class _SessionPageState extends State<SessionPage> {
                           fontWeight: FontWeight.bold, fontSize: width * 0.05),
                     ),
                     PlatformSlider(
-                      activeColor: Colors.yellow,
+                      activeColor: Theme.of(context).primaryColor,
                       value: planSlider!,
                       min: 0,
                       max: 80,
@@ -155,7 +155,7 @@ class _SessionPageState extends State<SessionPage> {
                           fontWeight: FontWeight.bold, fontSize: width * 0.05),
                     ),
                     PlatformSlider(
-                      activeColor: Colors.yellow,
+                      activeColor: Theme.of(context).primaryColor,
                       value: daySlider!,
                       min: 0,
                       max: 7,
