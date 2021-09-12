@@ -3,4 +3,4 @@ dev_dependencies:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/alcoly_logo_.png"
+  image_path: "assets/AlohA_Logo.png"

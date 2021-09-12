@@ -1,8 +1,8 @@
 flutter_native_splash:
   color: "#181818"
-  image: assets/alcoly_logo.png
+  image: assets/AlohA_Logo.png
   color_dark: "#181818"
-  image_dark: assets/alcoly_logo.png
+  image_dark:  assets/AlohA_Logo.png
   android_gravity: center
   ios_content_mode: center
   web_image_mode: center
