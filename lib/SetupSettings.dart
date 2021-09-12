@@ -6,8 +6,8 @@ class SetupSettings {
   Color backgroundColor = Colors.black26;
   Color textSelected = Colors.black;
   Color textUnselected = Colors.white;
-  Color primary = Colors.blue;
-  Color primaryAccent = Colors.blueAccent;
+  Color primary = Colors.lightBlue;
+  Color primaryAccent = Colors.lightBlueAccent;
   Color backCard = Colors.black26;
   Color card = Colors.black12;
 
