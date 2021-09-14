@@ -15,6 +15,7 @@ class _HomePageState extends State<HomePage> {
   final settingsBox = Hive.box("settings");
   final ownBox = Hive.box("own");
   final drinkBox = Hive.box("drinks");
+  final snackBar = SnackBar(content: Text('Getränk hinzugefügt'));
   double? plannedForWeek = 0.0, usedThisWeek = 0.0, plannedDay = 0, usedDay = 0;
   bool fastAdd = false;
   late Week currentWeek;
@@ -92,14 +93,14 @@ class _HomePageState extends State<HomePage> {
               onTap(false);
             },
           ),
-    ElevatedButton(
-                child: Text(
-                  'Schnell',
-                  style: TextStyle(color: Colors.black),
-                ),
-                onPressed: () => onTap(true),
-                style:
-                    OutlinedButton.styleFrom(backgroundColor: Theme.of(context).primaryColor)),
+          ElevatedButton(
+              child: Text(
+                'Schnell',
+                style: TextStyle(color: Colors.black),
+              ),
+              onPressed: () => onTap(true),
+              style: OutlinedButton.styleFrom(
+                  backgroundColor: Theme.of(context).primaryColor)),
         ],
       ),
     );
@@ -177,7 +178,7 @@ class _HomePageState extends State<HomePage> {
   void onTap(bool fastAdd) {
     if (!fastAdd) {
       Navigator.of(context).pushNamed('/camera');
-    } else {
+      } else {
       try {
         Drinks current = Drinks(
           week: currentWeek.week,
@@ -194,6 +195,7 @@ class _HomePageState extends State<HomePage> {
       } catch (e) {
         print("Error saving preset: " + e.toString());
       }
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 
