@@ -254,7 +254,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(primary: Colors.yellow),
+                        style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
                         onPressed: () {
                           try {
                             saveSettings();
