@@ -72,6 +72,7 @@ class ExecApp extends StatelessWidget {
             box.put("darkmode", false);
           }
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             home: home,
             themeMode: themeProvider.themeMode,
             theme: SetupSettings().getMaterialDayTheme(),
