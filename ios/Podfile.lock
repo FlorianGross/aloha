@@ -37,7 +37,7 @@ SPEC CHECKSUMS:
   camera: 3164201dc344383e62282964016528c4f5a9ad50
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
-  image_picker: 50e7c7ff960e5f58faa4d1f4af84a771c671bc4a
+  image_picker: e06f7a68f000bd36f552c1847e33cda96ed31f1f
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   tflite_flutter: 9157a660578930a99728974f247369af1c3595d5
 

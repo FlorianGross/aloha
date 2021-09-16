@@ -111,7 +111,7 @@ class _CameraState extends State<Camera> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: _image == null
-                              ? CircularProgressIndicator()
+                              ? CircularProgressIndicator(color: Theme.of(context).primaryColor,)
                               : _imageWidget!
                   ),
                   Container(
@@ -530,24 +530,22 @@ class _CameraState extends State<Camera> {
 
   Future<void> getImage() async {
     print("Started importing Image");
-    var image;
     try {
-      image = await ImagePicker().pickImage(source: ImageSource.camera);
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+      setState(() {
+        _image = Io.File(image!.path);
+        _imageWidget = Image.file(
+          _image!,
+          height: 200,
+        );
+      });
+      _predict();
     }catch(e){
       var snackBar = SnackBar(content: Text("Problem mit Ihrer Kamera"),);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      image = Image.asset("./assets/AlohA_Logo.png");
       Navigator.of(context).pop();
 
     }
-    setState(() {
-      _image = Io.File(image!.path);
-      _imageWidget = Image.file(
-        _image!,
-        height: 200,
-      );
-    });
-    _predict();
   }
 
   Future<void> _predict() async {

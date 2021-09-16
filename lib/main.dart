@@ -58,7 +58,7 @@ Future<void> setupTimeZone() async {
 
 class ExecApp extends StatelessWidget {
   ExecApp(this.home);
-  var box = Hive.box("settings");
+  final box = Hive.box("settings");
   final home;
 
   @override
