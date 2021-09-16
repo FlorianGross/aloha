@@ -126,7 +126,6 @@ class _CameraState extends State<Camera> {
                       value: dropdownValue,
                       elevation: 19,
                       style: TextStyle(
-                          color: settings.get("darkmode") ? Colors.black : SetupSettings().primary,
                           fontSize: width * 0.05, fontWeight: FontWeight.bold),
                       onChanged: (dynamic value) {
                         setState(() {
@@ -245,7 +244,7 @@ class _CameraState extends State<Camera> {
                         style: TextStyle(fontSize: width * 0.05),
                       ),
                       Text(
-                        "Volumenprozent: $ownVolumePart \u2030",
+                        "Volumenprozent: $ownVolumePart vol%",
                         style: TextStyle(fontSize: width * 0.05),
                       )
                     ],
@@ -478,8 +477,21 @@ class _CameraState extends State<Camera> {
           ),
           Divider(),
           Row(
-            mainAxisAlignment: buttonCentered,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+              ElevatedButton(
+                style: OutlinedButton.styleFrom(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    primary: Colors.black),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  "Abbrechen",
+                  style: TextStyle(
+                      fontSize: width * 0.05, fontWeight: FontWeight.bold),
+                ),
+              ),
               ElevatedButton(
                 style: OutlinedButton.styleFrom(
                     backgroundColor: Theme.of(context).primaryColor,
@@ -518,8 +530,16 @@ class _CameraState extends State<Camera> {
 
   Future<void> getImage() async {
     print("Started importing Image");
-    final image = await ImagePicker().getImage(source: ImageSource.camera);
+    var image;
+    try {
+      image = await ImagePicker().pickImage(source: ImageSource.camera);
+    }catch(e){
+      var snackBar = SnackBar(content: Text("Problem mit Ihrer Kamera"),);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      image = Image.asset("./assets/AlohA_Logo.png");
+      Navigator.of(context).pop();
 
+    }
     setState(() {
       _image = Io.File(image!.path);
       _imageWidget = Image.file(

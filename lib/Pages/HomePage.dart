@@ -190,7 +190,10 @@ class _HomePageState extends State<HomePage> {
           uri: null,
         );
         drinkBox.add(current);
-
+        setState(() {
+          usedThisWeek = currentWeek.getSethisWeek();
+          usedDay = currentWeek.getUsedDays();
+        });
         print("Added drink: " + current.toString());
       } catch (e) {
         print("Error saving preset: " + e.toString());
