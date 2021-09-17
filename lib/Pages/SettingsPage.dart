@@ -464,6 +464,8 @@ class _SettingsState extends State<Settings> {
       ownBox.put("volumen", volume);
       ownBox.put("volumenpart", volumePart);
       print("Save successful: " + ownBox.toMap().toString());
+      final SnackBar snackBar = SnackBar(content: Text('Getränk $name gespeichert'),);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } catch (e) {
       print("Error while saving Drink: " + e.toString());
     }
