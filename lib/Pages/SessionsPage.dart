@@ -24,9 +24,8 @@ class _SessionPageState extends State<SessionPage> {
   late Week currentWeek;
   bool autoDecr = true;
   int decrAmount = 0;
-  final _pageController = PageController();
-  final _currentPageNotifier = ValueNotifier<int>(0);
-
+  var _pageController;
+  var _currentPageNotifier;
   @override
   void initState() {
     maxWeek = box.length - 1;
@@ -39,7 +38,8 @@ class _SessionPageState extends State<SessionPage> {
     daySlider = currentWeek.plannedDay;
     seValue = currentWeek.getSethisWeek();
     dayValue = currentWeek.getUsedDays();
-
+    _pageController = PageController(initialPage: maxWeek,);
+    _currentPageNotifier = ValueNotifier<int>(week);
     super.initState();
     print("Sessions initialized");
   }
@@ -69,7 +69,8 @@ class _SessionPageState extends State<SessionPage> {
                       child: ArrowPageIndicator(
                           pageController: _pageController,
                           currentPageNotifier: _currentPageNotifier,
-                          itemCount: box.length,
+                          itemCount: box.length - 1,
+
                           child: _buildPageView(width)),
                     )
                   ],
@@ -205,26 +206,26 @@ class _SessionPageState extends State<SessionPage> {
   }
 
   Future<void> setWeek(int value) async {
-    week = value;
-    currentWeek = box.getAt(week);
-    seValue = currentWeek.getSethisWeek();
-    dayValue = currentWeek.getUsedDays();
-    _currentPageNotifier.value = value;
+    setState(() {
+      week = value;
+      currentWeek = box.getAt(week);
+      seValue = currentWeek.getSethisWeek();
+      dayValue = currentWeek.getUsedDays();
+    });
+
   }
 
   Future<void> initWeek(int value) async {
-    week = value;
-    currentWeek = box.getAt(week);
-    seValue = currentWeek.getSethisWeek();
-    dayValue = currentWeek.getUsedDays();
-    _currentPageNotifier.value = value;
+      week = value;
+      currentWeek = box.getAt(week);
+      seValue = currentWeek.getSethisWeek();
+      dayValue = currentWeek.getUsedDays();
   }
 
   _buildPageView(double width) {
     return PageView.builder(
       itemCount: box.length,
       controller: _pageController,
-      reverse: true,
       onPageChanged: (value) {
         setWeek(value);
       },
