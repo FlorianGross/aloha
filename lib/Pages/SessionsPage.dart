@@ -236,7 +236,7 @@ class _SessionPageState extends State<SessionPage> {
             padding: const EdgeInsets.all(10.0),
             child: PlatformText(
               "Zusammenfassung: \n\n" +
-                  seValue.toString() +
+                  seValue.toStringAsPrecision(2) +
                   " / " +
                   currentWeek.plannedSE.toString() +
                   " SE \n" +
