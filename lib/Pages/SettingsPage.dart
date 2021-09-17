@@ -125,8 +125,8 @@ class _SettingsState extends State<Settings> {
                         fontSize: width * 0.06, fontWeight: FontWeight.w500),
                   ),
                   ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Theme.of(context).primaryColor),
+                    style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).primaryColor),
                     child: Icon(
                       Icons.arrow_back,
                       color: Colors.black,
@@ -170,10 +170,12 @@ class _SettingsState extends State<Settings> {
                                 activeColor: Theme.of(context).primaryColor,
                                 value: notifications!,
                                 onChanged: (value) {
-                                  setState(() {
-                                    notifications = value;
-                                    box.put("notifications", value);
-                                  });
+                                  setState(
+                                    () {
+                                      notifications = value;
+                                      box.put("notifications", value);
+                                    },
+                                  );
                                 },
                               ),
                             ),
@@ -193,17 +195,18 @@ class _SettingsState extends State<Settings> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   DayButton(
-                                      weekday: "Mo",
-                                      fontSize: width * 0.03,
-                                      size: width * 0.07,
-                                      onTab: (val) {
-                                        isMoBut = val;
-                                        if (isMoBut) {
-                                          addNotification(1);
-                                        } else {
-                                          removeNotification(1);
-                                        }
-                                      }),
+                                    weekday: "Mo",
+                                    fontSize: width * 0.03,
+                                    size: width * 0.07,
+                                    onTab: (val) {
+                                      isMoBut = val;
+                                      if (isMoBut) {
+                                        addNotification(1);
+                                      } else {
+                                        removeNotification(1);
+                                      }
+                                    },
+                                  ),
                                   DayButton(
                                     weekday: "Di",
                                     fontSize: width * 0.03,
@@ -297,9 +300,8 @@ class _SettingsState extends State<Settings> {
                                   bottom: 8.0,
                                 ),
                                 child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        primary:
-                                            Theme.of(context).primaryColor),
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Theme.of(context).primaryColor),
                                   child: Text(
                                     "Uhrzeit wählen: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}",
                                     style: TextStyle(
@@ -318,16 +320,18 @@ class _SettingsState extends State<Settings> {
                   ),
                 ),
               ),
-              Row(children: [
-                Text(
-                  "Eigenes Getränk",
-                  style: TextStyle(
-                    fontSize: width * 0.06,
-                    fontWeight: FontWeight.w500,
+              Row(
+                children: [
+                  Text(
+                    "Eigenes Getränk",
+                    style: TextStyle(
+                      fontSize: width * 0.06,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                Spacer()
-              ]),
+                  Spacer()
+                ],
+              ),
               Divider(),
               Card(
                 child: Padding(
@@ -370,13 +374,27 @@ class _SettingsState extends State<Settings> {
                                     RegExp(r"^\d*\.?\d*"))
                               ],
                               controller: volumeController,
+                              onChanged: (value) {
+                                setState(
+                                  () {
+                                    volumen = double.parse(value);
+                                    ownSE = (volumen! *
+                                            0.8 *
+                                            (volumePart! / 1000)) /
+                                        2;
+                                  },
+                                );
+                              },
                               onSubmitted: (value) {
-                                setState(() {
-                                  volumen = double.parse(value);
-                                  ownSE =
-                                      (volumen! * 0.8 * (volumePart! / 1000)) /
-                                          2;
-                                });
+                                setState(
+                                  () {
+                                    volumen = double.parse(value);
+                                    ownSE = (volumen! *
+                                            0.8 *
+                                            (volumePart! / 1000)) /
+                                        2;
+                                  },
+                                );
                               },
                             ),
                           )
@@ -401,13 +419,27 @@ class _SettingsState extends State<Settings> {
                               ],
                               keyboardType: TextInputType.number,
                               controller: volumePartController,
+                              onChanged: (value) {
+                                setState(
+                                  () {
+                                    volumePart = double.parse(value);
+                                    ownSE = (volumen! *
+                                            0.8 *
+                                            (volumePart! / 1000)) /
+                                        2;
+                                  },
+                                );
+                              },
                               onSubmitted: (value) {
-                                setState(() {
-                                  volumePart = double.parse(value);
-                                  ownSE =
-                                      (volumen! * 0.8 * (volumePart! / 1000)) /
-                                          2;
-                                });
+                                setState(
+                                  () {
+                                    volumePart = double.parse(value);
+                                    ownSE = (volumen! *
+                                            0.8 *
+                                            (volumePart! / 1000)) /
+                                        2;
+                                  },
+                                );
                               },
                             ),
                           ),
@@ -432,10 +464,10 @@ class _SettingsState extends State<Settings> {
                       ),
                       Divider(),
                       ElevatedButton(
-                          style: OutlinedButton.styleFrom(
-                              primary: Colors.black,
-                              backgroundColor: Theme.of(context).primaryColor,
-                              alignment: Alignment.center),
+                        style: OutlinedButton.styleFrom(
+                            primary: Colors.black,
+                            backgroundColor: Theme.of(context).primaryColor,
+                            alignment: Alignment.center),
                         child: Text(
                           "Speichern",
                           style: TextStyle(
@@ -464,7 +496,9 @@ class _SettingsState extends State<Settings> {
       ownBox.put("volumen", volume);
       ownBox.put("volumenpart", volumePart);
       print("Save successful: " + ownBox.toMap().toString());
-      final SnackBar snackBar = SnackBar(content: Text('Getränk $name gespeichert'),);
+      final SnackBar snackBar = SnackBar(
+        content: Text('Getränk $name gespeichert'),
+      );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } catch (e) {
       print("Error while saving Drink: " + e.toString());
