@@ -119,13 +119,13 @@ class _CameraState extends State<Camera> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Colors.black38,
                         border: Border.all()),
                     child: DropdownButton(
                       items: dropdownItems as List<DropdownMenuItem>?,
                       value: dropdownValue,
                       elevation: 19,
                       style: TextStyle(
+                        color: Theme.of(context).primaryColor,
                           fontSize: width * 0.05, fontWeight: FontWeight.bold),
                       onChanged: (dynamic value) {
                         setState(() {
@@ -360,12 +360,12 @@ class _CameraState extends State<Camera> {
                                 Icon(
                                   getraenkIcon,
                                   size: width * 0.1,
-                                  color: selectedButton != 0 ?(settings.get("darkmode") ? Colors.black : Theme.of(context).primaryColor) : Colors.black,
+                                  color: selectedButton != 0 ? (settings.get("darkmode") ? Theme.of(context).primaryColor : Colors.black) : Colors.black,
                                 ),
                                 Text(
                                   "$lowValue L",
                                   style: TextStyle(
-                                      color: selectedButton != 0 ?(settings.get("darkmode") ? Colors.black : Theme.of(context).primaryColor) : Colors.black,
+                                      color: selectedButton != 0 ? (settings.get("darkmode") ? Theme.of(context).primaryColor : Colors.black) : Colors.black,
                                       fontSize: width * 0.05),
                                 ),
                               ],
@@ -391,13 +391,13 @@ class _CameraState extends State<Camera> {
                               children: [
                                 Icon(
                                   getraenkIcon,
-                                  size: width * 0.12,
-                                  color: selectedButton != 1 ?(settings.get("darkmode") ? Colors.black : Theme.of(context).primaryColor) : Colors.black,
+                                  size: width * 0.1,
+                                  color: selectedButton != 1 ? (settings.get("darkmode") ? Theme.of(context).primaryColor : Colors.black) : Colors.black,
                                 ),
                                 Text(
                                   "$mediumValue L",
                                   style: TextStyle(
-                                      color: selectedButton != 1 ?(settings.get("darkmode") ? Colors.black : Theme.of(context).primaryColor) : Colors.black,
+                                      color: selectedButton != 1 ? (settings.get("darkmode") ? Theme.of(context).primaryColor : Colors.black) : Colors.black,
                                       fontSize: width * 0.05),
                                 ),
                               ],
@@ -423,13 +423,13 @@ class _CameraState extends State<Camera> {
                               children: [
                                 Icon(
                                   getraenkIcon,
-                                  size: width * 0.14,
-                                  color: selectedButton != 2 ?(settings.get("darkmode") ? Colors.black : Theme.of(context).primaryColor) : Colors.black,
+                                  size: width * 0.1,
+                                  color: selectedButton != 2 ? (settings.get("darkmode") ? Theme.of(context).primaryColor : Colors.black) : Colors.black,
                                 ),
                                 Text(
                                   "$largeValue L",
                                   style: TextStyle(
-                                      color: selectedButton != 2 ?(settings.get("darkmode") ? Colors.black : Theme.of(context).primaryColor) : Colors.black,
+                                      color: selectedButton != 2 ? (settings.get("darkmode") ? Theme.of(context).primaryColor : Colors.black) : Colors.black,
                                       fontSize: width * 0.05),
                                 ),
                               ],
@@ -455,13 +455,13 @@ class _CameraState extends State<Camera> {
                               children: [
                                 Icon(
                                   getraenkIcon,
-                                  size: width * 0.17,
-                                  color: selectedButton != 3 ?(settings.get("darkmode") ? Colors.black : Theme.of(context).primaryColor) : Colors.black,
+                                  size: width * 0.1,
+                                  color: selectedButton != 3 ? (settings.get("darkmode") ? Theme.of(context).primaryColor : Colors.black) : Colors.black,
                                 ),
                                 Text(
                                   "$xLargeValue L",
                                   style: TextStyle(
-                                      color: selectedButton != 3 ?(settings.get("darkmode") ? Colors.black : Theme.of(context).primaryColor) : Colors.black,
+                                      color: selectedButton != 3 ? (settings.get("darkmode") ? Theme.of(context).primaryColor : Colors.black) : Colors.black,
                                       fontSize: width * 0.05),
                                 ),
                               ],
