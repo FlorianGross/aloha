@@ -26,6 +26,7 @@ class _SessionPageState extends State<SessionPage> {
   int decrAmount = 0;
   var _pageController;
   var _currentPageNotifier;
+  final snackBar = SnackBar(content: Text('Woche geplant!'));
   @override
   void initState() {
     maxWeek = box.length - 1;
@@ -35,7 +36,7 @@ class _SessionPageState extends State<SessionPage> {
     decrAmount = settingsBox.get("autoDecrAmount");
     amount = TextEditingController(text: decrAmount.toString());
     planSlider = calculateNextWeekSEPlan();
-    daySlider = currentWeek.plannedDay;
+    daySlider = settingsBox.get("DaysForNextWeek");
     seValue = currentWeek.getSethisWeek();
     dayValue = currentWeek.getUsedDays();
     _pageController = PageController(initialPage: maxWeek,);
@@ -171,6 +172,11 @@ class _SessionPageState extends State<SessionPage> {
                         settingsBox.put("DaysForNextWeek", value);
                       },
                     ),
+                    ElevatedButton(
+                        onPressed: saveSetup,
+                        child: Text("Speichern", style: TextStyle(color: Colors.black),),
+                        style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).primaryColor)),
                   ],
                 ),
               ),
@@ -193,6 +199,14 @@ class _SessionPageState extends State<SessionPage> {
     );
   }
 
+  Future<void> saveSetup() async {
+    settingsBox.put("DaysForNextWeek", daySlider);
+    settingsBox.put(
+        "autoDecrAmount", int.parse(amount.toString()));
+    settingsBox.put("SEforNextWeek", planSlider);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   double calculateNextWeekSEPlan() {
     if (autoDecr) {
       double result = currentWeek.plannedSE! - decrAmount;
@@ -201,7 +215,7 @@ class _SessionPageState extends State<SessionPage> {
       }
       return result;
     } else {
-      return currentWeek.plannedSE!;
+      return settingsBox.get("SEforNextWeek");
     }
   }
 
