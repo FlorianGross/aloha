@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
           ),
           ElevatedButton(
               child: Text(
-                'Schnell',
+                '\"${getName()}\" hinzufügen',
                 style: TextStyle(color: Colors.black),
               ),
               onPressed: () => onTap(true),
@@ -148,13 +148,11 @@ class _HomePageState extends State<HomePage> {
           " - " +
           currentWeek.getEndTime().toString());
       DateTime newStartDate = currentWeek.getStartDate().add(Duration(days: 7));
-      DateTime newEndDate = newStartDate.add(Duration(
-          days: 6,
-          hours: 23,
-          minutes: 59,
-          microseconds: 999,
-          milliseconds: 99,
-          seconds: 59));
+      DateTime newEndDate = newStartDate.add(
+        Duration(
+          days: 7,
+        ),
+      );
       double days = settingsBox.get("DaysForNextWeek");
       int decrAmount = settingsBox.get("autoDecrAmount");
       double sePlanned = settingsBox.get("SEforNextWeek");
@@ -167,18 +165,26 @@ class _HomePageState extends State<HomePage> {
           plannedSE: sePlanned,
           week: box.length,
           startdate: newStartDate.millisecondsSinceEpoch,
-          endDate: newEndDate.millisecondsSinceEpoch);
+          endDate: newEndDate.millisecondsSinceEpoch - 1);
       box.add(newWeek);
       settingsBox.put("SEforNextWeek", sePlanned);
       currentWeek = box.getAt(box.length - 1);
       print("New Week Added: " + newWeek.toString());
     }
   }
+  
+  Future<void> onComeBack() async{
+    
+    setState(() {
+      usedThisWeek = currentWeek.getSethisWeek();
+      usedDay = currentWeek.getUsedDays();
+    });
+  }
 
   void onTap(bool fastAdd) {
     if (!fastAdd) {
-      Navigator.of(context).pushNamed('/camera');
-      } else {
+      Navigator.of(context).pushNamed('/camera').then((value) => onComeBack());
+    } else {
       try {
         Drinks current = Drinks(
           week: currentWeek.week,

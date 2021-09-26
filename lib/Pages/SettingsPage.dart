@@ -1,3 +1,4 @@
+import 'package:aloha/Modelle/Week.dart';
 import 'package:aloha/Notifications.dart';
 import 'package:aloha/Widgets/ChangeModeButton.dart';
 import 'package:aloha/Widgets/DayButton.dart';
@@ -16,6 +17,7 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   final box = Hive.box("settings");
   final ownBox = Hive.box("own");
+  final weekbox = Hive.box("week");
   bool? notifications = true;
   late double ownSE;
   String? name = "Name";
@@ -36,6 +38,8 @@ class _SettingsState extends State<Settings> {
   TextEditingController volumeController =
       TextEditingController(text: "1000.0");
   TextEditingController volumePartController = TextEditingController(text: "5");
+  String dropdownValue = "Mo";
+  final dayList = ["Nichts", "Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
   @override
   void initState() {
@@ -101,6 +105,7 @@ class _SettingsState extends State<Settings> {
       hour = 18;
       print(e);
     }
+    setBeginDate();
     super.initState();
     print("Settings initialized");
   }
@@ -479,6 +484,54 @@ class _SettingsState extends State<Settings> {
                   ),
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Woche",
+                    style: TextStyle(
+                        fontSize: width * 0.06, fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              Divider(),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Wochenbeginn: "),
+                      DropdownButton(
+                        onChanged: (String? value) {
+                          setState(() {
+                            dropdownValue = value!;
+                          });
+                        },
+                        value: dropdownValue,
+                        items: dayList
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          setWeekBegin(dropdownValue);
+                        },
+                        child: Text(
+                          "Speichern",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).primaryColor),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -530,6 +583,45 @@ class _SettingsState extends State<Settings> {
     });
   }
 
+  Future<void> setBeginDate() async {
+    if (box.get("weekDayStart") == null) {
+      Week currentWeek = weekbox.get(
+        weekbox.length - 1,
+      );
+      String dayText = dayList[currentWeek.getStartDate().weekday];
+      box.put("weekDayStart", dayText);
+    } else {
+      dropdownValue = box.get("weekDayStart");
+    }
+  }
+
+  Future<void> setWeekBegin(String day) async {
+    if (["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"].contains(day)) {
+      box.put("weekDayStart", day);
+      int dayIndex = dayList.indexOf(day);
+      Week currentWeek = weekbox.getAt(weekbox.length - 1);
+      int endDate = await nextWeekday(dayIndex);
+      Week changedWeek = Week(
+        week: currentWeek.week,
+        plannedDay: currentWeek.plannedDay,
+        plannedSE: currentWeek.plannedSE,
+        startdate: currentWeek.startdate,
+        endDate: endDate,
+      );
+      weekbox.putAt(weekbox.length - 1, changedWeek);
+      print("week changed from: " +
+          currentWeek.getEndTime().toString() +
+          " to " +
+          changedWeek.getEndTime().toString());
+    } else {
+      print("Error");
+    }
+  }
+
+  Future<void> pop() async {
+    Navigator.pop(context);
+  }
+
   @override
   void dispose() {
     nameController.dispose();
@@ -538,7 +630,23 @@ class _SettingsState extends State<Settings> {
     super.dispose();
   }
 
-  Future<void> pop() async {
-    Navigator.pop(context);
+  Future<int> nextWeekday(int day) async {
+    DateTime now = DateTime.now();
+    while (now.weekday != day) {
+      now = now.add(Duration(days: 1));
+      print(now.toString());
+    }
+    int result = DateTime(
+          now.year,
+          now.month,
+          now.day,
+          0,
+          0,
+          0,
+          0,
+          0,
+        ).millisecondsSinceEpoch -
+        1;
+    return result;
   }
 }
