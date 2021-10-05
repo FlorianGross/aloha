@@ -67,7 +67,8 @@ class _DetailsTabState extends State<DetailsTab> {
                     style: TextStyle(fontSize: width * 0.05),
                   ),
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
+                    style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).primaryColor),
                     child: Icon(
                       PlatformIcons(context).leftChevron,
                       color: Colors.black,
@@ -208,32 +209,47 @@ class _DetailsTabState extends State<DetailsTab> {
                         ),
                       ),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
+                        style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).primaryColor),
                         child: Text(
                           buttonText,
                           style: TextStyle(
                               color: Colors.black, fontSize: width * 0.03),
                         ),
                         onPressed: () {
-                          setState(() {
-                            edit = !edit;
-                            if (edit) {
-                              buttonText = "Speichern";
-                            } else {
-                              buttonText = "Ändern";
-                              current!.volume =
-                                  double.parse(volumeController.text);
-                              current!.volumepart =
-                                  double.parse(volumePartController.text);
-                              current!.name = nameController.text;
-                              current!.save();
-                            }
-                          });
+                          setState(
+                            () {
+                              try {
+                                current!.volume =
+                                    double.parse(volumeController.text);
+                                current!.volumepart =
+                                    double.parse(volumePartController.text);
+                                current!.name = nameController.text;
+                                edit = !edit;
+                                if (edit) {
+                                  buttonText = "Speichern";
+                                } else {
+                                  buttonText = "Ändern";
+                                }
+                                current!.save();
+                              } catch (e) {
+                                print(e);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      "Fehler bei der Eingabe",
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                          );
                         },
                       ),
                       Divider(),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
+                        style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).primaryColor),
                         child: Icon(
                           PlatformIcons(context).delete,
                           color: Colors.black,
