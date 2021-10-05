@@ -23,7 +23,7 @@ class _SessionPageState extends State<SessionPage> {
   int maxWeek = 0;
   late Week currentWeek;
   bool autoDecr = true;
-  int decrAmount = 0;
+  double decrAmount = 0.0;
   var _pageController;
   var _currentPageNotifier;
   final snackBar = SnackBar(content: Text('Woche geplant!'));
