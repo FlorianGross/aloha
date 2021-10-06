@@ -45,8 +45,14 @@ class _CameraState extends State<Camera> {
   img.Image? fox;
   Category? category;
   String? dropdownValue = 'Keins';
-  List dropdownItems = <String>['Keins', 'Bier', 'Wein', 'Eigenes', 'Andere']
-      .map<DropdownMenuItem<String>>((String value) {
+  List dropdownItems = <String>[
+    'Keins',
+    'Bier',
+    'Schnaps',
+    'Wein',
+    'Eigenes',
+    'Andere'
+  ].map<DropdownMenuItem<String>>((String value) {
     return DropdownMenuItem<String>(
       value: value,
       child: Text(
@@ -56,8 +62,6 @@ class _CameraState extends State<Camera> {
   }).toList();
 
   var buttonCentered = MainAxisAlignment.spaceAround;
-
-
 
   @override
   void initState() {
@@ -94,7 +98,8 @@ class _CameraState extends State<Camera> {
           ),
           primary: Colors.white,
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)), backgroundColor: Colors.black26);
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          backgroundColor: Colors.black12);
 
   @override
   Widget build(BuildContext context) {
@@ -109,11 +114,12 @@ class _CameraState extends State<Camera> {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: _image == null
-                              ? CircularProgressIndicator(color: Theme.of(context).primaryColor,)
-                              : _imageWidget!
-                  ),
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: _image == null
+                          ? CircularProgressIndicator(
+                              color: Theme.of(context).primaryColor,
+                            )
+                          : _imageWidget!),
                   Container(
                     width: width * 0.3,
                     alignment: Alignment.center,
@@ -125,8 +131,9 @@ class _CameraState extends State<Camera> {
                       value: dropdownValue,
                       elevation: 19,
                       style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                          fontSize: width * 0.05, fontWeight: FontWeight.bold),
+                          color: Theme.of(context).primaryColor,
+                          fontSize: width * 0.05,
+                          fontWeight: FontWeight.bold),
                       onChanged: (dynamic value) {
                         setState(() {
                           dropdownValue = value;
@@ -180,6 +187,18 @@ class _CameraState extends State<Camera> {
                               isOwn = false;
                               buttonCentered = MainAxisAlignment.center;
                             });
+                          } else if (value == "Schnaps") {
+                            getraenkIcon = BrueckeIcons.glass;
+                            lowValue = 0.1;
+                            mediumValue = 0.2;
+                            largeValue = 0.7;
+                            xLargeValue = 1;
+                            volumeSliderMax = 60;
+                            _currentSliderValue = 40;
+                            isOwn = false;
+                            isCustom = false;
+                            isNone = false;
+                            buttonCentered = MainAxisAlignment.spaceAround;
                           }
                         });
                       },
@@ -360,12 +379,20 @@ class _CameraState extends State<Camera> {
                                 Icon(
                                   getraenkIcon,
                                   size: width * 0.1,
-                                  color: selectedButton != 0 ? (settings.get("darkmode") ? Theme.of(context).primaryColor : Colors.black) : Colors.black,
+                                  color: selectedButton != 0
+                                      ? (settings.get("darkmode")
+                                          ? Theme.of(context).primaryColor
+                                          : Colors.black)
+                                      : Colors.black,
                                 ),
                                 Text(
                                   "$lowValue L",
                                   style: TextStyle(
-                                      color: selectedButton != 0 ? (settings.get("darkmode") ? Theme.of(context).primaryColor : Colors.black) : Colors.black,
+                                      color: selectedButton != 0
+                                          ? (settings.get("darkmode")
+                                              ? Theme.of(context).primaryColor
+                                              : Colors.black)
+                                          : Colors.black,
                                       fontSize: width * 0.05),
                                 ),
                               ],
@@ -392,12 +419,20 @@ class _CameraState extends State<Camera> {
                                 Icon(
                                   getraenkIcon,
                                   size: width * 0.1,
-                                  color: selectedButton != 1 ? (settings.get("darkmode") ? Theme.of(context).primaryColor : Colors.black) : Colors.black,
+                                  color: selectedButton != 1
+                                      ? (settings.get("darkmode")
+                                          ? Theme.of(context).primaryColor
+                                          : Colors.black)
+                                      : Colors.black,
                                 ),
                                 Text(
                                   "$mediumValue L",
                                   style: TextStyle(
-                                      color: selectedButton != 1 ? (settings.get("darkmode") ? Theme.of(context).primaryColor : Colors.black) : Colors.black,
+                                      color: selectedButton != 1
+                                          ? (settings.get("darkmode")
+                                              ? Theme.of(context).primaryColor
+                                              : Colors.black)
+                                          : Colors.black,
                                       fontSize: width * 0.05),
                                 ),
                               ],
@@ -424,12 +459,20 @@ class _CameraState extends State<Camera> {
                                 Icon(
                                   getraenkIcon,
                                   size: width * 0.1,
-                                  color: selectedButton != 2 ? (settings.get("darkmode") ? Theme.of(context).primaryColor : Colors.black) : Colors.black,
+                                  color: selectedButton != 2
+                                      ? (settings.get("darkmode")
+                                          ? Theme.of(context).primaryColor
+                                          : Colors.black)
+                                      : Colors.black,
                                 ),
                                 Text(
                                   "$largeValue L",
                                   style: TextStyle(
-                                      color: selectedButton != 2 ? (settings.get("darkmode") ? Theme.of(context).primaryColor : Colors.black) : Colors.black,
+                                      color: selectedButton != 2
+                                          ? (settings.get("darkmode")
+                                              ? Theme.of(context).primaryColor
+                                              : Colors.black)
+                                          : Colors.black,
                                       fontSize: width * 0.05),
                                 ),
                               ],
@@ -456,12 +499,20 @@ class _CameraState extends State<Camera> {
                                 Icon(
                                   getraenkIcon,
                                   size: width * 0.1,
-                                  color: selectedButton != 3 ? (settings.get("darkmode") ? Theme.of(context).primaryColor : Colors.black) : Colors.black,
+                                  color: selectedButton != 3
+                                      ? (settings.get("darkmode")
+                                          ? Theme.of(context).primaryColor
+                                          : Colors.black)
+                                      : Colors.black,
                                 ),
                                 Text(
                                   "$xLargeValue L",
                                   style: TextStyle(
-                                      color: selectedButton != 3 ? (settings.get("darkmode") ? Theme.of(context).primaryColor : Colors.black) : Colors.black,
+                                      color: selectedButton != 3
+                                          ? (settings.get("darkmode")
+                                              ? Theme.of(context).primaryColor
+                                              : Colors.black)
+                                          : Colors.black,
                                       fontSize: width * 0.05),
                                 ),
                               ],
@@ -540,11 +591,12 @@ class _CameraState extends State<Camera> {
         );
       });
       _predict();
-    }catch(e){
-      var snackBar = SnackBar(content: Text("Problem mit Ihrer Kamera"),);
+    } catch (e) {
+      var snackBar = SnackBar(
+        content: Text("Problem mit Ihrer Kamera"),
+      );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       Navigator.of(context).pop();
-
     }
   }
 
@@ -631,6 +683,19 @@ class _CameraState extends State<Camera> {
           _currentSliderValue = 12;
         });
         break;
+      case "Schnaps":
+        setState(() {
+          dropdownValue = "Schnaps";
+          getraenkIcon = BrueckeIcons.glass;
+          mediumButtonStyle = buttonSelected;
+          selectedButton = 2;
+          lowValue = 0.1;
+          mediumValue = 0.2;
+          largeValue = 0.75;
+          xLargeValue = 1;
+          _currentSliderValue = 40;
+        });
+        break;
       default:
         dropdownValue = "Keins";
         break;
@@ -638,7 +703,7 @@ class _CameraState extends State<Camera> {
   }
 
   Future<double?> checkVolume(String? name) async {
-    if (name == "Bier" || name == "Wein") {
+    if (name == "Bier" || name == "Wein" || name == "Schnaps") {
       switch (selectedButton) {
         case 0:
           return lowValue * 1000;
@@ -660,7 +725,10 @@ class _CameraState extends State<Camera> {
   }
 
   Future<double?> checkVolumePart(String? name) async {
-    if (name == "Bier" || name == "Wein" || name == "Andere") {
+    if (name == "Bier" ||
+        name == "Wein" ||
+        name == "Andere" ||
+        name == "Schnaps") {
       return _currentSliderValue;
     } else if (name == "Eigenes") {
       return ownBox.get("volumenpart");
@@ -669,7 +737,7 @@ class _CameraState extends State<Camera> {
   }
 
   Future<String?> getName(String? name) async {
-    if (name == "Bier" || name == "Wein") {
+    if (name == "Bier" || name == "Wein" || name == "Schnaps") {
       return name;
     } else if (name == "Eigenes") {
       return ownBox.get("name");
