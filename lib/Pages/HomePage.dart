@@ -106,6 +106,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  /// Setz den Wert der Session ein - Deprecated bzw. nicht genutztes Feature
   int? getCurrentSession() {
     int? session = 0;
     for (int i = 0; i < drinkBox.length; i++) {
@@ -172,15 +173,16 @@ class _HomePageState extends State<HomePage> {
       print("New Week Added: " + newWeek.toString());
     }
   }
-  
-  Future<void> onComeBack() async{
-    
+
+  /// WIrd ausgeführt, wenn der User von der CameraPage zurück kommt. Es aktualisiert die Werte entsprechend der Eingabe
+  Future<void> onComeBack() async {
     setState(() {
       usedThisWeek = currentWeek.getSethisWeek();
       usedDay = currentWeek.getUsedDays();
     });
   }
 
+  /// Erstellt entsprechend der Auswahl ein Getränk mit den FastAdd Eigenschaften oder öfnet die CameraPage
   void onTap(bool fastAdd) {
     if (!fastAdd) {
       Navigator.of(context).pushNamed('/camera').then((value) => onComeBack());

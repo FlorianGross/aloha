@@ -284,7 +284,8 @@ class _FirstStartPageState extends State<FirstStartPage> {
     );
   }
 
-  Future<void> onPressed() async{
+  /// Speichert die eingestellten Werte. Bei Fehler wird ein SnackBar angezeigt
+  Future<void> onPressed() async {
     try {
       autoDecrAmount = double.parse(amount.text);
       seFirstWeekDouble = double.parse(seFirstWeek.text);
@@ -312,12 +313,12 @@ class _FirstStartPageState extends State<FirstStartPage> {
         week: 0,
         endDate: startDate
             .add(Duration(
-            days: 6,
-            hours: 23,
-            minutes: 59,
-            microseconds: 999,
-            milliseconds: 99,
-            seconds: 59))
+                days: 6,
+                hours: 23,
+                minutes: 59,
+                microseconds: 999,
+                milliseconds: 99,
+                seconds: 59))
             .millisecondsSinceEpoch,
         plannedDay: consumptionDaysDouble,
         startdate: startDate.millisecondsSinceEpoch,
@@ -326,15 +327,21 @@ class _FirstStartPageState extends State<FirstStartPage> {
       print(weekBox.getAt(0).toString());
       await setupNotifications();
       settingsBox.put("firstStart", false);
-      print("Save standard Settings: " +
-          settingsBox.toMap().toString());
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyApp(),));
+      print("Save standard Settings: " + settingsBox.toMap().toString());
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MyApp(),
+          ));
     } catch (e) {
       print("Error: " + e.toString());
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Fehler bei der Eingabe"),));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Fehler bei der Eingabe"),
+      ));
     }
   }
 
+  /// Setzt die eingestellten Benachrichtigungen
   Future<void> setupNotifications() async {
     LocalNotifyManager manager = LocalNotifyManager.init();
     if (isMoBut) {
@@ -363,6 +370,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
     settingsBox.put(minute, minute);
   }
 
+  /// Öffnet das TimePicker popup
   Future<void> pickTime(BuildContext context) async {
     var platform = Theme.of(context).platform;
 

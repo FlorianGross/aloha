@@ -189,7 +189,7 @@ class _CameraState extends State<Camera> {
                             });
                           } else if (value == "Schnaps") {
                             getraenkIcon = BrueckeIcons.glass;
-                            lowValue = 0.1;
+                            lowValue = 0.02;
                             mediumValue = 0.2;
                             largeValue = 0.7;
                             xLargeValue = 1;
@@ -579,6 +579,7 @@ class _CameraState extends State<Camera> {
     );
   }
 
+  /// Benutzt die ImagePicker funktion der Kamera. Bei Fehler wird die Seite geschlossen und eine SnackBar angezeigt.
   Future<void> getImage() async {
     print("Started importing Image");
     try {
@@ -600,6 +601,7 @@ class _CameraState extends State<Camera> {
     }
   }
 
+  /// Startet den Prozess der Bilderkennung
   Future<void> _predict() async {
     print("Started predicting Image");
     img.Image imageInput = img.decodeImage(_image!.readAsBytesSync())!;
@@ -610,6 +612,7 @@ class _CameraState extends State<Camera> {
     });
   }
 
+  /// Speichert das erstellte Getränk in der Hive DB
   Future<void> save(BuildContext context) async {
     DateTime date = DateTime.now();
     session = 0;
@@ -629,6 +632,7 @@ class _CameraState extends State<Camera> {
     Navigator.pop(context);
   }
 
+  /// Überprüft die Prediction des ML Prozesses und stellt entsprechendes Element im Dropdown Menu ein
   Future<void> checkPred(Category pred) async {
     switch (pred.label) {
       case "Bierflasche":
@@ -689,9 +693,9 @@ class _CameraState extends State<Camera> {
           getraenkIcon = BrueckeIcons.glass;
           mediumButtonStyle = buttonSelected;
           selectedButton = 2;
-          lowValue = 0.1;
+          lowValue = 0.02;
           mediumValue = 0.2;
-          largeValue = 0.75;
+          largeValue = 0.7;
           xLargeValue = 1;
           _currentSliderValue = 40;
         });
@@ -702,6 +706,7 @@ class _CameraState extends State<Camera> {
     }
   }
 
+  /// Überprüft die Auswahl des Dropdown Menus und gibt entsprechend den Wert der Auswahl zurück
   Future<double?> checkVolume(String? name) async {
     if (name == "Bier" || name == "Wein" || name == "Schnaps") {
       switch (selectedButton) {
@@ -724,6 +729,7 @@ class _CameraState extends State<Camera> {
       return 0;
   }
 
+  /// Überprüft die Auswahl des Dropdownmemus und gibt entsprechend den Wert der Auswahl an
   Future<double?> checkVolumePart(String? name) async {
     if (name == "Bier" ||
         name == "Wein" ||
@@ -736,6 +742,7 @@ class _CameraState extends State<Camera> {
       return 0;
   }
 
+  /// Setzt den Namen der Auswahl in das Namensfeld des Getränke Objekts ein
   Future<String?> getName(String? name) async {
     if (name == "Bier" || name == "Wein" || name == "Schnaps") {
       return name;
@@ -750,6 +757,7 @@ class _CameraState extends State<Camera> {
     }
   }
 
+  /// Gibt den Interator der Hive DB mit den Wochen an und returnt die letze Woche
   Future<int> getWeek() async {
     if (box.isNotEmpty && box.getAt(0) != null) {
       Drinks first = box.getAt(0);

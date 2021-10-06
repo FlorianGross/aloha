@@ -128,11 +128,13 @@ class _TimeLineGridState extends State<TimeLineGrid> {
         (index) {
           return GestureDetector(
             child: GetraenkeListItem(box!.elementAt(index)),
-            onTap: () => Navigator.of(context).push(
+            onTap: () => Navigator.of(context)
+                .push(
               MaterialPageRoute(
                 builder: (context) => DetailsTab(box!.elementAt(index)),
               ),
-            ).then((value) {
+            )
+                .then((value) {
               return GetraenkeListItem(box!.elementAt(index));
             }),
           );

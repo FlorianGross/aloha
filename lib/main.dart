@@ -51,6 +51,7 @@ void main() async {
   runApp(ExecApp(home));
 }
 
+/// Setzt die Zeitzone für die Zeit lokalisierung
 Future<void> setupTimeZone() async {
   tz.initializeTimeZones();
   tz.setLocalLocation(tz.getLocation('Europe/Berlin'));
@@ -58,6 +59,7 @@ Future<void> setupTimeZone() async {
 
 class ExecApp extends StatelessWidget {
   ExecApp(this.home);
+
   final box = Hive.box("settings");
   final home;
 
@@ -66,9 +68,9 @@ class ExecApp extends StatelessWidget {
         create: (context) => ThemeProvider(),
         builder: (context, _) {
           final themeProvider = Provider.of<ThemeProvider>(context);
-          if(themeProvider.themeMode == ThemeMode.dark){
+          if (themeProvider.themeMode == ThemeMode.dark) {
             box.put("darkmode", true);
-          }else{
+          } else {
             box.put("darkmode", false);
           }
           return MaterialApp(

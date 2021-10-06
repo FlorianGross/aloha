@@ -27,6 +27,7 @@ class _SessionPageState extends State<SessionPage> {
   var _pageController;
   var _currentPageNotifier;
   final snackBar = SnackBar(content: Text('Woche geplant!'));
+
   @override
   void initState() {
     maxWeek = box.length - 1;
@@ -39,7 +40,9 @@ class _SessionPageState extends State<SessionPage> {
     daySlider = settingsBox.get("DaysForNextWeek");
     seValue = currentWeek.getSethisWeek();
     dayValue = currentWeek.getUsedDays();
-    _pageController = PageController(initialPage: maxWeek,);
+    _pageController = PageController(
+      initialPage: maxWeek,
+    );
     _currentPageNotifier = ValueNotifier<int>(week);
     super.initState();
     print("Sessions initialized");
@@ -51,147 +54,152 @@ class _SessionPageState extends State<SessionPage> {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: ListView(
-          shrinkWrap: true,
-          primary: true,
-          children: [
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Woche $week",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: width * 0.09),
-                    ),
-                    SizedBox(
-                      height: height * 0.3,
-                      child: ArrowPageIndicator(
-                          pageController: _pageController,
-                          currentPageNotifier: _currentPageNotifier,
-                          itemCount: box.length - 1,
-
-                          child: _buildPageView(width)),
-                    )
-                  ],
-                ),
+        shrinkWrap: true,
+        primary: true,
+        children: [
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Woche $week",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: width * 0.09),
+                  ),
+                  SizedBox(
+                    height: height * 0.3,
+                    child: ArrowPageIndicator(
+                        pageController: _pageController,
+                        currentPageNotifier: _currentPageNotifier,
+                        itemCount: box.length - 1,
+                        child: _buildPageView(width)),
+                  )
+                ],
               ),
             ),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Text(
-                      "Planung Woche ${box.length}:  \n" +
-                          planSlider!.toStringAsPrecision(2) +
-                          " SE",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: width * 0.05),
-                    ),
-                    PlatformSlider(
-                      activeColor: Theme.of(context).primaryColor,
-                      value: planSlider!,
-                      min: 0,
-                      max: 80,
-                      divisions: 70,
-                      onChanged: (value) {
-                        setState(() {
-                          planSlider = value;
-                        });
-                      },
-                      onChangeEnd: (value) {
-                        settingsBox.put("SEforNextWeek", value);
-                        print("save");
-                      },
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Text(
+                    "Planung Woche ${box.length}:  \n" +
+                        planSlider!.toStringAsPrecision(2) +
+                        " SE",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: width * 0.05),
+                  ),
+                  PlatformSlider(
+                    activeColor: Theme.of(context).primaryColor,
+                    value: planSlider!,
+                    min: 0,
+                    max: 80,
+                    divisions: 70,
+                    onChanged: (value) {
+                      setState(() {
+                        planSlider = value;
+                      });
+                    },
+                    onChangeEnd: (value) {
+                      settingsBox.put("SEforNextWeek", value);
+                      print("save");
+                    },
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Wöchentlich automatisch verringern?",
+                        style: TextStyle(fontSize: width * 0.03),
+                      ),
+                      Transform.scale(
+                        scale: 1.6,
+                        child: PlatformSwitch(
+                          value: autoDecr,
+                          activeColor: Theme.of(context).primaryColor,
+                          onChanged: (value) {
+                            setState(() {
+                              autoDecr = value;
+                              settingsBox.put("autoDecr", autoDecr);
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Visibility(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text(
-                          "Wöchentlich automatisch verringern?",
-                          style: TextStyle(fontSize: width * 0.03),
-                        ),
-                        Transform.scale(
-                          scale: 1.6,
-                          child: PlatformSwitch(
-                            value: autoDecr,
-                            activeColor: Theme.of(context).primaryColor,
-                            onChanged: (value) {
-                              setState(() {
-                                autoDecr = value;
-                                settingsBox.put("autoDecr", autoDecr);
-                              });
-                            },
-                          ),
-                        ),
+                        Text("Anzahl: "),
+                        SizedBox(
+                            height: height * 0.07,
+                            width: width * 0.3,
+                            child: TextField(
+                              controller: amount,
+                              keyboardType: TextInputType.number,
+                              onSubmitted: (value) {
+                                settingsBox.put(
+                                    "autoDecrAmount", int.parse(value));
+                              },
+                            ))
                       ],
                     ),
-                    Visibility(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text("Anzahl: "),
-                          SizedBox(
-                              height: height * 0.07,
-                              width: width * 0.3,
-                              child: TextField(
-                                controller: amount,
-                                keyboardType: TextInputType.number,
-                                onSubmitted: (value) {
-                                  settingsBox.put(
-                                      "autoDecrAmount", int.parse(value));
-                                },
-                              ))
-                        ],
+                    visible: autoDecr,
+                  ),
+                  Divider(),
+                  Text(
+                    "Konsumtage: \n" + daySlider!.toStringAsPrecision(1),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: width * 0.05),
+                  ),
+                  PlatformSlider(
+                    activeColor: Theme.of(context).primaryColor,
+                    value: daySlider!,
+                    min: 0,
+                    max: 7,
+                    divisions: 7,
+                    onChanged: (value) {
+                      setState(() {
+                        daySlider = value;
+                      });
+                    },
+                    onChangeEnd: (value) {
+                      print("save");
+                      settingsBox.put("DaysForNextWeek", value);
+                    },
+                  ),
+                  ElevatedButton(
+                      onPressed: saveSetup,
+                      child: Text(
+                        "Speichern",
+                        style: TextStyle(color: Colors.black),
                       ),
-                      visible: autoDecr,
-                    ),
-                    Divider(),
-                    Text(
-                      "Konsumtage: \n" + daySlider!.toStringAsPrecision(1),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: width * 0.05),
-                    ),
-                    PlatformSlider(
-                      activeColor: Theme.of(context).primaryColor,
-                      value: daySlider!,
-                      min: 0,
-                      max: 7,
-                      divisions: 7,
-                      onChanged: (value) {
-                        setState(() {
-                          daySlider = value;
-                        });
-                      },
-                      onChangeEnd: (value) {
-                        print("save");
-                        settingsBox.put("DaysForNextWeek", value);
-                      },
-                    ),
-                    ElevatedButton(
-                        onPressed: saveSetup,
-                        child: Text("Speichern", style: TextStyle(color: Colors.black),),
-                        style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context).primaryColor)),
-                  ],
-                ),
+                      style: ElevatedButton.styleFrom(
+                          primary: Theme.of(context).primaryColor)),
+                ],
               ),
             ),
-            ElevatedButton(
+          ),
+          ElevatedButton(
               onPressed: openSettings,
-              child: Text("Einstellungen", style: TextStyle(color: Colors.black),),
-               style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor)),
-          ],
-        ),
+              child: Text(
+                "Einstellungen",
+                style: TextStyle(color: Colors.black),
+              ),
+              style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).primaryColor)),
+        ],
+      ),
     );
   }
 
-  /// Opens the Settings Tab
+  /// Öffnet das Einstellugnsmenu
   Future<void> openSettings() async {
     Navigator.push(
       context,
@@ -199,14 +207,15 @@ class _SessionPageState extends State<SessionPage> {
     );
   }
 
+  /// Speichert die Einstellung
   Future<void> saveSetup() async {
     settingsBox.put("DaysForNextWeek", daySlider);
-    settingsBox.put(
-        "autoDecrAmount", int.parse(amount.toString()));
+    settingsBox.put("autoDecrAmount", int.parse(amount.toString()));
     settingsBox.put("SEforNextWeek", planSlider);
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
+  /// Berechnet den Wert der nachfolgenden Woche
   double calculateNextWeekSEPlan() {
     if (autoDecr) {
       double result = currentWeek.plannedSE! - decrAmount;
@@ -219,6 +228,7 @@ class _SessionPageState extends State<SessionPage> {
     }
   }
 
+  /// Setz die Aktuelle Woche entsprechend der Werte
   Future<void> setWeek(int value) async {
     setState(() {
       week = value;
@@ -226,14 +236,14 @@ class _SessionPageState extends State<SessionPage> {
       seValue = currentWeek.getSethisWeek();
       dayValue = currentWeek.getUsedDays();
     });
-
   }
 
+  /// Setzt initial die Werte der Aktuellen Woche (ohne setState)
   Future<void> initWeek(int value) async {
-      week = value;
-      currentWeek = box.getAt(week);
-      seValue = currentWeek.getSethisWeek();
-      dayValue = currentWeek.getUsedDays();
+    week = value;
+    currentWeek = box.getAt(week);
+    seValue = currentWeek.getSethisWeek();
+    dayValue = currentWeek.getUsedDays();
   }
 
   _buildPageView(double width) {
