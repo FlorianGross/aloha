@@ -132,7 +132,9 @@ class _TimeLineGridState extends State<TimeLineGrid> {
               MaterialPageRoute(
                 builder: (context) => DetailsTab(box!.elementAt(index)),
               ),
-            ),
+            ).then((value) {
+              return GetraenkeListItem(box!.elementAt(index));
+            }),
           );
         },
       ),

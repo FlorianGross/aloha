@@ -34,6 +34,9 @@ class _FirstStartPageState extends State<FirstStartPage> {
       isFrBut = false,
       isSaBut = false,
       isSoBut = false;
+  double autoDecrAmount = 0.0;
+  double seFirstWeekDouble = 0.0;
+  double consumptionDaysDouble = 0.0;
 
   @override
   void initState() {
@@ -83,6 +86,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
                           child: TextField(
                             controller: seFirstWeek,
                             keyboardType: TextInputType.number,
+                            maxLength: 5,
                             inputFormatters: [
                               FilteringTextInputFormatter.allow(
                                   RegExp(r"^\d*\.?\d*"))
@@ -124,6 +128,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
                             child: TextField(
                               controller: amount,
                               keyboardType: TextInputType.number,
+                              maxLength: 5,
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
                                     RegExp(r"^\d*\.?\d*"))
@@ -146,6 +151,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
                             child: TextField(
                               controller: consumptionDays,
                               keyboardType: TextInputType.number,
+                              maxLength: 1,
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
                                     RegExp(r"[0-7]"))
@@ -254,21 +260,9 @@ class _FirstStartPageState extends State<FirstStartPage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
-                        onPressed: () {
-                          try {
-                            saveSettings();
-                            settingsBox.put("firstStart", false);
-                            print("Save standard Settings: " +
-                                settingsBox.toMap().toString());
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MyApp()));
-                          } catch (e) {
-                            print("Error: " + e.toString());
-                          }
-                        },
+                        style: ElevatedButton.styleFrom(
+                            primary: Theme.of(context).primaryColor),
+                        onPressed: () => onPressed(),
                         child: Text(
                           "Speichern",
                           style: TextStyle(
@@ -290,42 +284,55 @@ class _FirstStartPageState extends State<FirstStartPage> {
     );
   }
 
-  Future<void> saveSettings() async {
-    settingsBox.put("isMo", isMoBut);
-    settingsBox.put("isDi", isDiBut);
-    settingsBox.put("isMi", isMiBut);
-    settingsBox.put("isDo", isDoBut);
-    settingsBox.put("isFr", isFrBut);
-    settingsBox.put("isSa", isSaBut);
-    settingsBox.put("isSo", isSoBut);
-    settingsBox.put("autoDecr", autoDecr);
-    settingsBox.put("SEforNextWeek", double.parse(seFirstWeek.text));
-    settingsBox.put("DaysForNextWeek", double.parse(consumptionDays.text));
-    settingsBox.put("autoDecrAmount", int.parse(amount.text));
-    settingsBox.put("notifications", notificationsOn);
-    settingsBox.put("hour", hour);
-    settingsBox.put("minute", minute);
-    ownBox.put("name", "Name");
-    ownBox.put("volumen", 500);
-    ownBox.put("volumenpart", 5);
-    DateTime startDate = settingsBox.get("firstStartDate");
-    Week firstWeek = Week(
+  Future<void> onPressed() async{
+    try {
+      autoDecrAmount = double.parse(amount.text);
+      seFirstWeekDouble = double.parse(seFirstWeek.text);
+      consumptionDaysDouble = double.parse(consumptionDays.text);
+      settingsBox.put("SEforNextWeek", seFirstWeekDouble);
+      settingsBox.put("DaysForNextWeek", consumptionDaysDouble);
+      settingsBox.put("autoDecrAmount", autoDecrAmount);
+      settingsBox.put("isMo", isMoBut);
+      settingsBox.put("isDi", isDiBut);
+      settingsBox.put("isMi", isMiBut);
+      settingsBox.put("isDo", isDoBut);
+      settingsBox.put("isFr", isFrBut);
+      settingsBox.put("isSa", isSaBut);
+      settingsBox.put("isSo", isSoBut);
+      settingsBox.put("autoDecr", autoDecr);
+      settingsBox.put("notifications", notificationsOn);
+      settingsBox.put("hour", hour);
+      settingsBox.put("minute", minute);
+      ownBox.put("name", "Name");
+      ownBox.put("volumen", 500);
+      ownBox.put("volumenpart", 5);
+      DateTime startDate = settingsBox.get("firstStartDate");
+      Week firstWeek = Week(
         plannedSE: double.parse(seFirstWeek.text),
         week: 0,
         endDate: startDate
             .add(Duration(
-                days: 6,
-                hours: 23,
-                minutes: 59,
-                microseconds: 999,
-                milliseconds: 99,
-                seconds: 59))
+            days: 6,
+            hours: 23,
+            minutes: 59,
+            microseconds: 999,
+            milliseconds: 99,
+            seconds: 59))
             .millisecondsSinceEpoch,
-        plannedDay: double.parse(consumptionDays.text),
-        startdate: startDate.millisecondsSinceEpoch);
-    weekBox.add(firstWeek);
-    print(weekBox.getAt(0).toString());
-    await setupNotifications();
+        plannedDay: consumptionDaysDouble,
+        startdate: startDate.millisecondsSinceEpoch,
+      );
+      weekBox.add(firstWeek);
+      print(weekBox.getAt(0).toString());
+      await setupNotifications();
+      settingsBox.put("firstStart", false);
+      print("Save standard Settings: " +
+          settingsBox.toMap().toString());
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyApp(),));
+    } catch (e) {
+      print("Error: " + e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Fehler bei der Eingabe"),));
+    }
   }
 
   Future<void> setupNotifications() async {
