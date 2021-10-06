@@ -63,21 +63,6 @@ class _CameraState extends State<Camera> {
 
   var buttonCentered = MainAxisAlignment.spaceAround;
 
-  @override
-  void initState() {
-    _classifier = ClassifierQuant();
-    smallButtonStyle = buttonUnselected;
-    mediumButtonStyle = buttonUnselected;
-    largeButtonStyle = buttonSelected;
-    xlargeButtonStyle = buttonUnselected;
-    ownName = ownBox.get("name");
-    ownVolume = ownBox.get("volumen") + 0.0;
-    ownVolumePart = ownBox.get("volumenpart") + 0.0;
-    super.initState();
-    print("Camera initialized");
-    getImage();
-  }
-
   ButtonStyle? smallButtonStyle,
       mediumButtonStyle,
       largeButtonStyle,
@@ -99,7 +84,22 @@ class _CameraState extends State<Camera> {
           primary: Colors.white,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          backgroundColor: Colors.black12);
+          backgroundColor: Colors.white10);
+
+  @override
+  void initState() {
+    _classifier = ClassifierQuant();
+    smallButtonStyle = buttonUnselected;
+    mediumButtonStyle = buttonUnselected;
+    largeButtonStyle = buttonSelected;
+    xlargeButtonStyle = buttonUnselected;
+    ownName = ownBox.get("name");
+    ownVolume = ownBox.get("volumen") + 0.0;
+    ownVolumePart = ownBox.get("volumenpart") + 0.0;
+    super.initState();
+    print("Camera initialized");
+    getImage();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -386,14 +386,15 @@ class _CameraState extends State<Camera> {
                                       : Colors.black,
                                 ),
                                 Text(
-                                  "$lowValue L",
+                                  getTextDisplayed(lowValue),
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: selectedButton != 0
                                           ? (settings.get("darkmode")
                                               ? Theme.of(context).primaryColor
                                               : Colors.black)
                                           : Colors.black,
-                                      fontSize: width * 0.05),
+                                      fontSize: width * 0.035),
                                 ),
                               ],
                             ),
@@ -418,7 +419,7 @@ class _CameraState extends State<Camera> {
                               children: [
                                 Icon(
                                   getraenkIcon,
-                                  size: width * 0.1,
+                                  size: width * 0.11,
                                   color: selectedButton != 1
                                       ? (settings.get("darkmode")
                                           ? Theme.of(context).primaryColor
@@ -426,14 +427,15 @@ class _CameraState extends State<Camera> {
                                       : Colors.black,
                                 ),
                                 Text(
-                                  "$mediumValue L",
+                                  getTextDisplayed(mediumValue),
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: selectedButton != 1
                                           ? (settings.get("darkmode")
                                               ? Theme.of(context).primaryColor
                                               : Colors.black)
                                           : Colors.black,
-                                      fontSize: width * 0.05),
+                                      fontSize: width * 0.035),
                                 ),
                               ],
                             ),
@@ -458,7 +460,7 @@ class _CameraState extends State<Camera> {
                               children: [
                                 Icon(
                                   getraenkIcon,
-                                  size: width * 0.1,
+                                  size: width * 0.12,
                                   color: selectedButton != 2
                                       ? (settings.get("darkmode")
                                           ? Theme.of(context).primaryColor
@@ -466,14 +468,15 @@ class _CameraState extends State<Camera> {
                                       : Colors.black,
                                 ),
                                 Text(
-                                  "$largeValue L",
+                                  getTextDisplayed(largeValue),
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: selectedButton != 2
                                           ? (settings.get("darkmode")
                                               ? Theme.of(context).primaryColor
                                               : Colors.black)
                                           : Colors.black,
-                                      fontSize: width * 0.05),
+                                      fontSize: width * 0.035),
                                 ),
                               ],
                             ),
@@ -498,7 +501,7 @@ class _CameraState extends State<Camera> {
                               children: [
                                 Icon(
                                   getraenkIcon,
-                                  size: width * 0.1,
+                                  size: width * 0.13,
                                   color: selectedButton != 3
                                       ? (settings.get("darkmode")
                                           ? Theme.of(context).primaryColor
@@ -506,14 +509,15 @@ class _CameraState extends State<Camera> {
                                       : Colors.black,
                                 ),
                                 Text(
-                                  "$xLargeValue L",
+                                  getTextDisplayed(xLargeValue),
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: selectedButton != 3
                                           ? (settings.get("darkmode")
                                               ? Theme.of(context).primaryColor
                                               : Colors.black)
                                           : Colors.black,
-                                      fontSize: width * 0.05),
+                                      fontSize: width * 0.035),
                                 ),
                               ],
                             ),
@@ -771,6 +775,17 @@ class _CameraState extends State<Camera> {
     } else {
       return 0;
     }
+  }
+
+  String getTextDisplayed(double value) {
+    if(value == 1.0){
+      return "Flasche \n $value L";
+    }else if(value == 0.02){
+      return "Shot \n $value L";
+    }else if(value == 0.2){
+      return "Glas \n $value L";
+    }
+    return "$value L";
   }
 
   @override
