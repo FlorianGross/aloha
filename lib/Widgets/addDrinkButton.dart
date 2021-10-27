@@ -44,7 +44,7 @@ class _AddDrinkButtonState extends State<AddDrinkButton> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(BrueckeIcons.beer),
+                getIcon(),
                 Text(name),
                 Text("$volumePart vol%",),
                 Text("$volume ml"),
@@ -59,6 +59,21 @@ class _AddDrinkButtonState extends State<AddDrinkButton> {
 
   double calculateSE(double volumen, double volumePart){
     return (volumen * 0.8 * (volumePart / 1000)) / 2;
+  }
+
+  int getIconId(int id) {
+    switch (id) {
+      case 0:
+        return ownBox.get("icon");
+      case 1:
+        return ownBox.get("icon-1");
+      case 2:
+        return ownBox.get("icon-2");
+      case 3:
+        return ownBox.get("icon-3");
+      default:
+        return 0;
+    }
   }
 
   String getNameId(int id){
@@ -88,6 +103,15 @@ class _AddDrinkButtonState extends State<AddDrinkButton> {
       case 2: return ownBox.get("volumenpart-2") + 0.0;
       case 3: return ownBox.get("volumenpart-3") + 0.0;
       default: return 0.0;
+    }
+  }
+
+  getIcon() {
+    switch(getIconId(id)){
+      case 0: return Icon(BrueckeIcons.glass);
+      case 1: return Icon(BrueckeIcons.wine_glass);
+      case 2: return Icon(BrueckeIcons.wine_bottle);
+      case 3: return Icon(BrueckeIcons.glass);
     }
   }
 

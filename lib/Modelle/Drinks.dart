@@ -2,6 +2,8 @@ import 'package:aloha/Classification/Utility.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
+import '../BrueckeIcons.dart';
+
 part 'Drinks.g.dart';
 
 @HiveType(typeId: 0)
@@ -32,13 +34,41 @@ class Drinks extends HiveObject {
 
   /// Returns an Image in a sizedBox. If the Image == null -> Icons.camera is returned
   SizedBox getImage(double height, double width, double size) {
+    var ownBox = Hive.box("own");
     if (uri != null) {
       return SizedBox(
         child: Utility.imageFromBase64String(uri!),
         height: height,
         width: width,
       );
-    } else {
+    } else if(this.name == ownBox.get("name")) {
+      return SizedBox(
+        child: getIcon(0),
+        height: height,
+        width: width,
+      );
+    } else if(this.name == ownBox.get("name-1")) {
+      return SizedBox(
+        child: getIcon(1),
+        height: height,
+        width: width,
+      );
+    }
+    else if(this.name == ownBox.get("name-2")) {
+      return SizedBox(
+        child: getIcon(2),
+        height: height,
+        width: width,
+      );
+    }
+    else if(this.name == ownBox.get("name-3")) {
+      return SizedBox(
+        child: getIcon(3),
+        height: height,
+        width: width,
+      );
+    }
+    else {
       return SizedBox(
           width: width,
           height: height,
@@ -46,6 +76,31 @@ class Drinks extends HiveObject {
             Icons.camera,
             size: size,
           ));
+    }
+  }
+
+  int getIconId(int id) {
+    var ownBox = Hive.box("own");
+    switch (id) {
+      case 0:
+        return ownBox.get("icon");
+      case 1:
+        return ownBox.get("icon-1");
+      case 2:
+        return ownBox.get("icon-2");
+      case 3:
+        return ownBox.get("icon-3");
+      default:
+        return 0;
+    }
+  }
+
+  getIcon(int id) {
+    switch(getIconId(id)){
+      case 0: return Icon(BrueckeIcons.glass);
+      case 1: return Icon(BrueckeIcons.wine_glass);
+      case 2: return Icon(BrueckeIcons.wine_bottle);
+      case 3: return Icon(BrueckeIcons.glass);
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:aloha/BrueckeIcons.dart';
 import 'package:aloha/Modelle/Week.dart';
 import 'package:aloha/Notifications.dart';
 import 'package:aloha/Widgets/ChangeModeButton.dart';
@@ -23,6 +24,7 @@ class _SettingsState extends State<Settings> {
   String? name = "Name";
   double? volumen;
   var dropdownValueOwn = 0;
+  var dropdownValueIcon = 0;
   double? volumePart;
   int hour = 0;
   int minute = 0;
@@ -350,9 +352,9 @@ class _SettingsState extends State<Settings> {
                             child: Text("Preset 1"),
                             value: 0,
                           ),
-                          DropdownMenuItem(child: Text("Preset 2"), value: 1),
-                          DropdownMenuItem(child: Text("Preset 3"), value: 2),
-                          DropdownMenuItem(child: Text("Preset 4"), value: 3),
+                          DropdownMenuItem(child: Text("Preset 2"), value: 1,),
+                          DropdownMenuItem(child: Text("Preset 3"), value: 2,),
+                          DropdownMenuItem(child: Text("Preset 4"), value: 3,),
                         ],
                         value: dropdownValueOwn,
                         onChanged: (int? value) {
@@ -361,6 +363,38 @@ class _SettingsState extends State<Settings> {
                             changePreset(value);
                           });
                         },
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Icon: "),
+                          DropdownButton(
+                            value: dropdownValueIcon,
+                            onChanged: (int? value) {
+                              setState(() {
+                                dropdownValueIcon = value!;
+                              });
+                            },
+                            items: [
+                              DropdownMenuItem(
+                                value: 0,
+                                child: Icon(BrueckeIcons.beer),
+                              ),
+                              DropdownMenuItem(
+                                value: 1,
+                                child: Icon(BrueckeIcons.wine_glass),
+                              ),
+                              DropdownMenuItem(
+                                value: 2,
+                                child: Icon(BrueckeIcons.wine_bottle),
+                              ),
+                              DropdownMenuItem(
+                                value: 3,
+                                child: Icon(BrueckeIcons.glass),
+                              ),
+                            ],
+                          )
+                        ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -565,6 +599,7 @@ class _SettingsState extends State<Settings> {
       saveNameId(dropdownValueOwn);
       saveVolumeId(dropdownValueOwn);
       saveVolumePartId(dropdownValueOwn);
+      saveIconId(dropdownValueOwn);
       print("Save successful: " + ownBox.toMap().toString());
       final SnackBar snackBar = SnackBar(
         content: Text('Getränk $name gespeichert'),
@@ -606,6 +641,7 @@ class _SettingsState extends State<Settings> {
       volumePartController.text = getVolumePartId(iter).toString();
       nameController.text = getNameId(iter);
       ownSE = calculateSE(getVolumePartId(iter), getVolumeId(iter));
+      dropdownValueIcon = getIconId(iter);
     });
   }
 
@@ -625,6 +661,20 @@ class _SettingsState extends State<Settings> {
         return ownBox.get("name-3");
       default:
         return "Name";
+    }
+  }
+  int getIconId(int id) {
+    switch (id) {
+      case 0:
+        return ownBox.get("icon");
+      case 1:
+        return ownBox.get("icon-1");
+      case 2:
+        return ownBox.get("icon-2");
+      case 3:
+        return ownBox.get("icon-3");
+      default:
+        return 0;
     }
   }
 
@@ -671,6 +721,25 @@ class _SettingsState extends State<Settings> {
         break;
       case 3:
         ownBox.put("name-3", nameController.text);
+        break;
+      default:
+        break;
+    }
+  }
+
+  Future<void> saveIconId(int id) async {
+    switch (id) {
+      case 0:
+        ownBox.put("icon", dropdownValueIcon);
+        break;
+      case 1:
+        ownBox.put("icon-1", dropdownValueIcon);
+        break;
+      case 2:
+        ownBox.put("icon-2", dropdownValueIcon);
+        break;
+      case 3:
+        ownBox.put("icon-3", dropdownValueIcon);
         break;
       default:
         break;
