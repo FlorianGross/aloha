@@ -252,6 +252,8 @@ class _SessionPageState extends State<SessionPage> {
       controller: _pageController,
       onPageChanged: (value) {
         setWeek(value);
+        _currentPageNotifier.value = value;
+        print("$value current page: $week current week");
       },
       itemBuilder: (context, index) {
         initWeek(index);
