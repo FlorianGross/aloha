@@ -39,7 +39,7 @@ void main() async {
     box.put("notifications", true);
     DateTime now = DateTime.now();
     box.put("firstStartDate",
-        DateTime(now.year, now.month - 1, now.day, 0, 0, 0, 0, 0));
+        DateTime(now.year, now.month, now.day, 0, 0, 0, 0, 0));
     print("Standard settings loaded: " + box.toMap().toString());
   }
   var home;

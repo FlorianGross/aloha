@@ -22,7 +22,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    if(ownBox.get("name") == null || ownBox.get("name-1") == null || ownBox.get("name-2") == null || ownBox.get("name-3") == null){
+    if (ownBox.get("name") == null ||
+        ownBox.get("name-1") == null ||
+        ownBox.get("name-2") == null ||
+        ownBox.get("name-3") == null) {
       createOwnBox();
     }
     try {
@@ -89,7 +92,7 @@ class _HomePageState extends State<HomePage> {
           GestureDetector(
             child: Image(
               image: AssetImage('assets/AlohA_Logo.png'),
-              width: width * 0.4,
+              width: width * 0.6,
               height: height * 0.4,
             ),
             onTap: () {
@@ -97,49 +100,49 @@ class _HomePageState extends State<HomePage> {
             },
           ),
           Column(
-              children: [
-                Row(
-                  children: [
-                    AddDrinkButton(
-                      id: 0,
-                      onTap: (){
-                        onTapId(0);
-                      },
-                      height: height * 0.15,
-                      width: width * 0.5,
-                    ),
-                    AddDrinkButton(
-                      onTap: (){
+            children: [
+              Row(
+                children: [
+                  AddDrinkButton(
+                    id: 0,
+                    onTap: () {
+                      onTapId(0);
+                    },
+                    height: height * 0.15,
+                    width: width * 0.5,
+                  ),
+                  AddDrinkButton(
+                    onTap: () {
                       onTapId(1);
-                      },
-                      id: 1,
-                      height: height * 0.15,
-                      width: width * 0.5,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    AddDrinkButton(
-                      onTap: (){
-                        onTapId(2);
-                      },
-                      id: 2,
-                      height: height * 0.15,
-                      width: width * 0.5,
-                    ),
-                    AddDrinkButton(
-                      onTap: (){
-                        onTapId(3);
-                      },
-                      id: 3,
-                      height: height * 0.15,
-                      width: width * 0.5,
-                    ),
-                  ],
-                )
-              ],
-            ),
+                    },
+                    id: 1,
+                    height: height * 0.15,
+                    width: width * 0.5,
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  AddDrinkButton(
+                    onTap: () {
+                      onTapId(2);
+                    },
+                    id: 2,
+                    height: height * 0.15,
+                    width: width * 0.5,
+                  ),
+                  AddDrinkButton(
+                    onTap: () {
+                      onTapId(3);
+                    },
+                    id: 3,
+                    height: height * 0.15,
+                    width: width * 0.5,
+                  ),
+                ],
+              )
+            ],
+          ),
         ],
       ),
     );
@@ -223,41 +226,56 @@ class _HomePageState extends State<HomePage> {
 
   /// Erstellt entsprechend der Auswahl ein Getränk mit den FastAdd Eigenschaften oder öfnet die CameraPage
   void onTap() {
-      Navigator.of(context).pushNamed('/camera').then((value) => onComeBack());
+    Navigator.of(context).pushNamed('/camera').then((value) => onComeBack());
   }
 
-  String getNameId(int id){
-    switch(id){
-      case 0: return ownBox.get("name");
-      case 1: return ownBox.get("name-1");
-      case 2: return ownBox.get("name-2");
-      case 3: return ownBox.get("name-3");
-      default: return "Name";
+  String getNameId(int id) {
+    switch (id) {
+      case 0:
+        return ownBox.get("name");
+      case 1:
+        return ownBox.get("name-1");
+      case 2:
+        return ownBox.get("name-2");
+      case 3:
+        return ownBox.get("name-3");
+      default:
+        return "Name";
     }
   }
 
-  double getVolumeId(int id){
-    switch(id){
-      case 0: return ownBox.get("volumen") + 0.0;
-      case 1: return ownBox.get("volumen-1")+ 0.0;
-      case 2: return ownBox.get("volumen-2")+ 0.0;
-      case 3: return ownBox.get("volumen-3")+ 0.0;
-      default: return 0.0;
+  double getVolumeId(int id) {
+    switch (id) {
+      case 0:
+        return ownBox.get("volumen") + 0.0;
+      case 1:
+        return ownBox.get("volumen-1") + 0.0;
+      case 2:
+        return ownBox.get("volumen-2") + 0.0;
+      case 3:
+        return ownBox.get("volumen-3") + 0.0;
+      default:
+        return 0.0;
     }
   }
 
-  double getVolumePartId(int id){
-    switch(id){
-      case 0: return ownBox.get("volumenpart")+ 0.0;
-      case 1: return ownBox.get("volumenpart-1")+ 0.0;
-      case 2: return ownBox.get("volumenpart-2")+ 0.0;
-      case 3: return ownBox.get("volumenpart-3")+ 0.0;
-      default: return 0.0;
+  double getVolumePartId(int id) {
+    switch (id) {
+      case 0:
+        return ownBox.get("volumenpart") + 0.0;
+      case 1:
+        return ownBox.get("volumenpart-1") + 0.0;
+      case 2:
+        return ownBox.get("volumenpart-2") + 0.0;
+      case 3:
+        return ownBox.get("volumenpart-3") + 0.0;
+      default:
+        return 0.0;
     }
   }
 
   /// Erstellt getränk nach owndrink Nummer
-  void onTapId(int id){
+  void onTapId(int id) {
     var name = getNameId(id);
     var volumen = getVolumeId(id);
     var volumenpart = getVolumePartId(id);
@@ -277,8 +295,9 @@ class _HomePageState extends State<HomePage> {
     });
     print("Added drink: " + current.toString());
     var snackBar = SnackBar(content: Text('Getränk $name hinzugefügt'));
-  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -289,14 +308,17 @@ class _HomePageState extends State<HomePage> {
     ownBox.put("name", "Name");
     ownBox.put("volumen", 500.0);
     ownBox.put("volumenpart", 5.0);
+
     /// Drink 1
     ownBox.put("name-1", "Name-1");
     ownBox.put("volumen-1", 500.0);
     ownBox.put("volumenpart-1", 5.0);
+
     /// Drink 2
     ownBox.put("name-2", "Name-2");
     ownBox.put("volumen-2", 500.0);
     ownBox.put("volumenpart-2", 5.0);
+
     /// Drink 3
     ownBox.put("name-3", "Name-3");
     ownBox.put("volumen-3", 500.0);
