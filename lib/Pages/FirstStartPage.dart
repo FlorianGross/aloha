@@ -313,17 +313,17 @@ class _FirstStartPageState extends State<FirstStartPage> {
       ownBox.put("name-1", "Name-1");
       ownBox.put("volumen-1", 500);
       ownBox.put("volumenpart-1", 5);
-      ownBox.put("icon", 1);
+      ownBox.put("icon-1", 0);
       /// Drink 2
       ownBox.put("name-2", "Name-2");
       ownBox.put("volumen-2", 500);
       ownBox.put("volumenpart-2", 5);
-      ownBox.put("icon", 2);
+      ownBox.put("icon-2", 0);
       /// Drink 3
       ownBox.put("name-3", "Name-3");
       ownBox.put("volumen-3", 500);
       ownBox.put("volumenpart-3", 5);
-      ownBox.put("icon", 3);
+      ownBox.put("icon-3", 0);
 
       DateTime startDate = settingsBox.get("firstStartDate");
       Week firstWeek = Week(
