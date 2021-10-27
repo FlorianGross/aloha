@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
               height: height * 0.4,
             ),
             onTap: () {
-              onTap(false);
+              onTap();
             },
           ),
           Column(
@@ -194,7 +194,7 @@ class _HomePageState extends State<HomePage> {
         ),
       );
       double days = settingsBox.get("DaysForNextWeek");
-      int decrAmount = settingsBox.get("autoDecrAmount");
+      double decrAmount = settingsBox.get("autoDecrAmount");
       double sePlanned = settingsBox.get("SEforNextWeek");
       sePlanned -= decrAmount;
       if (sePlanned < 0) {
@@ -222,32 +222,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   /// Erstellt entsprechend der Auswahl ein Getränk mit den FastAdd Eigenschaften oder öfnet die CameraPage
-  void onTap(bool fastAdd) {
-    if (!fastAdd) {
+  void onTap() {
       Navigator.of(context).pushNamed('/camera').then((value) => onComeBack());
-    } else {
-      try {
-        Drinks current = Drinks(
-          week: currentWeek.week,
-          session: getCurrentSession(),
-          name: getName(),
-          date: DateTime.now().millisecondsSinceEpoch,
-          volume: checkVolume(),
-          volumepart: checkVolumePart(),
-          uri: null,
-        );
-        drinkBox.add(current);
-        setState(() {
-          usedThisWeek = currentWeek.getSethisWeek();
-          usedDay = currentWeek.getUsedDays();
-        });
-        print("Added drink: " + current.toString());
-      } catch (e) {
-        print("Error saving preset: " + e.toString());
-      }
-      var snackBar = SnackBar(content: Text('Getränk $getName hinzugefügt'));
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
   }
 
   String getNameId(int id){
@@ -262,21 +238,21 @@ class _HomePageState extends State<HomePage> {
 
   double getVolumeId(int id){
     switch(id){
-      case 0: return ownBox.get("volumen");
-      case 1: return ownBox.get("volumen-1");
-      case 2: return ownBox.get("volumen-2");
-      case 3: return ownBox.get("volumen-3");
-      default: return 0;
+      case 0: return ownBox.get("volumen") + 0.0;
+      case 1: return ownBox.get("volumen-1")+ 0.0;
+      case 2: return ownBox.get("volumen-2")+ 0.0;
+      case 3: return ownBox.get("volumen-3")+ 0.0;
+      default: return 0.0;
     }
   }
 
   double getVolumePartId(int id){
     switch(id){
-      case 0: return ownBox.get("volumenpart");
-      case 1: return ownBox.get("volumenpart-1");
-      case 2: return ownBox.get("volumenpart-2");
-      case 3: return ownBox.get("volumenpart-3");
-      default: return 0;
+      case 0: return ownBox.get("volumenpart")+ 0.0;
+      case 1: return ownBox.get("volumenpart-1")+ 0.0;
+      case 2: return ownBox.get("volumenpart-2")+ 0.0;
+      case 3: return ownBox.get("volumenpart-3")+ 0.0;
+      default: return 0.0;
     }
   }
 
@@ -311,19 +287,19 @@ class _HomePageState extends State<HomePage> {
   void createOwnBox() {
     /// Drink 0
     ownBox.put("name", "Name");
-    ownBox.put("volumen", 500);
-    ownBox.put("volumenpart", 5);
+    ownBox.put("volumen", 500.0);
+    ownBox.put("volumenpart", 5.0);
     /// Drink 1
     ownBox.put("name-1", "Name-1");
-    ownBox.put("volumen-1", 500);
-    ownBox.put("volumenpart-1", 5);
+    ownBox.put("volumen-1", 500.0);
+    ownBox.put("volumenpart-1", 5.0);
     /// Drink 2
     ownBox.put("name-2", "Name-2");
-    ownBox.put("volumen-2", 500);
-    ownBox.put("volumenpart-2", 5);
+    ownBox.put("volumen-2", 500.0);
+    ownBox.put("volumenpart-2", 5.0);
     /// Drink 3
     ownBox.put("name-3", "Name-3");
-    ownBox.put("volumen-3", 500);
-    ownBox.put("volumenpart-3", 5);
+    ownBox.put("volumen-3", 500.0);
+    ownBox.put("volumenpart-3", 5.0);
   }
 }

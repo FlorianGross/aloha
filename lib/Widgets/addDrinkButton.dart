@@ -77,7 +77,7 @@ class _AddDrinkButtonState extends State<AddDrinkButton> {
       case 1: return ownBox.get("volumen-1") + 0.0;
       case 2: return ownBox.get("volumen-2") + 0.0;
       case 3: return ownBox.get("volumen-3") + 0.0;
-      default: return 0;
+      default: return 0.0;
     }
   }
 
@@ -87,7 +87,7 @@ class _AddDrinkButtonState extends State<AddDrinkButton> {
       case 1: return ownBox.get("volumenpart-1") + 0.0;
       case 2: return ownBox.get("volumenpart-2") + 0.0;
       case 3: return ownBox.get("volumenpart-3") + 0.0;
-      default: return 0;
+      default: return 0.0;
     }
   }
 

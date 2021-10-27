@@ -30,7 +30,7 @@ class _SessionPageState extends State<SessionPage> {
 
   @override
   void initState() {
-    maxWeek = box.length - 1;
+    maxWeek = box.length;
     week = box.getAt(box.length - 1).week;
     currentWeek = box.getAt(box.length - 1);
     autoDecr = settingsBox.get("autoDecr");
@@ -41,7 +41,7 @@ class _SessionPageState extends State<SessionPage> {
     seValue = currentWeek.getSethisWeek();
     dayValue = currentWeek.getUsedDays();
     _pageController = PageController(
-      initialPage: week,
+      initialPage: week
     );
     _currentPageNotifier = ValueNotifier<int>(week);
     super.initState();
@@ -73,7 +73,7 @@ class _SessionPageState extends State<SessionPage> {
                     child: ArrowPageIndicator(
                         pageController: _pageController,
                         currentPageNotifier: _currentPageNotifier,
-                        itemCount: box.length - 1,
+                        itemCount: maxWeek,
                         child: _buildPageView(width)),
                   )
                 ],
@@ -248,7 +248,7 @@ class _SessionPageState extends State<SessionPage> {
 
   _buildPageView(double width) {
     return PageView.builder(
-      itemCount: box.length,
+      itemCount: maxWeek,
       controller: _pageController,
       onPageChanged: (value) {
         setWeek(value);
@@ -259,7 +259,7 @@ class _SessionPageState extends State<SessionPage> {
           color: Colors.black12,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: PlatformText(
+            child: Text(
               "Zusammenfassung: \n\n" +
                   seValue.toStringAsPrecision(3) +
                   " / " +
