@@ -663,6 +663,7 @@ class _SettingsState extends State<Settings> {
         return "Name";
     }
   }
+
   int getIconId(int id) {
     switch (id) {
       case 0:
