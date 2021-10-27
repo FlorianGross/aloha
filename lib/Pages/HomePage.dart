@@ -197,7 +197,7 @@ class _HomePageState extends State<HomePage> {
         ),
       );
       double days = settingsBox.get("DaysForNextWeek");
-      double decrAmount = settingsBox.get("autoDecrAmount");
+      double decrAmount = settingsBox.get("autoDecrAmount") -0.0;
       double sePlanned = settingsBox.get("SEforNextWeek");
       sePlanned -= decrAmount;
       if (sePlanned < 0) {

@@ -34,7 +34,7 @@ class _SessionPageState extends State<SessionPage> {
     week = box.getAt(box.length - 1).week;
     currentWeek = box.getAt(box.length - 1);
     autoDecr = settingsBox.get("autoDecr");
-    decrAmount = settingsBox.get("autoDecrAmount");
+    decrAmount = settingsBox.get("autoDecrAmount") - 0.0;
     amount = TextEditingController(text: decrAmount.toString());
     planSlider = calculateNextWeekSEPlan();
     daySlider = settingsBox.get("DaysForNextWeek");
