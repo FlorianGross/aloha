@@ -304,9 +304,23 @@ class _FirstStartPageState extends State<FirstStartPage> {
       settingsBox.put("notifications", notificationsOn);
       settingsBox.put("hour", hour);
       settingsBox.put("minute", minute);
+      /// Drink 0
       ownBox.put("name", "Name");
       ownBox.put("volumen", 500);
       ownBox.put("volumenpart", 5);
+      /// Drink 1
+      ownBox.put("name-1", "Name-1");
+      ownBox.put("volumen-1", 500);
+      ownBox.put("volumenpart-1", 5);
+      /// Drink 2
+      ownBox.put("name-2", "Name-2");
+      ownBox.put("volumen-2", 500);
+      ownBox.put("volumenpart-2", 5);
+      /// Drink 3
+      ownBox.put("name-3", "Name-3");
+      ownBox.put("volumen-3", 500);
+      ownBox.put("volumenpart-3", 5);
+
       DateTime startDate = settingsBox.get("firstStartDate");
       Week firstWeek = Week(
         plannedSE: double.parse(seFirstWeek.text),

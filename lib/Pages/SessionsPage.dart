@@ -41,7 +41,7 @@ class _SessionPageState extends State<SessionPage> {
     seValue = currentWeek.getSethisWeek();
     dayValue = currentWeek.getUsedDays();
     _pageController = PageController(
-      initialPage: maxWeek,
+      initialPage: week,
     );
     _currentPageNotifier = ValueNotifier<int>(week);
     super.initState();

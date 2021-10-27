@@ -1,5 +1,6 @@
 import 'package:aloha/Modelle/Drinks.dart';
 import 'package:aloha/Modelle/Week.dart';
+import 'package:aloha/Widgets/addDrinkButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
@@ -15,13 +16,15 @@ class _HomePageState extends State<HomePage> {
   final settingsBox = Hive.box("settings");
   final ownBox = Hive.box("own");
   final drinkBox = Hive.box("drinks");
-  final snackBar = SnackBar(content: Text('Getränk hinzugefügt'));
   double? plannedForWeek = 0.0, usedThisWeek = 0.0, plannedDay = 0, usedDay = 0;
   bool fastAdd = false;
   late Week currentWeek;
 
   @override
   void initState() {
+    if(ownBox.get("name") == null || ownBox.get("name-1") == null || ownBox.get("name-2") == null || ownBox.get("name-3") == null){
+      createOwnBox();
+    }
     try {
       weekTest();
       print("Current Week: " + box.getAt(box.length - 1).toString());
@@ -86,21 +89,57 @@ class _HomePageState extends State<HomePage> {
           GestureDetector(
             child: Image(
               image: AssetImage('assets/AlohA_Logo.png'),
-              width: width * 0.6,
-              height: height * 0.6,
+              width: width * 0.4,
+              height: height * 0.4,
             ),
             onTap: () {
               onTap(false);
             },
           ),
-          ElevatedButton(
-              child: Text(
-                '\"${getName()}\" hinzufügen',
-                style: TextStyle(color: Colors.black),
-              ),
-              onPressed: () => onTap(true),
-              style: OutlinedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor)),
+          Column(
+              children: [
+                Row(
+                  children: [
+                    AddDrinkButton(
+                      id: 0,
+                      onTap: (){
+                        onTapId(0);
+                      },
+                      height: height * 0.15,
+                      width: width * 0.5,
+                    ),
+                    AddDrinkButton(
+                      onTap: (){
+                      onTapId(1);
+                      },
+                      id: 1,
+                      height: height * 0.15,
+                      width: width * 0.5,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    AddDrinkButton(
+                      onTap: (){
+                        onTapId(2);
+                      },
+                      id: 2,
+                      height: height * 0.15,
+                      width: width * 0.5,
+                    ),
+                    AddDrinkButton(
+                      onTap: (){
+                        onTapId(3);
+                      },
+                      id: 3,
+                      height: height * 0.15,
+                      width: width * 0.5,
+                    ),
+                  ],
+                )
+              ],
+            ),
         ],
       ),
     );
@@ -206,12 +245,85 @@ class _HomePageState extends State<HomePage> {
       } catch (e) {
         print("Error saving preset: " + e.toString());
       }
+      var snackBar = SnackBar(content: Text('Getränk $getName hinzugefügt'));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 
+  String getNameId(int id){
+    switch(id){
+      case 0: return ownBox.get("name");
+      case 1: return ownBox.get("name-1");
+      case 2: return ownBox.get("name-2");
+      case 3: return ownBox.get("name-3");
+      default: return "Name";
+    }
+  }
+
+  double getVolumeId(int id){
+    switch(id){
+      case 0: return ownBox.get("volumen");
+      case 1: return ownBox.get("volumen-1");
+      case 2: return ownBox.get("volumen-2");
+      case 3: return ownBox.get("volumen-3");
+      default: return 0;
+    }
+  }
+
+  double getVolumePartId(int id){
+    switch(id){
+      case 0: return ownBox.get("volumenpart");
+      case 1: return ownBox.get("volumenpart-1");
+      case 2: return ownBox.get("volumenpart-2");
+      case 3: return ownBox.get("volumenpart-3");
+      default: return 0;
+    }
+  }
+
+  /// Erstellt getränk nach owndrink Nummer
+  void onTapId(int id){
+    var name = getNameId(id);
+    var volumen = getVolumeId(id);
+    var volumenpart = getVolumePartId(id);
+    Drinks current = Drinks(
+      week: currentWeek.week,
+      session: getCurrentSession(),
+      name: name,
+      date: DateTime.now().millisecondsSinceEpoch,
+      volume: volumen,
+      volumepart: volumenpart,
+      uri: null,
+    );
+    drinkBox.add(current);
+    setState(() {
+      usedThisWeek = currentWeek.getSethisWeek();
+      usedDay = currentWeek.getUsedDays();
+    });
+    print("Added drink: " + current.toString());
+    var snackBar = SnackBar(content: Text('Getränk $name hinzugefügt'));
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
   @override
   void dispose() {
     super.dispose();
+  }
+
+  void createOwnBox() {
+    /// Drink 0
+    ownBox.put("name", "Name");
+    ownBox.put("volumen", 500);
+    ownBox.put("volumenpart", 5);
+    /// Drink 1
+    ownBox.put("name-1", "Name-1");
+    ownBox.put("volumen-1", 500);
+    ownBox.put("volumenpart-1", 5);
+    /// Drink 2
+    ownBox.put("name-2", "Name-2");
+    ownBox.put("volumen-2", 500);
+    ownBox.put("volumenpart-2", 5);
+    /// Drink 3
+    ownBox.put("name-3", "Name-3");
+    ownBox.put("volumen-3", 500);
+    ownBox.put("volumenpart-3", 5);
   }
 }
