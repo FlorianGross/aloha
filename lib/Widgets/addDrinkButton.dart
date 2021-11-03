@@ -108,7 +108,7 @@ class _AddDrinkButtonState extends State<AddDrinkButton> {
 
   getIcon() {
     switch(getIconId(id)){
-      case 0: return Icon(BrueckeIcons.glass);
+      case 0: return Icon(BrueckeIcons.beer);
       case 1: return Icon(BrueckeIcons.wine_glass);
       case 2: return Icon(BrueckeIcons.wine_bottle);
       case 3: return Icon(BrueckeIcons.glass);

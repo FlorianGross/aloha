@@ -89,7 +89,7 @@ class Drinks extends HiveObject {
 
   getIcon(int id, double size) {
     switch(getIconId(id)){
-      case 0: return Icon(BrueckeIcons.glass, size: size,);
+      case 0: return Icon(BrueckeIcons.beer, size: size,);
       case 1: return Icon(BrueckeIcons.wine_glass, size: size,);
       case 2: return Icon(BrueckeIcons.wine_bottle, size: size,);
       case 3: return Icon(BrueckeIcons.glass, size: size,);
