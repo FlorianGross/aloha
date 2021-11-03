@@ -349,12 +349,12 @@ class _SettingsState extends State<Settings> {
                       DropdownButton(
                         items: [
                           DropdownMenuItem(
-                            child: Text("Preset 1"),
+                            child: Text("Preset 1",style: TextStyle(fontSize: width * 0.04),),
                             value: 0,
                           ),
-                          DropdownMenuItem(child: Text("Preset 2"), value: 1,),
-                          DropdownMenuItem(child: Text("Preset 3"), value: 2,),
-                          DropdownMenuItem(child: Text("Preset 4"), value: 3,),
+                          DropdownMenuItem(child: Text("Preset 2", style: TextStyle(fontSize: width * 0.04),), value: 1,),
+                          DropdownMenuItem(child: Text("Preset 3",style: TextStyle(fontSize: width * 0.04),), value: 2,),
+                          DropdownMenuItem(child: Text("Preset 4",style: TextStyle(fontSize: width * 0.04),), value: 3,),
                         ],
                         value: dropdownValueOwn,
                         onChanged: (int? value) {
@@ -367,7 +367,7 @@ class _SettingsState extends State<Settings> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Icon: "),
+                          Text("Icon: ", style: TextStyle(fontSize: width * 0.04),),
                           DropdownButton(
                             value: dropdownValueIcon,
                             onChanged: (int? value) {

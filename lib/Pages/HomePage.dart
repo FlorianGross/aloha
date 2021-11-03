@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import '../Modelle/Drinks.dart';
+import 'SettingsPage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -69,30 +70,50 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: EdgeInsets.only(top: height * 0.1),
-            child: Center(
-              child: Text(
-                usedDay!.toStringAsPrecision(2) +
-                    " / " +
-                    plannedDay!.toStringAsPrecision(2) +
-                    " Tage \n " +
-                    usedThisWeek!.toStringAsPrecision(2) +
-                    " / " +
-                    plannedForWeek!.toStringAsPrecision(2) +
-                    " SE",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: width * 0.07,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: width * 0.05, right: width * .05),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Image(
+                      image: AssetImage('assets/bruecke-augsburg-logo.png'),
+                      width: width * 0.4,
+                      height: height * 0.1,
+                    ),
+                    GestureDetector(
+                      child: Icon(Icons.settings, size: height * 0.05,),
+                      onTap: openSettings,
+                    )
+                  ],
                 ),
-                textAlign: TextAlign.center,
               ),
-            ),
+              Center(
+                child: Text(
+                  usedDay!.toStringAsPrecision(2) +
+                      " / " +
+                      plannedDay!.toStringAsPrecision(2) +
+                      " Tage \n " +
+                      usedThisWeek!.toStringAsPrecision(2) +
+                      " / " +
+                      plannedForWeek!.toStringAsPrecision(2) +
+                      " SE",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: width * 0.06,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ]
           ),
           GestureDetector(
             child: Image(
               image: AssetImage('assets/AlohA_Logo.png'),
-              width: width * 0.6,
+              width: width * 0.5,
               height: height * 0.4,
             ),
             onTap: () {
@@ -197,9 +218,7 @@ class _HomePageState extends State<HomePage> {
         ),
       );
       double days = settingsBox.get("DaysForNextWeek");
-      double decrAmount = settingsBox.get("autoDecrAmount") -0.0;
       double sePlanned = settingsBox.get("SEforNextWeek");
-      sePlanned -= decrAmount;
       if (sePlanned < 0) {
         sePlanned = 0;
       }
@@ -227,6 +246,14 @@ class _HomePageState extends State<HomePage> {
   /// Erstellt entsprechend der Auswahl ein Getränk mit den FastAdd Eigenschaften oder öfnet die CameraPage
   void onTap() {
     Navigator.of(context).pushNamed('/camera').then((value) => onComeBack());
+  }
+
+  /// Öffnet das Einstellugnsmenu
+  Future<void> openSettings() async {
+    Navigator.push(
+      context,
+      new MaterialPageRoute(builder: (context) => Settings()),
+    );
   }
 
   String getNameId(int id) {
@@ -309,16 +336,19 @@ class _HomePageState extends State<HomePage> {
     ownBox.put("volumen", 500.0);
     ownBox.put("volumenpart", 5.0);
     ownBox.put("icon", 0);
+
     /// Drink 1
     ownBox.put("name-1", "Name-1");
     ownBox.put("volumen-1", 500.0);
     ownBox.put("volumenpart-1", 5.0);
     ownBox.put("icon-1", 0);
+
     /// Drink 2
     ownBox.put("name-2", "Name-2");
     ownBox.put("volumen-2", 500.0);
     ownBox.put("volumenpart-2", 5.0);
     ownBox.put("icon-2", 0);
+
     /// Drink 3
     ownBox.put("name-3", "Name-3");
     ownBox.put("volumen-3", 500.0);

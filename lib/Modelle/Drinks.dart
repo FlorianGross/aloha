@@ -43,29 +43,21 @@ class Drinks extends HiveObject {
       );
     } else if(this.name == ownBox.get("name")) {
       return SizedBox(
-        child: getIcon(0),
-        height: height,
-        width: width,
+        child: getIcon(0, size),
       );
     } else if(this.name == ownBox.get("name-1")) {
       return SizedBox(
-        child: getIcon(1),
-        height: height,
-        width: width,
+        child: getIcon(1, size),
       );
     }
     else if(this.name == ownBox.get("name-2")) {
       return SizedBox(
-        child: getIcon(2),
-        height: height,
-        width: width,
+        child: getIcon(2, size),
       );
     }
     else if(this.name == ownBox.get("name-3")) {
       return SizedBox(
-        child: getIcon(3),
-        height: height,
-        width: width,
+        child: getIcon(3, size),
       );
     }
     else {
@@ -95,12 +87,12 @@ class Drinks extends HiveObject {
     }
   }
 
-  getIcon(int id) {
+  getIcon(int id, double size) {
     switch(getIconId(id)){
-      case 0: return Icon(BrueckeIcons.glass);
-      case 1: return Icon(BrueckeIcons.wine_glass);
-      case 2: return Icon(BrueckeIcons.wine_bottle);
-      case 3: return Icon(BrueckeIcons.glass);
+      case 0: return Icon(BrueckeIcons.glass, size: size,);
+      case 1: return Icon(BrueckeIcons.wine_glass, size: size,);
+      case 2: return Icon(BrueckeIcons.wine_bottle, size: size,);
+      case 3: return Icon(BrueckeIcons.glass, size: size,);
     }
   }
 

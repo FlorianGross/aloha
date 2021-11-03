@@ -22,8 +22,6 @@ class _SessionPageState extends State<SessionPage> {
   int week = 0;
   int maxWeek = 0;
   late Week currentWeek;
-  bool autoDecr = true;
-  double decrAmount = 0.0;
   var _pageController;
   var _currentPageNotifier;
   final snackBar = SnackBar(content: Text('Woche geplant!'));
@@ -33,9 +31,6 @@ class _SessionPageState extends State<SessionPage> {
     maxWeek = box.length;
     week = box.getAt(box.length - 1).week;
     currentWeek = box.getAt(box.length - 1);
-    autoDecr = settingsBox.get("autoDecr");
-    decrAmount = settingsBox.get("autoDecrAmount") - 0.0;
-    amount = TextEditingController(text: decrAmount.toString());
     planSlider = calculateNextWeekSEPlan();
     daySlider = settingsBox.get("DaysForNextWeek");
     seValue = currentWeek.getSethisWeek();
@@ -86,7 +81,7 @@ class _SessionPageState extends State<SessionPage> {
               child: Column(
                 children: [
                   Text(
-                    "Planung Woche ${box.length}:  \n" +
+                    "Planung Woche ${box.length}: \n ${getPlannedWeekDates()}: \n\n" +
                         planSlider!.toStringAsPrecision(2) +
                         " SE",
                     textAlign: TextAlign.center,
@@ -108,48 +103,6 @@ class _SessionPageState extends State<SessionPage> {
                       settingsBox.put("SEforNextWeek", value);
                       print("save");
                     },
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Wöchentlich automatisch verringern?",
-                        style: TextStyle(fontSize: width * 0.03),
-                      ),
-                      Transform.scale(
-                        scale: 1.6,
-                        child: PlatformSwitch(
-                          value: autoDecr,
-                          activeColor: Theme.of(context).primaryColor,
-                          onChanged: (value) {
-                            setState(() {
-                              autoDecr = value;
-                              settingsBox.put("autoDecr", autoDecr);
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  Visibility(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text("Anzahl: "),
-                        SizedBox(
-                            height: height * 0.07,
-                            width: width * 0.3,
-                            child: TextField(
-                              controller: amount,
-                              keyboardType: TextInputType.number,
-                              onSubmitted: (value) {
-                                settingsBox.put(
-                                    "autoDecrAmount", int.parse(value));
-                              },
-                            ))
-                      ],
-                    ),
-                    visible: autoDecr,
                   ),
                   Divider(),
                   Text(
@@ -186,46 +139,21 @@ class _SessionPageState extends State<SessionPage> {
               ),
             ),
           ),
-          ElevatedButton(
-              onPressed: openSettings,
-              child: Text(
-                "Einstellungen",
-                style: TextStyle(color: Colors.black),
-              ),
-              style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).primaryColor)),
         ],
       ),
-    );
-  }
-
-  /// Öffnet das Einstellugnsmenu
-  Future<void> openSettings() async {
-    Navigator.push(
-      context,
-      new MaterialPageRoute(builder: (context) => Settings()),
     );
   }
 
   /// Speichert die Einstellung
   Future<void> saveSetup() async {
     settingsBox.put("DaysForNextWeek", daySlider);
-    settingsBox.put("autoDecrAmount", int.parse(amount.toString()));
     settingsBox.put("SEforNextWeek", planSlider);
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   /// Berechnet den Wert der nachfolgenden Woche
   double calculateNextWeekSEPlan() {
-    if (autoDecr) {
-      double result = currentWeek.plannedSE! - decrAmount;
-      if (result <= 0) {
-        return 0;
-      }
-      return result;
-    } else {
-      return settingsBox.get("SEforNextWeek");
-    }
+      return settingsBox.get("SEforNextWeek") + 0.0;
   }
 
   /// Setz die Aktuelle Woche entsprechend der Werte
@@ -271,9 +199,9 @@ class _SessionPageState extends State<SessionPage> {
                   " / " +
                   currentWeek.plannedDay.toString() +
                   " Days\n\n " +
-                  DateFormat.yMd().format(currentWeek.getStartDate()) +
+                  DateFormat("dd.MM.yyyy").format(currentWeek.getStartDate()) +
                   " \n - \n " +
-                  DateFormat.yMd().format(currentWeek.getEndTime()),
+                  DateFormat("dd.MM.yyyy").format(currentWeek.getEndTime()),
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontWeight: FontWeight.bold, fontSize: width * 0.04),
@@ -284,9 +212,18 @@ class _SessionPageState extends State<SessionPage> {
     );
   }
 
+  String? getPlannedWeekDates() {
+    Week currentWeek = box.getAt(box.length - 1);
+      DateTime newStartDate = currentWeek.getStartDate().add(Duration(days: 7));
+      DateTime newEndDate = newStartDate.add(
+        Duration(
+          days: 7,
+        ),
+      );
+      return DateFormat("dd.MM.yyyy").format(newStartDate) + " - " + DateFormat("dd.MM.yyyy").format(newEndDate);
+  }
   @override
   void dispose() {
-    amount!.dispose();
     _pageController.dispose();
     _currentPageNotifier.dispose();
     super.dispose();

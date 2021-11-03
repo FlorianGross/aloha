@@ -20,9 +20,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
   final ownBox = Hive.box("own");
   final weekBox = Hive.box("Week");
   TextEditingController seFirstWeek = TextEditingController(text: "0"),
-      amount = TextEditingController(text: "0"),
       consumptionDays = TextEditingController(text: "0");
-  bool autoDecr = false;
   bool notificationsOn = false;
   int hour = 12, minute = 00;
   Color selected = Colors.yellow, unselected = Colors.black38;
@@ -94,50 +92,6 @@ class _FirstStartPageState extends State<FirstStartPage> {
                           ),
                         ),
                       ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Wöchentlich automatisch verringern?"),
-                          PlatformSwitch(
-                            cupertino: (context, platform) =>
-                                CupertinoSwitchData(
-                                    activeColor:
-                                        Theme.of(context).primaryColor),
-                            value: autoDecr,
-                            activeColor: Theme.of(context).primaryColor,
-                            onChanged: (value) {
-                              setState(() {
-                                autoDecr = value;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    Visibility(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text("Anzahl: "),
-                          SizedBox(
-                            height: 50,
-                            width: 150,
-                            child: TextField(
-                              controller: amount,
-                              keyboardType: TextInputType.number,
-                              maxLength: 5,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(r"^\d*\.?\d*"))
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      visible: autoDecr,
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 8.0),
@@ -287,12 +241,10 @@ class _FirstStartPageState extends State<FirstStartPage> {
   /// Speichert die eingestellten Werte. Bei Fehler wird ein SnackBar angezeigt
   Future<void> onPressed() async {
     try {
-      autoDecrAmount = double.parse(amount.text);
       seFirstWeekDouble = double.parse(seFirstWeek.text);
       consumptionDaysDouble = double.parse(consumptionDays.text);
       settingsBox.put("SEforNextWeek", seFirstWeekDouble);
       settingsBox.put("DaysForNextWeek", consumptionDaysDouble);
-      settingsBox.put("autoDecrAmount", autoDecrAmount);
       settingsBox.put("isMo", isMoBut);
       settingsBox.put("isDi", isDiBut);
       settingsBox.put("isMi", isMiBut);
@@ -300,7 +252,6 @@ class _FirstStartPageState extends State<FirstStartPage> {
       settingsBox.put("isFr", isFrBut);
       settingsBox.put("isSa", isSaBut);
       settingsBox.put("isSo", isSoBut);
-      settingsBox.put("autoDecr", autoDecr);
       settingsBox.put("notifications", notificationsOn);
       settingsBox.put("hour", hour);
       settingsBox.put("minute", minute);
@@ -449,7 +400,6 @@ class _FirstStartPageState extends State<FirstStartPage> {
   @override
   void dispose() {
     consumptionDays.dispose();
-    amount.dispose();
     seFirstWeek.dispose();
     super.dispose();
   }
