@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
           ),
           GestureDetector(
             child: Image(
-              image: AssetImage('assets/AlohA_Logo.png'),
+              image: AssetImage('assets/Aloha-PNG.png'),
               width: width * 0.5,
               height: height * 0.4,
             ),
