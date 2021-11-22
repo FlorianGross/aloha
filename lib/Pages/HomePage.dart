@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                       " SE",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: width * 0.06,
+                    fontSize: width * 0.05,
                   ),
                   textAlign: TextAlign.center,
                 ),
