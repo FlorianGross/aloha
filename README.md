@@ -1,5 +1,8 @@
 # AlohA
 
+![Main Test](https://github.com/FlorianGross/aloha/blob/main/.github/workflows/main.yml/badge.svg)
+
+
 Applikation für Brücke Ev.
 
 Sourcecode der Applikation AlohA
