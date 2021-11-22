@@ -1,6 +1,6 @@
 # AlohA
 
-![CI](https://github.com/FlorianGross/aloha/actions/workflows/main.yml/badge.svg)
+![CI](https://github.com/FlorianGross/aloha/actions/workflows/main.yml/badge.svg) ![IOS](https://github.com/FlorianGross/aloha/actions/workflows/ios.yml/badge.svg)
 
 
 Applikation für Brücke Ev.
