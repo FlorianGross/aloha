@@ -71,45 +71,38 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: width * 0.05, right: width * .05),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image(
-                      image: AssetImage('assets/bruecke-augsburg-logo.png'),
-                      width: width * 0.4,
-                      height: height * 0.1,
-                    ),
-                    GestureDetector(
-                      child: Icon(Icons.settings, size: height * 0.05,),
-                      onTap: openSettings,
-                    )
-                  ],
-                ),
-              ),
-              Center(
-                child: Text(
-                  usedDay!.toStringAsPrecision(2) +
-                      " / " +
-                      plannedDay!.toStringAsPrecision(2) +
-                      " Tage \n " +
-                      usedThisWeek!.toStringAsPrecision(2) +
-                      " / " +
-                      plannedForWeek!.toStringAsPrecision(2) +
-                      " SE",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: width * 0.06,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding:
+                      EdgeInsets.only(left: width * 0.05, right: width * .05),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Image(
+                        image: AssetImage('assets/bruecke-augsburg-logo.png'),
+                        width: width * 0.4,
+                        height: height * 0.1,
+                      ),
+                      GestureDetector(
+                        child: Icon(
+                          Icons.settings,
+                          size: height * 0.05,
+                        ),
+                        onTap: openSettings,
+                      )
+                    ],
                   ),
-                  textAlign: TextAlign.center,
                 ),
-              ),
-            ]
-          ),
+                OutputText(
+                  plannedDay: plannedDay!,
+                  plannedForWeek: plannedForWeek!,
+                  usedDay: usedDay!,
+                  usedThisWeek: usedThisWeek!,
+                  width: width,
+                ),
+              ]),
           GestureDetector(
             child: Image(
               image: AssetImage('assets/Aloha-PNG.png'),
@@ -354,5 +347,111 @@ class _HomePageState extends State<HomePage> {
     ownBox.put("volumen-3", 500.0);
     ownBox.put("volumenpart-3", 5.0);
     ownBox.put("icon-3", 0);
+  }
+}
+
+class OutputText extends StatefulWidget {
+  const OutputText(
+      {Key? key,
+      required this.usedDay,
+      required this.plannedDay,
+      required this.usedThisWeek,
+      required this.plannedForWeek,
+      required this.width})
+      : super(key: key);
+  final double usedDay, plannedDay, usedThisWeek, plannedForWeek, width;
+
+  @override
+  _OutputTextState2 createState() => _OutputTextState2(
+      plannedDay: plannedDay,
+      plannedForWeek: plannedForWeek,
+      usedDay: usedDay,
+      usedThisWeek: usedThisWeek,
+      width: width);
+}
+
+class _OutputTextState extends State<OutputText> {
+  _OutputTextState(
+      {required this.usedDay,
+      required this.plannedDay,
+      required this.usedThisWeek,
+      required this.plannedForWeek,
+      required this.width});
+
+  final double usedDay, plannedDay, usedThisWeek, plannedForWeek, width;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      usedDay.toStringAsPrecision(2) +
+          " / " +
+          plannedDay.toStringAsPrecision(2) +
+          " Tage \n " +
+          usedThisWeek.toStringAsPrecision(2) +
+          " / " +
+          plannedForWeek.toStringAsPrecision(2) +
+          " SE",
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: width * 0.06,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+}
+
+class _OutputTextState2 extends State<OutputText> {
+  _OutputTextState2(
+      {required this.usedDay,
+      required this.plannedDay,
+      required this.usedThisWeek,
+      required this.plannedForWeek,
+      required this.width});
+
+  final double usedDay, plannedDay, usedThisWeek, plannedForWeek, width;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.green, width: 4),
+          ),
+          child: Text(
+            "Tage: " +
+                plannedDay.toStringAsPrecision(2) +
+                " SE: " +
+                plannedForWeek.toStringAsPrecision(2),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: width * 0.06,
+              color: Colors.green,
+            ),
+          ),
+        ),
+        Row(
+          children: [
+            Text(
+              "Tage: " + usedDay.toStringAsPrecision(2),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: width * 0.06,
+                color: Colors.red,
+              ),
+            ),
+            Text(
+              " SE: " + usedThisWeek.toStringAsPrecision(2),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: width * 0.06,
+                color: Colors.red,
+              ),
+            ),
+          ],
+          mainAxisAlignment: MainAxisAlignment.center,
+        ),
+      ],
+    );
   }
 }
