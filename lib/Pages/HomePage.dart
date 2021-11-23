@@ -71,38 +71,39 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding:
-                      EdgeInsets.only(left: width * 0.05, right: width * .05),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Image(
-                        image: AssetImage('assets/bruecke-augsburg-logo.png'),
-                        width: width * 0.4,
-                        height: height * 0.1,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding:
+                    EdgeInsets.only(left: width * 0.05, right: width * .05),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Image(
+                      image: AssetImage('assets/bruecke-augsburg-logo.png'),
+                      width: width * 0.4,
+                      height: height * 0.1,
+                    ),
+                    GestureDetector(
+                      child: Icon(
+                        Icons.settings,
+                        size: height * 0.05,
                       ),
-                      GestureDetector(
-                        child: Icon(
-                          Icons.settings,
-                          size: height * 0.05,
-                        ),
-                        onTap: openSettings,
-                      )
-                    ],
-                  ),
+                      onTap: openSettings,
+                    )
+                  ],
                 ),
-                OutputText(
-                  plannedDay: plannedDay!,
-                  plannedForWeek: plannedForWeek!,
-                  usedDay: usedDay!,
-                  usedThisWeek: usedThisWeek!,
-                  width: width,
-                ),
-              ]),
+              ),
+              OutputText(
+                plannedDay: plannedDay!,
+                plannedForWeek: plannedForWeek!,
+                usedDay: usedDay!,
+                usedThisWeek: usedThisWeek!,
+                width: width,
+              ),
+            ],
+          ),
           GestureDetector(
             child: Image(
               image: AssetImage('assets/Aloha-PNG.png'),
