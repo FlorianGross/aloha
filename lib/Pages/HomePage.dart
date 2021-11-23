@@ -371,36 +371,6 @@ class OutputText extends StatefulWidget {
       width: width);
 }
 
-class _OutputTextState extends State<OutputText> {
-  _OutputTextState(
-      {required this.usedDay,
-      required this.plannedDay,
-      required this.usedThisWeek,
-      required this.plannedForWeek,
-      required this.width});
-
-  final double usedDay, plannedDay, usedThisWeek, plannedForWeek, width;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      usedDay.toStringAsPrecision(2) +
-          " / " +
-          plannedDay.toStringAsPrecision(2) +
-          " Tage \n " +
-          usedThisWeek.toStringAsPrecision(2) +
-          " / " +
-          plannedForWeek.toStringAsPrecision(2) +
-          " SE",
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: width * 0.06,
-      ),
-      textAlign: TextAlign.center,
-    );
-  }
-}
-
 class _OutputTextState2 extends State<OutputText> {
   _OutputTextState2(
       {required this.usedDay,
