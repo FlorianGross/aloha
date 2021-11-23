@@ -2,7 +2,6 @@ import 'dart:core';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:aloha/Modelle/Week.dart';
-import 'package:aloha/Pages/SettingsPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
