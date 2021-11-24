@@ -391,7 +391,7 @@ class _OutputTextState2 extends State<OutputText> {
           ),
           child: Text(
             "Tage: " +
-                plannedDay.toStringAsPrecision(2) +
+                plannedDay.toStringAsPrecision(1) +
                 " SE: " +
                 plannedForWeek.toStringAsPrecision(2),
             style: TextStyle(
@@ -404,7 +404,7 @@ class _OutputTextState2 extends State<OutputText> {
         Row(
           children: [
             Text(
-              "Tage: " + usedDay.toStringAsPrecision(2),
+              "Tage: " + usedDay.toInt().toString(),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: width * 0.06,
@@ -412,7 +412,7 @@ class _OutputTextState2 extends State<OutputText> {
               ),
             ),
             Text(
-              " SE: " + usedThisWeek.toStringAsPrecision(2),
+              " SE: " + usedThisWeek.toInt().toString(),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: width * 0.06,
