@@ -48,7 +48,7 @@ class _AddDrinkButtonState extends State<AddDrinkButton> {
                 Text(name, style: TextStyle(fontSize: 0.07*width),),
                 Text("$volumePart vol%", style: TextStyle(fontSize: 0.07*width),),
                 Text("$volume ml", style: TextStyle(fontSize: 0.07*width),),
-                Text("$se SE", style: TextStyle(fontSize: 0.07*width),)
+                Text("$se SE", style: TextStyle(fontSize: 0.07*width, color: Colors.red),)
               ],
             ),
           ),

@@ -107,8 +107,8 @@ class _HomePageState extends State<HomePage> {
           GestureDetector(
             child: Image(
               image: AssetImage('assets/Aloha-PNG.png'),
-              width: width * 0.5,
-              height: height * 0.4,
+              width: width * 0.4,
+              height: height * 0.3,
             ),
             onTap: () {
               onTap();
@@ -385,42 +385,43 @@ class _OutputTextState2 extends State<OutputText> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.green, width: 4),
-          ),
-          child: Text(
+        Text(
             "Tage: " +
-                plannedDay.toStringAsPrecision(1) +
+                plannedDay.toInt().toString() +
                 " SE: " +
                 plannedForWeek.toStringAsPrecision(2),
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: width * 0.06,
+              fontSize: width * 0.09,
               color: Colors.green,
             ),
           ),
-        ),
-        Row(
-          children: [
-            Text(
-              "Tage: " + usedDay.toInt().toString(),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: width * 0.06,
-                color: Colors.red,
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.red, width: 4),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Tage: " + usedDay.toInt().toString(),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: width * 0.09,
+                  color: Colors.red,
+                ),
               ),
-            ),
-            Text(
-              " SE: " + usedThisWeek.toInt().toString(),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: width * 0.06,
-                color: Colors.red,
+              Text(
+                " SE: " + usedThisWeek.toStringAsPrecision(2),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: width * 0.09,
+                  color: Colors.red,
+                ),
               ),
-            ),
-          ],
-          mainAxisAlignment: MainAxisAlignment.center,
+            ],
+            mainAxisAlignment: MainAxisAlignment.center,
+          ),
         ),
       ],
     );
