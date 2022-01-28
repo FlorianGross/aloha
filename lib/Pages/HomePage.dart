@@ -95,12 +95,47 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              OutputText(
-                plannedDay: plannedDay!,
-                plannedForWeek: plannedForWeek!,
-                usedDay: usedDay!,
-                usedThisWeek: usedThisWeek!,
-                width: width,
+              Column(
+                children: [
+                  Text(
+                    "Tage: " +
+                        plannedDay!.toInt().toString() +
+                        " SE: " +
+                        plannedForWeek!.toStringAsPrecision(2),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: width * 0.09,
+                      color: Colors.green,
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red, width: 4),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Tage: " + usedDay!.toInt().toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: width * 0.09,
+                            color: Colors.red,
+                          ),
+                        ),
+                        Text(
+                          " SE: " + usedThisWeek!.toStringAsPrecision(2),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: width * 0.09,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -386,16 +421,16 @@ class _OutputTextState2 extends State<OutputText> {
     return Column(
       children: [
         Text(
-            "Tage: " +
-                plannedDay.toInt().toString() +
-                " SE: " +
-                plannedForWeek.toStringAsPrecision(2),
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: width * 0.09,
-              color: Colors.green,
-            ),
+          "Tage: " +
+              plannedDay.toInt().toString() +
+              " SE: " +
+              plannedForWeek.toStringAsPrecision(2),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: width * 0.09,
+            color: Colors.green,
           ),
+        ),
         Container(
           decoration: BoxDecoration(
             border: Border.all(color: Colors.red, width: 4),
