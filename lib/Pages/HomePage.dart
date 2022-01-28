@@ -2,7 +2,6 @@ import 'package:aloha/Modelle/Drinks.dart';
 import 'package:aloha/Modelle/Week.dart';
 import 'package:aloha/Widgets/addDrinkButton.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import '../Modelle/Drinks.dart';
 import 'SettingsPage.dart';

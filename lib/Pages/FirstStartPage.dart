@@ -1,9 +1,8 @@
 import 'package:aloha/Modelle/Week.dart';
 import 'package:aloha/Widgets/DayButton.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:hive/hive.dart';
 import '../MyApp.dart';
