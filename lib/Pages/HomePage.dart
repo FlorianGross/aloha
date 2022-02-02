@@ -99,8 +99,8 @@ class _HomePageState extends State<HomePage> {
                   Text(
                     "Tage: " +
                         plannedDay!.toInt().toString() +
-                        " SE: " +
-                        plannedForWeek!.toStringAsPrecision(2),
+                        "     SE: " +
+                        plannedForWeek!.toStringAsFixed(1),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: width * 0.09,
@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         Text(
-                          " SE: " + usedThisWeek!.toStringAsPrecision(2),
+                          "    SE: " + usedThisWeek!.toStringAsFixed(1),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: width * 0.09,
@@ -239,12 +239,14 @@ class _HomePageState extends State<HomePage> {
           DateTime.now().toString() +
           " - " +
           currentWeek.getEndTime().toString());
-      DateTime newStartDate = currentWeek.getStartDate().add(Duration(days: 7));
-      DateTime newEndDate = newStartDate.add(
-        Duration(
-          days: 7,
-        ),
-      );
+      DateTime newStartDate =
+          currentWeek.getEndTime().add(Duration(milliseconds: 1));
+      DateTime newEndDate = newStartDate.add(Duration(
+          days: 6,
+          hours: 23,
+          minutes: 59,
+          milliseconds: 999,
+          seconds: 59));
       double days = settingsBox.get("DaysForNextWeek");
       double sePlanned = settingsBox.get("SEforNextWeek");
       if (sePlanned < 0) {

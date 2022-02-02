@@ -213,11 +213,14 @@ class _SessionPageState extends State<SessionPage> {
 
   String? getPlannedWeekDates() {
     Week currentWeek = box.getAt(box.length - 1);
-      DateTime newStartDate = currentWeek.getStartDate().add(Duration(days: 7));
-      DateTime newEndDate = newStartDate.add(
-        Duration(
-          days: 7,
-        ),
+      DateTime newStartDate = currentWeek.getEndTime().add(Duration(milliseconds: 1));
+      DateTime newEndDate = newStartDate
+          .add(Duration(
+      days: 6,
+      hours: 23,
+      minutes: 59,
+      milliseconds: 999,
+      seconds: 59)
       );
       return DateFormat("dd.MM.yyyy").format(newStartDate) + " - " + DateFormat("dd.MM.yyyy").format(newEndDate);
   }
