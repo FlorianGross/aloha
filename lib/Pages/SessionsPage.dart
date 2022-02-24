@@ -197,7 +197,7 @@ class _SessionPageState extends State<SessionPage> {
                   dayValue.toString() +
                   " / " +
                   currentWeek.plannedDay.toString() +
-                  " Days\n\n " +
+                  " Tage\n\n " +
                   DateFormat("dd.MM.yyyy").format(currentWeek.getStartDate()) +
                   " \n - \n " +
                   DateFormat("dd.MM.yyyy").format(currentWeek.getEndTime()),
