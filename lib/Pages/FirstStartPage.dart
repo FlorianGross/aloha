@@ -1,9 +1,8 @@
 import 'package:aloha/Modelle/Week.dart';
 import 'package:aloha/Widgets/DayButton.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:hive/hive.dart';
 import '../MyApp.dart';
@@ -20,9 +19,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
   final ownBox = Hive.box("own");
   final weekBox = Hive.box("Week");
   TextEditingController seFirstWeek = TextEditingController(text: "0"),
-      amount = TextEditingController(text: "0"),
       consumptionDays = TextEditingController(text: "0");
-  bool autoDecr = false;
   bool notificationsOn = false;
   int hour = 12, minute = 00;
   Color selected = Colors.yellow, unselected = Colors.black38;
@@ -37,6 +34,9 @@ class _FirstStartPageState extends State<FirstStartPage> {
   double autoDecrAmount = 0.0;
   double seFirstWeekDouble = 0.0;
   double consumptionDaysDouble = 0.0;
+  String dropdownValue = "Mo";
+  final dayList = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
+
 
   @override
   void initState() {
@@ -47,6 +47,8 @@ class _FirstStartPageState extends State<FirstStartPage> {
     frBut = unselected;
     saBut = unselected;
     soBut = unselected;
+    DateTime firstStart = settingsBox.get("firstStartDate");
+    dropdownValue = setWeekStart(firstStart);
     super.initState();
     print("FirstStartPage initialized");
   }
@@ -62,7 +64,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
             padding: const EdgeInsets.all(20.0),
             child: Center(
               child: Image(
-                image: AssetImage('assets/AlohA_Logo.png'),
+                image: AssetImage('assets/Aloha-PNG.png'),
                 width: 244,
                 height: 244,
               ),
@@ -96,50 +98,6 @@ class _FirstStartPageState extends State<FirstStartPage> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Wöchentlich automatisch verringern?"),
-                          PlatformSwitch(
-                            cupertino: (context, platform) =>
-                                CupertinoSwitchData(
-                                    activeColor:
-                                        Theme.of(context).primaryColor),
-                            value: autoDecr,
-                            activeColor: Theme.of(context).primaryColor,
-                            onChanged: (value) {
-                              setState(() {
-                                autoDecr = value;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    Visibility(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text("Anzahl: "),
-                          SizedBox(
-                            height: 50,
-                            width: 150,
-                            child: TextField(
-                              controller: amount,
-                              keyboardType: TextInputType.number,
-                              maxLength: 5,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(r"^\d*\.?\d*"))
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      visible: autoDecr,
-                    ),
-                    Padding(
                       padding: EdgeInsets.only(top: 8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -157,6 +115,31 @@ class _FirstStartPageState extends State<FirstStartPage> {
                                     RegExp(r"[0-7]"))
                               ],
                             ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 8.0,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [Text("Wochenbeginn: "),
+                          DropdownButton(
+                            onChanged: (String? value) {
+                              setState(() {
+                                dropdownValue = value!;
+                              });
+                            },
+                            value: dropdownValue,
+                            items: dayList
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
                           ),
                         ],
                       ),
@@ -287,12 +270,10 @@ class _FirstStartPageState extends State<FirstStartPage> {
   /// Speichert die eingestellten Werte. Bei Fehler wird ein SnackBar angezeigt
   Future<void> onPressed() async {
     try {
-      autoDecrAmount = double.parse(amount.text);
       seFirstWeekDouble = double.parse(seFirstWeek.text);
       consumptionDaysDouble = double.parse(consumptionDays.text);
       settingsBox.put("SEforNextWeek", seFirstWeekDouble);
       settingsBox.put("DaysForNextWeek", consumptionDaysDouble);
-      settingsBox.put("autoDecrAmount", autoDecrAmount);
       settingsBox.put("isMo", isMoBut);
       settingsBox.put("isDi", isDiBut);
       settingsBox.put("isMi", isMiBut);
@@ -300,24 +281,48 @@ class _FirstStartPageState extends State<FirstStartPage> {
       settingsBox.put("isFr", isFrBut);
       settingsBox.put("isSa", isSaBut);
       settingsBox.put("isSo", isSoBut);
-      settingsBox.put("autoDecr", autoDecr);
       settingsBox.put("notifications", notificationsOn);
       settingsBox.put("hour", hour);
       settingsBox.put("minute", minute);
+
+      /// Drink 0
       ownBox.put("name", "Name");
-      ownBox.put("volumen", 500);
-      ownBox.put("volumenpart", 5);
+      ownBox.put("volumen", 500.0);
+      ownBox.put("volumenpart", 5.0);
+      ownBox.put("icon", 0);
+
+      /// Drink 1
+      ownBox.put("name-1", "Name-1");
+      ownBox.put("volumen-1", 500.0);
+      ownBox.put("volumenpart-1", 5.0);
+      ownBox.put("icon-1", 0);
+
+      /// Drink 2
+      ownBox.put("name-2", "Name-2");
+      ownBox.put("volumen-2", 500.0);
+      ownBox.put("volumenpart-2", 5.0);
+      ownBox.put("icon-2", 0);
+
+      /// Drink 3
+      ownBox.put("name-3", "Name-3");
+      ownBox.put("volumen-3", 500.0);
+      ownBox.put("volumenpart-3", 5.0);
+      ownBox.put("icon-3", 0);
+
+
       DateTime startDate = settingsBox.get("firstStartDate");
+
+      int days = getDaystilStart();
+
       Week firstWeek = Week(
         plannedSE: double.parse(seFirstWeek.text),
         week: 0,
         endDate: startDate
             .add(Duration(
-                days: 6,
+                days: days,
                 hours: 23,
                 minutes: 59,
-                microseconds: 999,
-                milliseconds: 99,
+                milliseconds: 999,
                 seconds: 59))
             .millisecondsSinceEpoch,
         plannedDay: consumptionDaysDouble,
@@ -431,8 +436,44 @@ class _FirstStartPageState extends State<FirstStartPage> {
   @override
   void dispose() {
     consumptionDays.dispose();
-    amount.dispose();
     seFirstWeek.dispose();
     super.dispose();
+  }
+
+  int getDaystilStart() {
+    int weekday = 0;
+    switch(dropdownValue){
+      case "Mo": weekday = 1; break;
+      case "Di": weekday = 2; break;
+      case "Mi": weekday = 3; break;
+      case "Do": weekday = 4; break;
+      case "Fr": weekday = 5; break;
+      case "Sa": weekday = 6; break;
+      case "So": weekday = 7; break;
+      default: break;
+    }
+    DateTime now = DateTime.now();
+    int iterator = 0;
+    while(now.weekday != weekday){
+      iterator++;
+      now = now.add(Duration(days: 1));
+      print(now.toString());
+    }
+    print(iterator.toString());
+    return 6 + iterator;
+  }
+
+  String setWeekStart(DateTime firstStart) {
+    int weekday = firstStart.weekday;
+    switch(weekday){
+      case 1: return "Mo";
+      case 2: return "Di";
+      case 3: return "Mi";
+      case 4: return "Do";
+      case 5: return "Fr";
+      case 6: return "Sa";
+      case 7: return "So";
+    }
+    return "Mo";
   }
 }

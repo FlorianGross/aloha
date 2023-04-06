@@ -1,3 +1,4 @@
+import 'package:aloha/BrueckeIcons.dart';
 import 'package:aloha/Modelle/Week.dart';
 import 'package:aloha/Notifications.dart';
 import 'package:aloha/Widgets/ChangeModeButton.dart';
@@ -22,6 +23,8 @@ class _SettingsState extends State<Settings> {
   late double ownSE;
   String? name = "Name";
   double? volumen;
+  var dropdownValueOwn = 0;
+  var dropdownValueIcon = 0;
   double? volumePart;
   int hour = 0;
   int minute = 0;
@@ -343,6 +346,56 @@ class _SettingsState extends State<Settings> {
                   padding: EdgeInsets.all(width * 0.05),
                   child: Column(
                     children: [
+                      DropdownButton(
+                        items: [
+                          DropdownMenuItem(
+                            child: Text("Preset 1",style: TextStyle(fontSize: width * 0.04),),
+                            value: 0,
+                          ),
+                          DropdownMenuItem(child: Text("Preset 2", style: TextStyle(fontSize: width * 0.04),), value: 1,),
+                          DropdownMenuItem(child: Text("Preset 3",style: TextStyle(fontSize: width * 0.04),), value: 2,),
+                          DropdownMenuItem(child: Text("Preset 4",style: TextStyle(fontSize: width * 0.04),), value: 3,),
+                        ],
+                        value: dropdownValueOwn,
+                        onChanged: (int? value) {
+                          setState(() {
+                            dropdownValueOwn = value!;
+                            changePreset(value);
+                          });
+                        },
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Icon: ", style: TextStyle(fontSize: width * 0.04),),
+                          DropdownButton(
+                            value: dropdownValueIcon,
+                            onChanged: (int? value) {
+                              setState(() {
+                                dropdownValueIcon = value!;
+                              });
+                            },
+                            items: [
+                              DropdownMenuItem(
+                                value: 0,
+                                child: Icon(BrueckeIcons.beer),
+                              ),
+                              DropdownMenuItem(
+                                value: 1,
+                                child: Icon(BrueckeIcons.wine_glass),
+                              ),
+                              DropdownMenuItem(
+                                value: 2,
+                                child: Icon(BrueckeIcons.wine_bottle),
+                              ),
+                              DropdownMenuItem(
+                                value: 3,
+                                child: Icon(BrueckeIcons.glass),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -543,11 +596,10 @@ class _SettingsState extends State<Settings> {
   Future<void> confirmOwnDrink() async {
     try {
       String name = nameController.text;
-      double volume = double.parse(volumeController.text);
-      double volumePart = double.parse(volumePartController.text);
-      ownBox.put("name", name);
-      ownBox.put("volumen", volume);
-      ownBox.put("volumenpart", volumePart);
+      saveNameId(dropdownValueOwn);
+      saveVolumeId(dropdownValueOwn);
+      saveVolumePartId(dropdownValueOwn);
+      saveIconId(dropdownValueOwn);
       print("Save successful: " + ownBox.toMap().toString());
       final SnackBar snackBar = SnackBar(
         content: Text('Getränk $name gespeichert'),
@@ -581,6 +633,158 @@ class _SettingsState extends State<Settings> {
       box.put("hour", hour);
       box.put("minute", minute);
     });
+  }
+
+  Future<void> changePreset(int iter) async {
+    setState(() {
+      volumeController.text = getVolumeId(iter).toString();
+      volumePartController.text = getVolumePartId(iter).toString();
+      nameController.text = getNameId(iter);
+      ownSE = calculateSE(getVolumePartId(iter), getVolumeId(iter));
+      dropdownValueIcon = getIconId(iter);
+    });
+  }
+
+  double calculateSE(double volumen, double volumePart) {
+    return (volumen * 0.8 * (volumePart / 1000)) / 2;
+  }
+
+  String getNameId(int id) {
+    switch (id) {
+      case 0:
+        return ownBox.get("name");
+      case 1:
+        return ownBox.get("name-1");
+      case 2:
+        return ownBox.get("name-2");
+      case 3:
+        return ownBox.get("name-3");
+      default:
+        return "Name";
+    }
+  }
+
+  int getIconId(int id) {
+    switch (id) {
+      case 0:
+        return ownBox.get("icon");
+      case 1:
+        return ownBox.get("icon-1");
+      case 2:
+        return ownBox.get("icon-2");
+      case 3:
+        return ownBox.get("icon-3");
+      default:
+        return 0;
+    }
+  }
+
+  double getVolumeId(int id) {
+    switch (id) {
+      case 0:
+        return ownBox.get("volumen") + 0.0;
+      case 1:
+        return ownBox.get("volumen-1") + 0.0;
+      case 2:
+        return ownBox.get("volumen-2") + 0.0;
+      case 3:
+        return ownBox.get("volumen-3") + 0.0;
+      default:
+        return 0;
+    }
+  }
+
+  double getVolumePartId(int id) {
+    switch (id) {
+      case 0:
+        return ownBox.get("volumenpart") + 0.0;
+      case 1:
+        return ownBox.get("volumenpart-1") + 0.0;
+      case 2:
+        return ownBox.get("volumenpart-2") + 0.0;
+      case 3:
+        return ownBox.get("volumenpart-3") + 0.0;
+      default:
+        return 0;
+    }
+  }
+
+  Future<void> saveNameId(int id) async {
+    switch (id) {
+      case 0:
+        ownBox.put("name", nameController.text);
+        break;
+      case 1:
+        ownBox.put("name-1", nameController.text);
+        break;
+      case 2:
+        ownBox.put("name-2", nameController.text);
+        break;
+      case 3:
+        ownBox.put("name-3", nameController.text);
+        break;
+      default:
+        break;
+    }
+  }
+
+  Future<void> saveIconId(int id) async {
+    switch (id) {
+      case 0:
+        ownBox.put("icon", dropdownValueIcon);
+        break;
+      case 1:
+        ownBox.put("icon-1", dropdownValueIcon);
+        break;
+      case 2:
+        ownBox.put("icon-2", dropdownValueIcon);
+        break;
+      case 3:
+        ownBox.put("icon-3", dropdownValueIcon);
+        break;
+      default:
+        break;
+    }
+  }
+
+  Future<void> saveVolumeId(int id) async {
+    double volumeEnd = double.parse(volumeController.text);
+    switch (id) {
+      case 0:
+        ownBox.put("volumen", volumeEnd);
+        break;
+      case 1:
+        ownBox.put("volumen-1", volumeEnd);
+        break;
+      case 2:
+        ownBox.put("volumen-2", volumeEnd);
+        break;
+      case 3:
+        ownBox.put("volumen-3", volumeEnd);
+        break;
+      default:
+        break;
+    }
+  }
+
+  Future<void> saveVolumePartId(int id) async {
+    double volumePartEnd = double.parse(volumePartController.text);
+    switch (id) {
+      case 0:
+        ownBox.put("volumenpart", volumePartEnd);
+        break;
+      case 1:
+        ownBox.put("volumenpart-1", volumePartEnd);
+        break;
+      case 2:
+        ownBox.put("volumenpart-2", volumePartEnd);
+        break;
+      case 3:
+        ownBox.put("volumenpart-3", volumePartEnd);
+        break;
+      default:
+        break;
+    }
   }
 
   Future<void> setBeginDate() async {

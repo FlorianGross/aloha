@@ -1,9 +1,10 @@
 import 'package:aloha/Modelle/Drinks.dart';
 import 'package:aloha/Modelle/Week.dart';
+import 'package:aloha/Widgets/addDrinkButton.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import '../Modelle/Drinks.dart';
+import 'SettingsPage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,13 +16,18 @@ class _HomePageState extends State<HomePage> {
   final settingsBox = Hive.box("settings");
   final ownBox = Hive.box("own");
   final drinkBox = Hive.box("drinks");
-  final snackBar = SnackBar(content: Text('Getränk hinzugefügt'));
   double? plannedForWeek = 0.0, usedThisWeek = 0.0, plannedDay = 0, usedDay = 0;
   bool fastAdd = false;
   late Week currentWeek;
 
   @override
   void initState() {
+    if (ownBox.get("name") == null ||
+        ownBox.get("name-1") == null ||
+        ownBox.get("name-2") == null ||
+        ownBox.get("name-3") == null) {
+      createOwnBox();
+    }
     try {
       weekTest();
       print("Current Week: " + box.getAt(box.length - 1).toString());
@@ -63,44 +69,129 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: EdgeInsets.only(top: height * 0.1),
-            child: Center(
-              child: Text(
-                usedDay!.toStringAsPrecision(2) +
-                    " / " +
-                    plannedDay!.toStringAsPrecision(2) +
-                    " Tage \n " +
-                    usedThisWeek!.toStringAsPrecision(2) +
-                    " / " +
-                    plannedForWeek!.toStringAsPrecision(2) +
-                    " SE",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: width * 0.07,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding:
+                    EdgeInsets.only(left: width * 0.05, right: width * .05),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Image(
+                      image: AssetImage('assets/bruecke-augsburg-logo.png'),
+                      width: width * 0.4,
+                      height: height * 0.1,
+                    ),
+                    GestureDetector(
+                      child: Icon(
+                        Icons.settings,
+                        size: height * 0.05,
+                      ),
+                      onTap: openSettings,
+                    )
+                  ],
                 ),
-                textAlign: TextAlign.center,
               ),
-            ),
+              Column(
+                children: [
+                  Text(
+                    "Tage: " +
+                        plannedDay!.toInt().toString() +
+                        "     SE: " +
+                        plannedForWeek!.toStringAsFixed(1),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: width * 0.09,
+                      color: Colors.green,
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red, width: 4),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Tage: " + usedDay!.toInt().toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: width * 0.09,
+                            color: Colors.red,
+                          ),
+                        ),
+                        Text(
+                          "    SE: " + usedThisWeek!.toStringAsFixed(1),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: width * 0.09,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
           GestureDetector(
             child: Image(
-              image: AssetImage('assets/AlohA_Logo.png'),
-              width: width * 0.6,
-              height: height * 0.6,
+              image: AssetImage('assets/Aloha-PNG.png'),
+              width: width * 0.4,
+              height: height * 0.3,
             ),
             onTap: () {
-              onTap(false);
+              onTap();
             },
           ),
-          ElevatedButton(
-              child: Text(
-                '\"${getName()}\" hinzufügen',
-                style: TextStyle(color: Colors.black),
+          Column(
+            children: [
+              Row(
+                children: [
+                  AddDrinkButton(
+                    id: 0,
+                    onTap: () {
+                      onTapId(0);
+                    },
+                    height: height * 0.15,
+                    width: width * 0.5,
+                  ),
+                  AddDrinkButton(
+                    onTap: () {
+                      onTapId(1);
+                    },
+                    id: 1,
+                    height: height * 0.15,
+                    width: width * 0.5,
+                  ),
+                ],
               ),
-              onPressed: () => onTap(true),
-              style: OutlinedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor)),
+              Row(
+                children: [
+                  AddDrinkButton(
+                    onTap: () {
+                      onTapId(2);
+                    },
+                    id: 2,
+                    height: height * 0.15,
+                    width: width * 0.5,
+                  ),
+                  AddDrinkButton(
+                    onTap: () {
+                      onTapId(3);
+                    },
+                    id: 3,
+                    height: height * 0.15,
+                    width: width * 0.5,
+                  ),
+                ],
+              )
+            ],
+          ),
         ],
       ),
     );
@@ -148,16 +239,16 @@ class _HomePageState extends State<HomePage> {
           DateTime.now().toString() +
           " - " +
           currentWeek.getEndTime().toString());
-      DateTime newStartDate = currentWeek.getStartDate().add(Duration(days: 7));
-      DateTime newEndDate = newStartDate.add(
-        Duration(
-          days: 7,
-        ),
-      );
+      DateTime newStartDate =
+          currentWeek.getEndTime().add(Duration(milliseconds: 1));
+      DateTime newEndDate = newStartDate.add(Duration(
+          days: 6,
+          hours: 23,
+          minutes: 59,
+          milliseconds: 999,
+          seconds: 59));
       double days = settingsBox.get("DaysForNextWeek");
-      int decrAmount = settingsBox.get("autoDecrAmount");
       double sePlanned = settingsBox.get("SEforNextWeek");
-      sePlanned -= decrAmount;
       if (sePlanned < 0) {
         sePlanned = 0;
       }
@@ -183,35 +274,115 @@ class _HomePageState extends State<HomePage> {
   }
 
   /// Erstellt entsprechend der Auswahl ein Getränk mit den FastAdd Eigenschaften oder öfnet die CameraPage
-  void onTap(bool fastAdd) {
-    if (!fastAdd) {
-      Navigator.of(context).pushNamed('/camera').then((value) => onComeBack());
-    } else {
-      try {
-        Drinks current = Drinks(
-          week: currentWeek.week,
-          session: getCurrentSession(),
-          name: getName(),
-          date: DateTime.now().millisecondsSinceEpoch,
-          volume: checkVolume(),
-          volumepart: checkVolumePart(),
-          uri: null,
-        );
-        drinkBox.add(current);
-        setState(() {
-          usedThisWeek = currentWeek.getSethisWeek();
-          usedDay = currentWeek.getUsedDays();
-        });
-        print("Added drink: " + current.toString());
-      } catch (e) {
-        print("Error saving preset: " + e.toString());
-      }
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  void onTap() {
+    Navigator.of(context).pushNamed('/camera').then((value) => onComeBack());
+  }
+
+  /// Öffnet das Einstellugnsmenu
+  Future<void> openSettings() async {
+    Navigator.push(
+      context,
+      new MaterialPageRoute(builder: (context) => Settings()),
+    );
+  }
+
+  String getNameId(int id) {
+    switch (id) {
+      case 0:
+        return ownBox.get("name");
+      case 1:
+        return ownBox.get("name-1");
+      case 2:
+        return ownBox.get("name-2");
+      case 3:
+        return ownBox.get("name-3");
+      default:
+        return "Name";
     }
+  }
+
+  double getVolumeId(int id) {
+    switch (id) {
+      case 0:
+        return ownBox.get("volumen") + 0.0;
+      case 1:
+        return ownBox.get("volumen-1") + 0.0;
+      case 2:
+        return ownBox.get("volumen-2") + 0.0;
+      case 3:
+        return ownBox.get("volumen-3") + 0.0;
+      default:
+        return 0.0;
+    }
+  }
+
+  double getVolumePartId(int id) {
+    switch (id) {
+      case 0:
+        return ownBox.get("volumenpart") + 0.0;
+      case 1:
+        return ownBox.get("volumenpart-1") + 0.0;
+      case 2:
+        return ownBox.get("volumenpart-2") + 0.0;
+      case 3:
+        return ownBox.get("volumenpart-3") + 0.0;
+      default:
+        return 0.0;
+    }
+  }
+
+  /// Erstellt getränk nach owndrink Nummer
+  void onTapId(int id) {
+    var name = getNameId(id);
+    var volumen = getVolumeId(id);
+    var volumenpart = getVolumePartId(id);
+    Drinks current = Drinks(
+      week: currentWeek.week,
+      session: getCurrentSession(),
+      name: name,
+      date: DateTime.now().millisecondsSinceEpoch,
+      volume: volumen,
+      volumepart: volumenpart,
+      uri: null,
+    );
+    drinkBox.add(current);
+    setState(() {
+      usedThisWeek = currentWeek.getSethisWeek();
+      usedDay = currentWeek.getUsedDays();
+    });
+    print("Added drink: " + current.toString());
+    var snackBar = SnackBar(content: Text('Getränk $name hinzugefügt'));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  void createOwnBox() {
+    /// Drink 0
+    ownBox.put("name", "Name");
+    ownBox.put("volumen", 500.0);
+    ownBox.put("volumenpart", 5.0);
+    ownBox.put("icon", 0);
+
+    /// Drink 1
+    ownBox.put("name-1", "Name-1");
+    ownBox.put("volumen-1", 500.0);
+    ownBox.put("volumenpart-1", 5.0);
+    ownBox.put("icon-1", 0);
+
+    /// Drink 2
+    ownBox.put("name-2", "Name-2");
+    ownBox.put("volumen-2", 500.0);
+    ownBox.put("volumenpart-2", 5.0);
+    ownBox.put("icon-2", 0);
+
+    /// Drink 3
+    ownBox.put("name-3", "Name-3");
+    ownBox.put("volumen-3", 500.0);
+    ownBox.put("volumenpart-3", 5.0);
+    ownBox.put("icon-3", 0);
   }
 }

@@ -2,5 +2,6 @@ dev_dependencies:
   flutter_launcher_icons:
 flutter_icons:
   android: "launcher_icon"
-  ios: true
-  image_path: "assets/AlohA_Logo.png"
+  ios: false
+  image_path: "assets/AlohA-PNG.png"
+  fullscreen: true

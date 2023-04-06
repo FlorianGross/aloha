@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
       body: tabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         enableFeedback: true,
-        iconSize: height * 0.05,
+        iconSize: height * 0.04,
         selectedLabelStyle: TextStyle(fontSize: width * 0.03),
         unselectedLabelStyle: TextStyle(fontSize: width * 0.03),
         currentIndex: _currentIndex,

@@ -172,7 +172,7 @@ class _GetraenkeListItemState extends State<GetraenkeListItem> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    _image = currentDrink!.getImage(height * 0.07, width * 0.16, width * 0.16);
+    _image = currentDrink!.getImage(height * 0.06, width * 0.15, width * 0.15);
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
