@@ -138,6 +138,19 @@ class _SessionPageState extends State<SessionPage> {
               ),
             ),
           ),
+          Card(
+            child: ElevatedButton(
+              onPressed: () {
+               startWeekNow();
+              },
+              child: Text(
+                "Woche jetzt Starten",
+                style: TextStyle(color: Colors.black),
+              ),
+              style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).primaryColor),
+            ),
+          )
         ],
       ),
     );
@@ -229,5 +242,52 @@ class _SessionPageState extends State<SessionPage> {
     _pageController.dispose();
     _currentPageNotifier.dispose();
     super.dispose();
+  }
+
+  Future<void> startWeekNow() async {
+    Week currentWeek = box.getAt(box.length -1) as Week;
+    print(currentWeek.getEndTime());
+    DateTime now = DateTime.now();
+    DateTime todayZeroAM = new DateTime(now.year, now.month, now.day - 1, 0, 0, 0, 0, 0);
+    currentWeek.endDate = todayZeroAM.millisecondsSinceEpoch;
+    print(currentWeek.getEndTime());
+    await box.putAt(box.length - 1, currentWeek);
+    await weekTest();
+  }
+  Future<void> weekTest() async {
+    Week currentWeek = box.getAt(box.length - 1);
+    int now = DateTime.now().millisecondsSinceEpoch;
+    print(DateTime.now().toString() +
+        " - " +
+        currentWeek.getEndTime().toString());
+    while (now > currentWeek.endDate!) {
+      print("WeekTest: " +
+          DateTime.now().toString() +
+          " - " +
+          currentWeek.getEndTime().toString());
+      DateTime newStartDate =
+      currentWeek.getEndTime().add(Duration(milliseconds: 1));
+      DateTime newEndDate = newStartDate.add(Duration(
+          days: 6,
+          hours: 23,
+          minutes: 59,
+          milliseconds: 999,
+          seconds: 59));
+      double days = settingsBox.get("DaysForNextWeek");
+      double sePlanned = settingsBox.get("SEforNextWeek");
+      if (sePlanned < 0) {
+        sePlanned = 0;
+      }
+      Week newWeek = Week(
+          plannedDay: days,
+          plannedSE: sePlanned,
+          week: box.length,
+          startdate: newStartDate.millisecondsSinceEpoch,
+          endDate: newEndDate.millisecondsSinceEpoch - 1);
+      box.add(newWeek);
+      settingsBox.put("SEforNextWeek", sePlanned);
+      currentWeek = box.getAt(box.length - 1);
+      print("New Week Added: " + newWeek.toString());
+    }
   }
 }

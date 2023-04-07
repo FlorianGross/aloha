@@ -1,5 +1,6 @@
-import 'package:aloha/Classification/Classifier.dart';
-import 'package:aloha/Classification/ClassifierQuant.dart';
+import 'dart:ffi';
+import 'dart:math';
+
 import 'package:aloha/Classification/Utility.dart';
 import 'package:aloha/Modelle/Drinks.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as img;
-import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 import 'dart:io' as Io;
 import '../BrueckeIcons.dart';
 import '../Modelle/Drinks.dart';
@@ -40,10 +40,8 @@ class _CameraState extends State<Camera> {
   double _currentSliderValuePart = 0.5;
   IconData getraenkIcon = BrueckeIcons.beer_1;
   double lowValue = 0.2, mediumValue = 0.3, largeValue = 0.5, xLargeValue = 1;
-  late Classifier _classifier;
   Image? _imageWidget;
   img.Image? fox;
-  Category? category;
   String? dropdownValue = 'Keins';
   List dropdownItems = <String>[
     'Keins',
@@ -88,7 +86,6 @@ class _CameraState extends State<Camera> {
 
   @override
   void initState() {
-    _classifier = ClassifierQuant();
     smallButtonStyle = buttonUnselected;
     mediumButtonStyle = buttonUnselected;
     largeButtonStyle = buttonSelected;
@@ -609,11 +606,7 @@ class _CameraState extends State<Camera> {
   Future<void> _predict() async {
     print("Started predicting Image");
     img.Image imageInput = img.decodeImage(_image!.readAsBytesSync())!;
-    var prediction = _classifier.predict(imageInput);
-    setState(() {
-      this.category = prediction;
-      checkPred(prediction);
-    });
+    checkPred();
   }
 
   /// Speichert das erstellte Getränk in der Hive DB
@@ -637,77 +630,18 @@ class _CameraState extends State<Camera> {
   }
 
   /// Überprüft die Prediction des ML Prozesses und stellt entsprechendes Element im Dropdown Menu ein
-  Future<void> checkPred(Category pred) async {
-    switch (pred.label) {
-      case "Bierflasche":
-        setState(() {
-          dropdownValue = "Bier";
-          getraenkIcon = BrueckeIcons.beer_1;
-          largeButtonStyle = buttonSelected;
-          selectedButton = 2;
-          lowValue = 0.2;
-          mediumValue = 0.3;
-          largeValue = 0.5;
-          xLargeValue = 1;
-          _currentSliderValue = 5;
-        });
-        break;
-      case "Bier":
-        setState(() {
-          dropdownValue = "Bier";
-          getraenkIcon = BrueckeIcons.beer_1;
-          largeButtonStyle = buttonSelected;
-          selectedButton = 2;
-          lowValue = 0.2;
-          mediumValue = 0.3;
-          largeValue = 0.5;
-          _currentSliderValue = 5;
-          xLargeValue = 1;
-        });
-        break;
-      case "Weinflasche":
-        setState(() {
-          dropdownValue = "Wein";
-          getraenkIcon = BrueckeIcons.wine_glass;
-          xlargeButtonStyle = buttonSelected;
-          selectedButton = 3;
-          lowValue = 0.1;
-          mediumValue = 0.2;
-          largeValue = 0.75;
-          xLargeValue = 1;
-          _currentSliderValue = 12;
-        });
-        break;
-      case "Wein":
-        setState(() {
-          dropdownValue = "Wein";
-          getraenkIcon = BrueckeIcons.wine_glass;
-          mediumButtonStyle = buttonSelected;
-          selectedButton = 2;
-          lowValue = 0.1;
-          mediumValue = 0.2;
-          largeValue = 0.75;
-          xLargeValue = 1;
-          _currentSliderValue = 12;
-        });
-        break;
-      case "Schnaps":
-        setState(() {
-          dropdownValue = "Schnaps";
-          getraenkIcon = BrueckeIcons.glass;
-          mediumButtonStyle = buttonSelected;
-          selectedButton = 2;
-          lowValue = 0.02;
-          mediumValue = 0.2;
-          largeValue = 0.7;
-          xLargeValue = 1;
-          _currentSliderValue = 40;
-        });
-        break;
-      default:
-        dropdownValue = "Keins";
-        break;
-    }
+  Future<void> checkPred() async {
+    setState(() {
+      dropdownValue = "Bier";
+      getraenkIcon = BrueckeIcons.beer_1;
+      largeButtonStyle = buttonSelected;
+      selectedButton = 2;
+      lowValue = 0.2;
+      mediumValue = 0.3;
+      largeValue = 0.5;
+      xLargeValue = 1;
+      _currentSliderValue = 5;
+    });
   }
 
   /// Überprüft die Auswahl des Dropdown Menus und gibt entsprechend den Wert der Auswahl zurück

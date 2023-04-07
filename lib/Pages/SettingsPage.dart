@@ -551,7 +551,8 @@ class _SettingsState extends State<Settings> {
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Row(
+                  child: Column(
+                    children: [Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Wochenbeginn: "),
@@ -582,7 +583,8 @@ class _SettingsState extends State<Settings> {
                             primary: Theme.of(context).primaryColor),
                       ),
                     ],
-                  ),
+                  ),]
+                  )
                 ),
               ),
             ],
