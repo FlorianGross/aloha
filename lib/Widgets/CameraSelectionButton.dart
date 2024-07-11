@@ -32,7 +32,7 @@ class _CameraSelectionButtonState extends State<CameraSelectionButton> {
             width: 4,
             color: Colors.black,
           ),
-          primary: SetupSettings().primary,
+          foregroundColor: SetupSettings().primary,
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           backgroundColor: SetupSettings().primary),
@@ -41,7 +41,7 @@ class _CameraSelectionButtonState extends State<CameraSelectionButton> {
             width: 4,
             color: Colors.black,
           ),
-          primary: Colors.white,
+          foregroundColor: Colors.white,
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           backgroundColor: Colors.white30);

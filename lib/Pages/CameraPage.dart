@@ -70,7 +70,7 @@ class _CameraState extends State<Camera> {
             width: 4,
             color: Colors.black,
           ),
-          primary: SetupSettings().primary,
+          foregroundColor: SetupSettings().primary,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           backgroundColor: SetupSettings().primary),
@@ -79,7 +79,7 @@ class _CameraState extends State<Camera> {
             width: 4,
             color: Colors.black,
           ),
-          primary: Colors.white,
+          foregroundColor: Colors.white,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           backgroundColor: Colors.white10);
@@ -534,7 +534,7 @@ class _CameraState extends State<Camera> {
               ElevatedButton(
                 style: OutlinedButton.styleFrom(
                     backgroundColor: Theme.of(context).primaryColor,
-                    primary: Colors.black),
+                    foregroundColor: Colors.black),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -546,8 +546,7 @@ class _CameraState extends State<Camera> {
               ),
               ElevatedButton(
                 style: OutlinedButton.styleFrom(
-                    backgroundColor: Theme.of(context).primaryColor,
-                    primary: Colors.black),
+                    foregroundColor: Colors.black, backgroundColor: Theme.of(context).primaryColor),
                 onPressed: () {
                   getImage();
                 },
@@ -562,7 +561,7 @@ class _CameraState extends State<Camera> {
                 child: ElevatedButton(
                   style: OutlinedButton.styleFrom(
                       backgroundColor: Theme.of(context).primaryColor,
-                      primary: Colors.black),
+                      foregroundColor: Colors.black),
                   onPressed: () {
                     save(context);
                   },

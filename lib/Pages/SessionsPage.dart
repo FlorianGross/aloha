@@ -133,7 +133,7 @@ class _SessionPageState extends State<SessionPage> {
                         style: TextStyle(color: Colors.black),
                       ),
                       style: ElevatedButton.styleFrom(
-                          primary: Theme.of(context).primaryColor)),
+                          foregroundColor: Theme.of(context).primaryColor)),
                 ],
               ),
             ),
@@ -148,7 +148,7 @@ class _SessionPageState extends State<SessionPage> {
                 style: TextStyle(color: Colors.black),
               ),
               style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).primaryColor),
+                  foregroundColor: Theme.of(context).primaryColor),
             ),
           )
         ],

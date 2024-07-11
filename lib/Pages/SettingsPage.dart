@@ -134,7 +134,7 @@ class _SettingsState extends State<Settings> {
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).primaryColor),
+                        foregroundColor: Theme.of(context).primaryColor),
                     child: Icon(
                       Icons.arrow_back,
                       color: Colors.black,
@@ -309,7 +309,7 @@ class _SettingsState extends State<Settings> {
                                 ),
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                      primary: Theme.of(context).primaryColor),
+                                      foregroundColor: Theme.of(context).primaryColor),
                                   child: Text(
                                     "Uhrzeit wählen: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}",
                                     style: TextStyle(
@@ -523,7 +523,7 @@ class _SettingsState extends State<Settings> {
                       Divider(),
                       ElevatedButton(
                         style: OutlinedButton.styleFrom(
-                            primary: Colors.black,
+                            foregroundColor: Colors.black,
                             backgroundColor: Theme.of(context).primaryColor,
                             alignment: Alignment.center),
                         child: Text(
@@ -580,7 +580,7 @@ class _SettingsState extends State<Settings> {
                           style: TextStyle(color: Colors.black),
                         ),
                         style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context).primaryColor),
+                            foregroundColor: Theme.of(context).primaryColor),
                       ),
                     ],
                   ),]

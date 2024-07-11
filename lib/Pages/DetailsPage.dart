@@ -68,7 +68,7 @@ class _DetailsTabState extends State<DetailsTab> {
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: Theme.of(context).primaryColor),
+                        foregroundColor: Theme.of(context).primaryColor),
                     child: Icon(
                       PlatformIcons(context).leftChevron,
                       color: Colors.black,
@@ -210,7 +210,7 @@ class _DetailsTabState extends State<DetailsTab> {
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context).primaryColor),
+                            foregroundColor: Theme.of(context).primaryColor),
                         child: Text(
                           buttonText,
                           style: TextStyle(
@@ -249,7 +249,7 @@ class _DetailsTabState extends State<DetailsTab> {
                       Divider(),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context).primaryColor),
+                            foregroundColor: Theme.of(context).primaryColor),
                         child: Icon(
                           PlatformIcons(context).delete,
                           color: Colors.black,

@@ -14,10 +14,8 @@ class SetupSettings {
   ThemeData getMaterialDayTheme() {
     return ThemeData(
       brightness: Brightness.light,
-      colorScheme: ColorScheme.light(),
       primaryColor: primary,
       fontFamily: "Roboto",
-      backgroundColor: primaryAccent,
       cardTheme: CardTheme(color: Colors.white60),
       scaffoldBackgroundColor: Colors.white,
       textSelectionTheme: TextSelectionThemeData(
@@ -47,17 +45,15 @@ class SetupSettings {
         border: OutlineInputBorder(
           borderSide: BorderSide(color: primary),
         ),
-      ),
+      ), colorScheme: ColorScheme.light().copyWith(background: primaryAccent),
     );
   }
 
   ThemeData getMaterialNightTheme() {
     return ThemeData(
       brightness: Brightness.dark,
-      colorScheme: ColorScheme.dark(),
       primaryColor: primary,
       fontFamily: "Roboto",
-      backgroundColor: primaryAccent,
       indicatorColor: primary,
       cardTheme: CardTheme(color: Colors.black12),
       scaffoldBackgroundColor: Colors.grey.shade900,
@@ -88,7 +84,7 @@ class SetupSettings {
         border: OutlineInputBorder(
           borderSide: BorderSide(color: primary),
         ),
-      ),
+      ), colorScheme: ColorScheme.dark().copyWith(background: primaryAccent),
     );
   }
 }

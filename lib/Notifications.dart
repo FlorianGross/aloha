@@ -27,7 +27,7 @@ class LocalNotifyManager {
 
   void initializePlatform() {
     var androidInitilize = new AndroidInitializationSettings('alcoly_logo');
-    var iOSinitilize = new IOSInitializationSettings(
+    var iOSinitilize = new DarwinInitializationSettings(
         requestAlertPermission: true,
         requestBadgePermission: true,
         requestSoundPermission: true,
@@ -49,18 +49,18 @@ class LocalNotifyManager {
 
   setOnNotificationClick(Function onNotificationClick) async {
     await flutterLocalNotificationsPlugin.initialize(initializationsSettings,
-        onSelectNotification: (payload) async {
-      onNotificationClick(payload);
+        onDidReceiveNotificationResponse: (response) {
+      onNotificationClick(response.payload);
     });
   }
 
   Future<void> showNotification() async {
     var androidChannel = AndroidNotificationDetails(
-        "CHANNEL_ID", "CHANNEL_NAME", "CHANNEL_DESCRIPTION",
+        "CHANNEL_ID", "CHANNEL_NAME",
         importance: Importance.max,
         priority: Priority.high,
         icon: 'alcoly_logo');
-    var iosChannel = IOSNotificationDetails();
+    var iosChannel = DarwinNotificationDetails();
     var platformChannel =
         NotificationDetails(android: androidChannel, iOS: iosChannel);
     await flutterLocalNotificationsPlugin.show(
@@ -86,12 +86,11 @@ class LocalNotifyManager {
     var androidChannel = AndroidNotificationDetails(
       "CHANNEL_ID",
       "CHANNEL_NAME",
-      "CHANNEL_DESCRIPTION",
       importance: Importance.max,
       priority: Priority.high,
       icon: 'alcoly_logo',
     );
-    var iosChannel = IOSNotificationDetails();
+    var iosChannel = DarwinNotificationDetails();
     var platformChannel =
         NotificationDetails(android: androidChannel, iOS: iosChannel);
     await flutterLocalNotificationsPlugin.zonedSchedule(
@@ -122,12 +121,11 @@ class LocalNotifyManager {
     var androidChannel = AndroidNotificationDetails(
       "CHANNEL_ID",
       "CHANNEL_NAME",
-      "CHANNEL_DESCRIPTION",
       importance: Importance.max,
       priority: Priority.high,
       icon: 'alcoly_logo',
     );
-    var iosChannel = IOSNotificationDetails();
+    var iosChannel = DarwinNotificationDetails();
     var platformChannel =
         NotificationDetails(android: androidChannel, iOS: iosChannel);
     await flutterLocalNotificationsPlugin.zonedSchedule(
