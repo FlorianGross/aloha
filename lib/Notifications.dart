@@ -27,17 +27,24 @@ class LocalNotifyManager {
 
   void initializePlatform() {
     var androidInitilize = new AndroidInitializationSettings('alcoly_logo');
-    var iOSinitilize = new DarwinInitializationSettings(
+    var iosInitilize = new DarwinInitializationSettings(
         requestAlertPermission: true,
         requestBadgePermission: true,
         requestSoundPermission: true,
+    );
+    /*
         onDidReceiveLocalNotification: (id, title, body, payload) async {
           RecieveNotification notification = RecieveNotification(
               id: id, title: title!, body: body!, payload: payload!);
           didRecieveLocalNotificationSubject.add(notification);
         });
+
+
+     */
+
+
     initializationsSettings = new InitializationSettings(
-        android: androidInitilize, iOS: iOSinitilize);
+        android: androidInitilize, iOS: iosInitilize);
     flutterLocalNotificationsPlugin.initialize(initializationsSettings);
   }
 
@@ -99,11 +106,9 @@ class LocalNotifyManager {
       "Hast du heute vor etwas zu trinken? - Scannen nicht vergessen!",
       dateTime,
       platformChannel,
-      androidAllowWhileIdle: true,
       matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
       payload: "New Payload",
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
+    androidScheduleMode: AndroidScheduleMode.exact
     );
     print("Notification setup: $day $hour:$minute : " + dateTime.toString());
   }
@@ -134,10 +139,8 @@ class LocalNotifyManager {
       "Hast du heute vor etwas zu trinken? - Scannen nicht vergessen!",
       dateTime,
       platformChannel,
-      androidAllowWhileIdle: true,
       payload: "New Payload",
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
+      androidScheduleMode: AndroidScheduleMode.exact
     );
     print("Notification setup: $day $hour:$minute : " + dateTime.toString());
   }

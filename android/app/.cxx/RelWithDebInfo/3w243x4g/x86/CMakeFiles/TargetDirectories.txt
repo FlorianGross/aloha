@@ -1,0 +1,2 @@
+G:/aloha/android/app/.cxx/RelWithDebInfo/3w243x4g/x86/CMakeFiles/edit_cache.dir
+G:/aloha/android/app/.cxx/RelWithDebInfo/3w243x4g/x86/CMakeFiles/rebuild_cache.dir

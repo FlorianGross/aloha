@@ -37,7 +37,6 @@ class _FirstStartPageState extends State<FirstStartPage> {
   String dropdownValue = "Mo";
   final dayList = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
-
   @override
   void initState() {
     moBut = unselected;
@@ -125,7 +124,8 @@ class _FirstStartPageState extends State<FirstStartPage> {
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text("Wochenbeginn: "),
+                        children: [
+                          Text("Wochenbeginn: "),
                           DropdownButton(
                             onChanged: (String? value) {
                               setState(() {
@@ -155,7 +155,7 @@ class _FirstStartPageState extends State<FirstStartPage> {
                           PlatformSwitch(
                               cupertino: (context, platform) =>
                                   CupertinoSwitchData(
-                                      activeColor:
+                                      focusColor:
                                           Theme.of(context).primaryColor),
                               activeColor: Theme.of(context).primaryColor,
                               value: notificationsOn,
@@ -309,7 +309,6 @@ class _FirstStartPageState extends State<FirstStartPage> {
       ownBox.put("volumenpart-3", 5.0);
       ownBox.put("icon-3", 0);
 
-
       DateTime startDate = settingsBox.get("firstStartDate");
 
       int days = getDaystilStart();
@@ -442,19 +441,34 @@ class _FirstStartPageState extends State<FirstStartPage> {
 
   int getDaystilStart() {
     int weekday = 0;
-    switch(dropdownValue){
-      case "Mo": weekday = 1; break;
-      case "Di": weekday = 2; break;
-      case "Mi": weekday = 3; break;
-      case "Do": weekday = 4; break;
-      case "Fr": weekday = 5; break;
-      case "Sa": weekday = 6; break;
-      case "So": weekday = 7; break;
-      default: break;
+    switch (dropdownValue) {
+      case "Mo":
+        weekday = 1;
+        break;
+      case "Di":
+        weekday = 2;
+        break;
+      case "Mi":
+        weekday = 3;
+        break;
+      case "Do":
+        weekday = 4;
+        break;
+      case "Fr":
+        weekday = 5;
+        break;
+      case "Sa":
+        weekday = 6;
+        break;
+      case "So":
+        weekday = 7;
+        break;
+      default:
+        break;
     }
     DateTime now = DateTime.now();
     int iterator = 0;
-    while(now.weekday != weekday){
+    while (now.weekday != weekday) {
       iterator++;
       now = now.add(Duration(days: 1));
       print(now.toString());
@@ -465,14 +479,21 @@ class _FirstStartPageState extends State<FirstStartPage> {
 
   String setWeekStart(DateTime firstStart) {
     int weekday = firstStart.weekday;
-    switch(weekday){
-      case 1: return "Mo";
-      case 2: return "Di";
-      case 3: return "Mi";
-      case 4: return "Do";
-      case 5: return "Fr";
-      case 6: return "Sa";
-      case 7: return "So";
+    switch (weekday) {
+      case 1:
+        return "Mo";
+      case 2:
+        return "Di";
+      case 3:
+        return "Mi";
+      case 4:
+        return "Do";
+      case 5:
+        return "Fr";
+      case 6:
+        return "Sa";
+      case 7:
+        return "So";
     }
     return "Mo";
   }
