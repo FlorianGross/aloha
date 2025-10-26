@@ -18,12 +18,16 @@ class _FirstStartPageState extends State<FirstStartPage> {
   final settingsBox = Hive.box("settings");
   final ownBox = Hive.box("own");
   final weekBox = Hive.box("Week");
-  TextEditingController seFirstWeek = TextEditingController(text: "0"),
-      consumptionDays = TextEditingController(text: "0");
+
+  TextEditingController seFirstWeek = TextEditingController(text: "0");
+  TextEditingController consumptionDays = TextEditingController(text: "0");
+
   bool notificationsOn = false;
   int hour = 12, minute = 00;
+
   Color selected = Colors.yellow, unselected = Colors.black38;
   Color? moBut, diBut, miBut, doBut, frBut, saBut, soBut;
+
   bool isMoBut = false,
       isDiBut = false,
       isMiBut = false,
@@ -31,9 +35,11 @@ class _FirstStartPageState extends State<FirstStartPage> {
       isFrBut = false,
       isSaBut = false,
       isSoBut = false;
+
   double autoDecrAmount = 0.0;
   double seFirstWeekDouble = 0.0;
   double consumptionDaysDouble = 0.0;
+
   String dropdownValue = "Mo";
   final dayList = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
@@ -46,223 +52,267 @@ class _FirstStartPageState extends State<FirstStartPage> {
     frBut = unselected;
     saBut = unselected;
     soBut = unselected;
+
     DateTime firstStart = settingsBox.get("firstStartDate");
     dropdownValue = setWeekStart(firstStart);
+
     super.initState();
     print("FirstStartPage initialized");
   }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    final width  = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    final primary = Theme.of(context).primaryColor;
+
     return Scaffold(
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Center(
-              child: Image(
-                image: AssetImage('assets/Aloha-PNG.png'),
-                width: 244,
-                height: 244,
-              ),
+      body: SafeArea(
+        child: ListView(
+          padding: EdgeInsets.all(width * 0.05),
+          children: [
+            // Logo / Header
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage('assets/Aloha-PNG.png'),
+                  width: width * 0.5,
+                  height: width * 0.5,
+                ),
+                SizedBox(height: 16),
+              ],
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              color: Colors.black38,
+
+            // Abschnitt: Zielwerte Woche 1
+            Card(
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(width * 0.04),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("SE für die erste Woche:"),
-                        SizedBox(
-                          height: 50,
-                          width: 150,
-                          child: TextField(
-                            controller: seFirstWeek,
-                            keyboardType: TextInputType.number,
-                            maxLength: 5,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r"^\d*\.?\d*"))
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Konsumtage: "),
-                          SizedBox(
-                            height: 50,
-                            width: 150,
-                            child: TextField(
-                              controller: consumptionDays,
-                              keyboardType: TextInputType.number,
-                              maxLength: 1,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(r"[0-7]"))
-                              ],
-                            ),
-                          ),
-                        ],
+                    Text(
+                      "Plan für die erste Woche",
+                      style: TextStyle(
+                        fontSize: width * 0.045,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 8.0,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Wochenbeginn: "),
-                          DropdownButton(
-                            onChanged: (String? value) {
-                              setState(() {
-                                dropdownValue = value!;
-                              });
-                            },
-                            value: dropdownValue,
-                            items: dayList
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                          ),
-                        ],
+                    SizedBox(height: 12),
+                    _LabeledNumberField(
+                      label: "SE gesamt",
+                      hint: "z.B. 12.5",
+                      controller: seFirstWeek,
+                      maxLength: 5,
+                      width: width,
+                      suffix: "SE",
+                      keyboardType: TextInputType.number,
+                      formatter: FilteringTextInputFormatter.allow(
+                        RegExp(r"^\d*\.?\d*"),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 8.0,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Benachrichtigungen: "),
-                          PlatformSwitch(
-                              cupertino: (context, platform) =>
-                                  CupertinoSwitchData(
-                                      focusColor:
-                                          Theme.of(context).primaryColor),
-                              activeColor: Theme.of(context).primaryColor,
-                              value: notificationsOn,
-                              onChanged: (value) {
-                                setState(() {
-                                  notificationsOn = value;
-                                });
-                              }),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: height * 0.02),
-                      child: Visibility(
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                DayButton(
-                                    fontSize: width * 0.06,
-                                    onTab: (val) {
-                                      isMoBut = val;
-                                    },
-                                    size: 50,
-                                    weekday: "Mo"),
-                                DayButton(
-                                    fontSize: width * 0.06,
-                                    onTab: (value) {
-                                      isDiBut = value;
-                                    },
-                                    size: 50,
-                                    weekday: "Di"),
-                                DayButton(
-                                    fontSize: width * 0.06,
-                                    onTab: (value) {
-                                      isMiBut = value;
-                                    },
-                                    size: 50,
-                                    weekday: "Mi"),
-                                DayButton(
-                                    fontSize: width * 0.06,
-                                    onTab: (val) {
-                                      isDoBut = val;
-                                    },
-                                    size: 50,
-                                    weekday: "Do"),
-                                DayButton(
-                                    fontSize: width * 0.06,
-                                    onTab: (val) {
-                                      isFrBut = val;
-                                    },
-                                    size: 50,
-                                    weekday: "Fr"),
-                                DayButton(
-                                    fontSize: width * 0.06,
-                                    onTab: (val) {
-                                      isSaBut = val;
-                                    },
-                                    size: 50,
-                                    weekday: "Sa"),
-                                DayButton(
-                                    fontSize: width * 0.06,
-                                    onTab: (val) {
-                                      isSoBut = val;
-                                    },
-                                    size: 50,
-                                    weekday: "So"),
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: ElevatedButton(
-                                  child: Text(
-                                    "Uhrzeit wählen: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}",
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  onPressed: () => pickTime(context)),
-                            ),
-                          ],
-                        ),
-                        visible: notificationsOn,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            foregroundColor: Theme.of(context).primaryColor),
-                        onPressed: () => onPressed(),
-                        child: Text(
-                          "Speichern",
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                        ),
+                    SizedBox(height: 12),
+                    _LabeledNumberField(
+                      label: "Konsumtage",
+                      hint: "0 - 7",
+                      controller: consumptionDays,
+                      maxLength: 1,
+                      width: width,
+                      suffix: "Tage",
+                      keyboardType: TextInputType.number,
+                      formatter: FilteringTextInputFormatter.allow(
+                        RegExp(r"[0-7]"),
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-          ),
-          Center(
-              child: Text("Erster Start: " +
-                  settingsBox.get("firstStartDate").toString())),
-        ],
+
+            SizedBox(height: 16),
+
+            // Abschnitt: Benachrichtigungen
+            Card(
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(width * 0.04),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Header + Switch
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Benachrichtigungen",
+                          style: TextStyle(
+                            fontSize: width * 0.045,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        PlatformSwitch(
+                          activeColor: primary,
+                          value: notificationsOn,
+                          onChanged: (value) {
+                            setState(() {
+                              notificationsOn = value;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(height: 12),
+
+                    AnimatedCrossFade(
+                      crossFadeState: notificationsOn
+                          ? CrossFadeState.showFirst
+                          : CrossFadeState.showSecond,
+                      duration: Duration(milliseconds: 200),
+                      firstChild: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          // Wochentage Auswahl
+                          Text(
+                            "Erinnerungstage",
+                            style: TextStyle(
+                              fontSize: width * 0.04,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey.shade300,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Wrap(
+                            alignment: WrapAlignment.spaceBetween,
+                            runSpacing: 8,
+                            spacing: 8,
+                            children: [
+                              DayButton(
+                                weekday: "Mo",
+                                size: width * 0.12,
+                                fontSize: width * 0.04,
+                                onTab: (val) {
+                                  isMoBut = val;
+                                },
+                              ),
+                              DayButton(
+                                weekday: "Di",
+                                size: width * 0.12,
+                                fontSize: width * 0.04,
+                                onTab: (val) {
+                                  isDiBut = val;
+                                },
+                              ),
+                              DayButton(
+                                weekday: "Mi",
+                                size: width * 0.12,
+                                fontSize: width * 0.04,
+                                onTab: (val) {
+                                  isMiBut = val;
+                                },
+                              ),
+                              DayButton(
+                                weekday: "Do",
+                                size: width * 0.12,
+                                fontSize: width * 0.04,
+                                onTab: (val) {
+                                  isDoBut = val;
+                                },
+                              ),
+                              DayButton(
+                                weekday: "Fr",
+                                size: width * 0.12,
+                                fontSize: width * 0.04,
+                                onTab: (val) {
+                                  isFrBut = val;
+                                },
+                              ),
+                              DayButton(
+                                weekday: "Sa",
+                                size: width * 0.12,
+                                fontSize: width * 0.04,
+                                onTab: (val) {
+                                  isSaBut = val;
+                                },
+                              ),
+                              DayButton(
+                                weekday: "So",
+                                size: width * 0.12,
+                                fontSize: width * 0.04,
+                                onTab: (val) {
+                                  isSoBut = val;
+                                },
+                              ),
+                            ],
+                          ),
+
+                          SizedBox(height: 16),
+
+                          // Uhrzeit-Button
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: primary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                vertical: 12,
+                                horizontal: 16,
+                              ),
+                            ),
+                            onPressed: () => pickTime(context),
+                            child: Text(
+                              "Uhrzeit wählen: ${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: width * 0.04,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      secondChild: SizedBox.shrink(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            SizedBox(height: 16),
+
+            // Speichern-Button (volle Breite)
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: EdgeInsets.symmetric(
+                  vertical: 14,
+                ),
+              ),
+              onPressed: () => onPressed(),
+              child: Text(
+                "Speichern & Starten",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: width * 0.045,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+
+            SizedBox(height: height * 0.05),
+          ],
+        ),
       ),
     );
   }
@@ -285,32 +335,28 @@ class _FirstStartPageState extends State<FirstStartPage> {
       settingsBox.put("hour", hour);
       settingsBox.put("minute", minute);
 
-      /// Drink 0
+      /// Presets definieren
       ownBox.put("name", "Name");
       ownBox.put("volumen", 500.0);
       ownBox.put("volumenpart", 5.0);
       ownBox.put("icon", 0);
 
-      /// Drink 1
       ownBox.put("name-1", "Name-1");
       ownBox.put("volumen-1", 500.0);
       ownBox.put("volumenpart-1", 5.0);
       ownBox.put("icon-1", 0);
 
-      /// Drink 2
       ownBox.put("name-2", "Name-2");
       ownBox.put("volumen-2", 500.0);
       ownBox.put("volumenpart-2", 5.0);
       ownBox.put("icon-2", 0);
 
-      /// Drink 3
       ownBox.put("name-3", "Name-3");
       ownBox.put("volumen-3", 500.0);
       ownBox.put("volumenpart-3", 5.0);
       ownBox.put("icon-3", 0);
 
       DateTime startDate = settingsBox.get("firstStartDate");
-
       int days = getDaystilStart();
 
       Week firstWeek = Week(
@@ -318,34 +364,41 @@ class _FirstStartPageState extends State<FirstStartPage> {
         week: 0,
         endDate: startDate
             .add(Duration(
-                days: days,
-                hours: 23,
-                minutes: 59,
-                milliseconds: 999,
-                seconds: 59))
+          days: days,
+          hours: 23,
+          minutes: 59,
+          milliseconds: 999,
+          seconds: 59,
+        ))
             .millisecondsSinceEpoch,
         plannedDay: consumptionDaysDouble,
         startdate: startDate.millisecondsSinceEpoch,
       );
       weekBox.add(firstWeek);
+
       print(weekBox.getAt(0).toString());
+
       await setupNotifications();
+
       settingsBox.put("firstStart", false);
       print("Save standard Settings: " + settingsBox.toMap().toString());
+
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MyApp(),
-          ));
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyApp(),
+        ),
+      );
     } catch (e) {
       print("Error: " + e.toString());
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Fehler bei der Eingabe"),
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Fehler bei der Eingabe"),
+        ),
+      );
     }
   }
 
-  /// Setzt die eingestellten Benachrichtigungen
   Future<void> setupNotifications() async {
     LocalNotifyManager manager = LocalNotifyManager.init();
     if (isMoBut) {
@@ -369,12 +422,11 @@ class _FirstStartPageState extends State<FirstStartPage> {
     if (isSoBut) {
       await manager.scheduleNotificationNew(7, hour, minute);
     }
-    // await manager.scheduleNotificationOnce(DateTime.now().weekday, hour, minute);
+
     settingsBox.put(hour, hour);
     settingsBox.put(minute, minute);
   }
 
-  /// Öffnet das TimePicker popup
   Future<void> pickTime(BuildContext context) async {
     var platform = Theme.of(context).platform;
 
@@ -408,11 +460,9 @@ class _FirstStartPageState extends State<FirstStartPage> {
                   mode: CupertinoDatePickerMode.time,
                   initialDateTime: DateTime(0, 0, hour, minute),
                   onDateTimeChanged: (val) {
-                    setState(
-                      () {
-                        newTime = val;
-                      },
-                    );
+                    setState(() {
+                      newTime = val;
+                    });
                   },
                 ),
               ),
@@ -496,5 +546,74 @@ class _FirstStartPageState extends State<FirstStartPage> {
         return "So";
     }
     return "Mo";
+  }
+}
+
+/// Hilfs-Widget: Label links, kompakter Number-TextField rechts
+class _LabeledNumberField extends StatelessWidget {
+  final String label;
+  final String hint;
+  final String suffix;
+  final TextEditingController controller;
+  final int maxLength;
+  final TextInputType keyboardType;
+  final TextInputFormatter formatter;
+  final double width;
+
+  const _LabeledNumberField({
+    Key? key,
+    required this.label,
+    required this.hint,
+    required this.controller,
+    required this.maxLength,
+    required this.keyboardType,
+    required this.formatter,
+    required this.width,
+    this.suffix = "",
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        // Label
+        Expanded(
+          flex: 1,
+          child: Text(
+            label,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: width * 0.04,
+            ),
+          ),
+        ),
+        SizedBox(width: width * 0.05),
+        // Input
+        Expanded(
+          flex: 1,
+          child: SizedBox(
+            height: 48,
+            child: TextField(
+              controller: controller,
+              maxLength: maxLength,
+              keyboardType: keyboardType,
+              inputFormatters: [formatter],
+              textAlign: TextAlign.right,
+              decoration: InputDecoration(
+                counterText: "",
+                hintText: hint,
+                isDense: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                suffixText: suffix.isNotEmpty ? suffix : null,
+              ),
+              style: TextStyle(fontSize: width * 0.04),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

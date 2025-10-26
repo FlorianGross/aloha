@@ -1,10 +1,8 @@
-import 'package:aloha/Pages/CameraPage.dart';
 import 'package:aloha/Pages/SettingsPage.dart';
 import 'package:aloha/SetupSettings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
 import 'Modelle/Drinks.dart';
@@ -81,7 +79,6 @@ class ExecApp extends StatelessWidget {
             darkTheme: SetupSettings().getMaterialNightTheme(),
             routes: <String, WidgetBuilder>{
               '/homePage': (BuildContext context) => new HomePage(),
-              '/camera': (BuildContext context) => new Camera(),
               '/settings': (BuildContext context) => new Settings(),
               '/firstStart': (BuildContext context) => new FirstStartPage(),
             },

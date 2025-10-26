@@ -16,7 +16,6 @@ class SetupSettings {
       brightness: Brightness.light,
       primaryColor: primary,
       fontFamily: "Roboto",
-      cardTheme: CardTheme(color: Colors.white60),
       scaffoldBackgroundColor: Colors.white,
       textSelectionTheme: TextSelectionThemeData(
           cursorColor: primary, selectionHandleColor: primary),
@@ -54,8 +53,6 @@ class SetupSettings {
       brightness: Brightness.dark,
       primaryColor: primary,
       fontFamily: "Roboto",
-      indicatorColor: primary,
-      cardTheme: CardTheme(color: Colors.black12),
       scaffoldBackgroundColor: Colors.grey.shade900,
       textSelectionTheme: TextSelectionThemeData(
           cursorColor: primary, selectionHandleColor: primary),

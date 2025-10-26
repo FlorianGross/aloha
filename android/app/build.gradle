@@ -35,7 +35,7 @@ android {
         noCompress 'lite'
     }
 
-    compileSdkVersion 35
+    compileSdkVersion 36
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -43,8 +43,8 @@ android {
 
     defaultConfig {
         applicationId "com.bruecke.aloha"
-        minSdkVersion 21
-        targetSdkVersion 35
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion 36
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

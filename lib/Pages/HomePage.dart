@@ -1,9 +1,12 @@
 import 'package:aloha/Modelle/Drinks.dart';
 import 'package:aloha/Modelle/Week.dart';
-import 'package:aloha/Widgets/addDrinkButton.dart';
+import 'package:aloha/Widgets/AddDrinkButton.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
+import '../BrueckeIcons.dart';
 import '../Modelle/Drinks.dart';
+import '../Widgets/AddCustomDrinkButton.dart';
 import 'SettingsPage.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,21 +25,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    if (ownBox.get("name") == null ||
-        ownBox.get("name-1") == null ||
-        ownBox.get("name-2") == null ||
-        ownBox.get("name-3") == null) {
-      createOwnBox();
-    }
     try {
-      weekTest();
-      print("Current Week: " + box.getAt(box.length - 1).toString());
       currentWeek = box.getAt(box.length - 1);
       plannedDay = currentWeek.plannedDay;
       plannedForWeek = currentWeek.plannedSE;
       usedThisWeek = currentWeek.getSethisWeek();
       usedDay = currentWeek.getUsedDays();
     } catch (e) {
+      // fallback wie gehabt
       usedThisWeek = 0;
       usedDay = 0;
       plannedDay = 0;
@@ -52,19 +48,19 @@ class _HomePageState extends State<HomePage> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     try {
-      weekTest();
-      print(box.getAt(box.length - 1).toString());
       currentWeek = box.getAt(box.length - 1);
       plannedDay = currentWeek.plannedDay;
       plannedForWeek = currentWeek.plannedSE;
       usedThisWeek = currentWeek.getSethisWeek();
       usedDay = currentWeek.getUsedDays();
     } catch (e) {
+      // fallback wie gehabt
       usedThisWeek = 0;
       usedDay = 0;
       plannedDay = 0;
       plannedForWeek = 0;
     }
+
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -138,15 +134,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-          GestureDetector(
-            child: Image(
-              image: AssetImage('assets/Aloha-PNG.png'),
-              width: width * 0.4,
-              height: height * 0.3,
-            ),
-            onTap: () {
-              onTap();
-            },
+          Image(
+            image: AssetImage('assets/Aloha-PNG.png'),
+            width: width * 0.4,
+            height: height * 0.3,
           ),
           Column(
             children: [
@@ -170,26 +161,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  AddDrinkButton(
-                    onTap: () {
-                      onTapId(2);
-                    },
-                    id: 2,
-                    height: height * 0.15,
-                    width: width * 0.5,
-                  ),
-                  AddDrinkButton(
-                    onTap: () {
-                      onTapId(3);
-                    },
-                    id: 3,
-                    height: height * 0.15,
-                    width: width * 0.5,
-                  ),
-                ],
-              )
+              AddCustomDrinkButton(
+                onTap: () {
+                  onTapCustomDrink();
+                },
+                id: 3,
+                height: height * 0.1,
+                width: width,
+              ),
             ],
           ),
         ],
@@ -227,55 +206,12 @@ class _HomePageState extends State<HomePage> {
     return name;
   }
 
-  /// Checks if the week planned surpassed and creates a new one
-  Future<void> weekTest() async {
-    Week currentWeek = box.getAt(box.length - 1);
-    int now = DateTime.now().millisecondsSinceEpoch;
-    print(DateTime.now().toString() +
-        " - " +
-        currentWeek.getEndTime().toString());
-    while (now > currentWeek.endDate!) {
-      print("WeekTest: " +
-          DateTime.now().toString() +
-          " - " +
-          currentWeek.getEndTime().toString());
-      DateTime newStartDate =
-          currentWeek.getEndTime().add(Duration(milliseconds: 1));
-      DateTime newEndDate = newStartDate.add(Duration(
-          days: 6,
-          hours: 23,
-          minutes: 59,
-          milliseconds: 999,
-          seconds: 59));
-      double days = settingsBox.get("DaysForNextWeek");
-      double sePlanned = settingsBox.get("SEforNextWeek");
-      if (sePlanned < 0) {
-        sePlanned = 0;
-      }
-      Week newWeek = Week(
-          plannedDay: days,
-          plannedSE: sePlanned,
-          week: box.length,
-          startdate: newStartDate.millisecondsSinceEpoch,
-          endDate: newEndDate.millisecondsSinceEpoch - 1);
-      box.add(newWeek);
-      settingsBox.put("SEforNextWeek", sePlanned);
-      currentWeek = box.getAt(box.length - 1);
-      print("New Week Added: " + newWeek.toString());
-    }
-  }
-
   /// WIrd ausgeführt, wenn der User von der CameraPage zurück kommt. Es aktualisiert die Werte entsprechend der Eingabe
   Future<void> onComeBack() async {
     setState(() {
       usedThisWeek = currentWeek.getSethisWeek();
       usedDay = currentWeek.getUsedDays();
     });
-  }
-
-  /// Erstellt entsprechend der Auswahl ein Getränk mit den FastAdd Eigenschaften oder öfnet die CameraPage
-  void onTap() {
-    Navigator.of(context).pushNamed('/camera').then((value) => onComeBack());
   }
 
   /// Öffnet das Einstellugnsmenu
@@ -289,43 +225,28 @@ class _HomePageState extends State<HomePage> {
   String getNameId(int id) {
     switch (id) {
       case 0:
-        return ownBox.get("name");
+        return "Bier";
       case 1:
-        return ownBox.get("name-1");
-      case 2:
-        return ownBox.get("name-2");
-      case 3:
-        return ownBox.get("name-3");
+        return "Shot";
       default:
-        return "Name";
+        return "";
     }
   }
 
-  double getVolumeId(int id) {
-    switch (id) {
-      case 0:
-        return ownBox.get("volumen") + 0.0;
-      case 1:
-        return ownBox.get("volumen-1") + 0.0;
-      case 2:
-        return ownBox.get("volumen-2") + 0.0;
-      case 3:
-        return ownBox.get("volumen-3") + 0.0;
-      default:
-        return 0.0;
+  double getVolumeId(int id){
+    switch(id){
+      case 0: return 500;
+      case 1: return 40;
+      default: return 0.0;
     }
   }
 
   double getVolumePartId(int id) {
     switch (id) {
       case 0:
-        return ownBox.get("volumenpart") + 0.0;
+        return 5.0;
       case 1:
-        return ownBox.get("volumenpart-1") + 0.0;
-      case 2:
-        return ownBox.get("volumenpart-2") + 0.0;
-      case 3:
-        return ownBox.get("volumenpart-3") + 0.0;
+        return 40.0;
       default:
         return 0.0;
     }
@@ -360,29 +281,159 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  void createOwnBox() {
-    /// Drink 0
-    ownBox.put("name", "Name");
-    ownBox.put("volumen", 500.0);
-    ownBox.put("volumenpart", 5.0);
-    ownBox.put("icon", 0);
+  Future<void> onTapCustomDrink() async {
+    double? volumeMl;
+    double? volPercent;
+    String? customName;
+    int? customIconIndex;
 
-    /// Drink 1
-    ownBox.put("name-1", "Name-1");
-    ownBox.put("volumen-1", 500.0);
-    ownBox.put("volumenpart-1", 5.0);
-    ownBox.put("icon-1", 0);
+    await showDialog(
+      context: context,
+      barrierDismissible: false, // Nutzer muss aktiv bestätigen / abbrechen
+      builder: (context) {
+        // Controller lokal im Dialog halten
+        final TextEditingController nameController = TextEditingController();
+        final TextEditingController volumeController = TextEditingController();
+        final TextEditingController volPercentController = TextEditingController();
 
-    /// Drink 2
-    ownBox.put("name-2", "Name-2");
-    ownBox.put("volumen-2", 500.0);
-    ownBox.put("volumenpart-2", 5.0);
-    ownBox.put("icon-2", 0);
+        // Icon-Auswahl-State muss über StatefulBuilder gemanaged werden
+        int dropdownIconValue = 0;
 
-    /// Drink 3
-    ownBox.put("name-3", "Name-3");
-    ownBox.put("volumen-3", 500.0);
-    ownBox.put("volumenpart-3", 5.0);
-    ownBox.put("icon-3", 0);
+        return StatefulBuilder(
+          builder: (context, setStateDialog) {
+            return AlertDialog(
+              title: Text(
+                "Getränk hinzufügen",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      "Volumen (ml) *",
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                    TextField(
+                      controller: volumeController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp(r"^\d*\.?\d*")),
+                      ],
+                      decoration: InputDecoration(
+                        hintText: "z.B. 500",
+                      ),
+                    ),
+                    SizedBox(height: 16),
+
+                    // Alkoholgehalt vol% (Pflicht)
+                    Text(
+                      "Volumen% Alkohol *",
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                    TextField(
+                      controller: volPercentController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp(r"^\d*\.?\d*")),
+                      ],
+                      decoration: InputDecoration(
+                        hintText: "z.B. 5.0",
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  child: Text(
+                    "Abbrechen",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Dialog schließen ohne Speichern
+                  },
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).primaryColor,
+                  ),
+                  child: Text(
+                    "Hinzufügen",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  onPressed: () {
+                    // Validierung der Pflichtfelder
+                    if (volumeController.text.trim().isEmpty ||
+                        volPercentController.text.trim().isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            "Bitte Volumen und Volumen% ausfüllen.",
+                          ),
+                        ),
+                      );
+                      return;
+                    }
+
+                    try {
+                      final parsedVol = double.parse(volumeController.text.trim());
+                      final parsedVolPercent = double.parse(volPercentController.text.trim());
+
+                      volumeMl = parsedVol;
+                      volPercent = parsedVolPercent;
+                      customName = nameController.text.trim().isEmpty
+                          ? null
+                          : nameController.text.trim();
+                      customIconIndex = dropdownIconValue;
+
+                      Navigator.of(context).pop(); // Dialog schließen -> Erfolg
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Ungültige Eingabe."),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    // Wenn der Nutzer abgebrochen hat, sind volumeMl / volPercent null -> dann nichts tun
+    if (volumeMl == null || volPercent == null) {
+      return;
+    }
+
+    // Jetzt Getränk in Hive schreiben.
+    // Name-Fallback:
+    final drinkName = customName ?? "Sonstiges";
+
+    Drinks newDrink = Drinks(
+      week: currentWeek.week,
+      session: getCurrentSession(),
+      name: "Sonstiges",
+      date: DateTime.now().millisecondsSinceEpoch,
+      volume: volumeMl,
+      volumepart: volPercent,
+      uri: null,
+    );
+
+    drinkBox.add(newDrink);
+
+    setState(() {
+      usedThisWeek = currentWeek.getSethisWeek();
+      usedDay = currentWeek.getUsedDays();
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Getränk $drinkName hinzugefügt')),
+    );
   }
+
 }

@@ -3,7 +3,6 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:hive/hive.dart';
 import 'Pages/HomePage.dart';
 import 'Pages/SessionsPage.dart';
-import 'Pages/TimelinePage.dart';
 
 class MyApp extends StatefulWidget {
   @override
@@ -14,9 +13,6 @@ class _MyAppState extends State<MyApp> {
   Box settingsBox = Hive.box("settings");
   int _currentIndex = 1;
   final tabs = [
-    Center(
-      child: TimelinePage(),
-    ),
     Center(
       child: HomePage(),
     ),
@@ -51,12 +47,6 @@ class _MyAppState extends State<MyApp> {
           });
         },
         items: [
-          BottomNavigationBarItem(
-            label: "Timeline",
-            icon: Icon(
-              PlatformIcons(context).time,
-            ),
-          ),
           BottomNavigationBarItem(
             label: "Home",
             icon: Icon(

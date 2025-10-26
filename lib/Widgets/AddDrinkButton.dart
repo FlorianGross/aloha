@@ -64,13 +64,9 @@ class _AddDrinkButtonState extends State<AddDrinkButton> {
   int getIconId(int id) {
     switch (id) {
       case 0:
-        return ownBox.get("icon");
+        return 0;
       case 1:
-        return ownBox.get("icon-1");
-      case 2:
-        return ownBox.get("icon-2");
-      case 3:
-        return ownBox.get("icon-3");
+        return 1;
       default:
         return 0;
     }
@@ -78,30 +74,24 @@ class _AddDrinkButtonState extends State<AddDrinkButton> {
 
   String getNameId(int id){
     switch(id){
-      case 0: return ownBox.get("name");
-      case 1: return ownBox.get("name-1");
-      case 2: return ownBox.get("name-2");
-      case 3: return ownBox.get("name-3");
+      case 0: return "Bier";
+      case 1: return "Shot";
       default: return "Name";
     }
   }
 
   double getVolumeId(int id){
     switch(id){
-      case 0: return ownBox.get("volumen") + 0.0;
-      case 1: return ownBox.get("volumen-1") + 0.0;
-      case 2: return ownBox.get("volumen-2") + 0.0;
-      case 3: return ownBox.get("volumen-3") + 0.0;
+      case 0: return 500;
+      case 1: return 40;
       default: return 0.0;
     }
   }
 
   double getVolumePartId(int id){
     switch(id){
-      case 0: return ownBox.get("volumenpart") + 0.0;
-      case 1: return ownBox.get("volumenpart-1") + 0.0;
-      case 2: return ownBox.get("volumenpart-2") + 0.0;
-      case 3: return ownBox.get("volumenpart-3") + 0.0;
+      case 0: return 5.0;
+      case 1: return 40.0;
       default: return 0.0;
     }
   }
@@ -109,9 +99,7 @@ class _AddDrinkButtonState extends State<AddDrinkButton> {
   getIcon() {
     switch(getIconId(id)){
       case 0: return Icon(BrueckeIcons.beer);
-      case 1: return Icon(BrueckeIcons.wine_glass);
-      case 2: return Icon(BrueckeIcons.wine_bottle);
-      case 3: return Icon(BrueckeIcons.glass);
+      case 1: return Icon(BrueckeIcons.glass);
     }
   }
 
